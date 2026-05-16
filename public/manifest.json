@@ -1,6 +1,6 @@
 {
     "name": "美股選股器",
-    "short_name": "選股器",
+    "short_name": "美股選股器",
     "description": "按基本面同技術面分數篩選美股。",
     "start_url": "/",
     "scope": "/",
