@@ -31,7 +31,7 @@ export const MobileStockDetailModal = React.memo((props: MobileStockDetailModalP
 
     return (
         <Modal.Backdrop isOpen={row !== null} onOpenChange={onOpenChange}>
-            <Modal.Container size="lg">
+            <Modal.Container size="lg" placement="center">
                 <Modal.Dialog>
                     <Modal.CloseTrigger />
                     <Modal.Header>

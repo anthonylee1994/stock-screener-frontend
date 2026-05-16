@@ -26,7 +26,7 @@ export const ScoreDetailModal = React.memo((props: ScoreDetailModalProps) => {
 
     return (
         <Modal.Backdrop isOpen={detailModal !== null} onOpenChange={onOpenChange}>
-            <Modal.Container size="lg">
+            <Modal.Container size="lg" placement="center">
                 <Modal.Dialog>
                     <Modal.CloseTrigger />
                     <Modal.Header>
