@@ -1,10 +1,10 @@
 import React from "react";
 import type {SortDescriptor} from "@heroui/react";
 import {Button, Chip, Table} from "@heroui/react";
-import {ChevronUp} from "lucide-react";
-import {MobileStockDetailModal} from "./MobileStockDetailModal";
+import {MobileStockList} from "./MobileStockList";
 import {ScoreDetailModal} from "./ScoreDetailModal";
 import type {DetailKind, DetailModalState} from "./ScoreDetailModal";
+import {SortableColumnHeader} from "./SortableColumnHeader";
 import {getSectorDisplayName} from "../constants/FilterOptions";
 import {formatCompactCurrency, formatCurrency, formatPercent, formatScore, formatVolume} from "../utils/Format";
 import {getScoreClassName} from "../utils/ScoreStyle";
@@ -35,7 +35,7 @@ export const StockResultsTable = React.memo((props: StockResultsTableProps) => {
     return (
         <React.Fragment>
             <div className="md:hidden">
-                <MobileStockList error={error} isLoading={isLoading} rows={rows} onDetailPress={handleDetailPress} />
+                <MobileStockList error={error} isLoading={isLoading} rows={rows} sortDescriptor={sortDescriptor} onDetailPress={handleDetailPress} onSortChange={onSortChange} />
             </div>
             <Table className="hidden md:block">
                 <Table.ScrollContainer>
@@ -69,92 +69,6 @@ export const StockResultsTable = React.memo((props: StockResultsTableProps) => {
             </Table>
             <ScoreDetailModal detailModal={detailModal} onOpenChange={handleModalOpenChange} />
         </React.Fragment>
-    );
-});
-
-type MobileStockListProps = {
-    error: string | null;
-    isLoading: boolean;
-    rows: StockRow[];
-    onDetailPress: (row: StockRow, kind: DetailKind) => void;
-};
-
-const MobileStockList = React.memo((props: MobileStockListProps) => {
-    const {error, isLoading, rows, onDetailPress} = props;
-    const [selectedRow, setSelectedRow] = React.useState<StockRow | null>(null);
-
-    const handleRowPress = (row: StockRow) => {
-        setSelectedRow(row);
-    };
-
-    const handleModalOpenChange = (isOpen: boolean) => {
-        if (!isOpen) {
-            setSelectedRow(null);
-        }
-    };
-
-    if (isLoading) {
-        return <div className="rounded-2xl bg-white py-8 text-center text-sm text-slate-500">載入緊...</div>;
-    }
-
-    if (error) {
-        return <div className="rounded-2xl bg-white py-8 text-center text-sm text-red-600">{error}</div>;
-    }
-
-    if (rows.length === 0) {
-        return <div className="rounded-2xl bg-white py-8 text-center text-sm text-slate-500">搵唔到符合條件嘅股票</div>;
-    }
-
-    return (
-        <section className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
-            <div className="grid grid-cols-[48px_minmax(0,1fr)_92px_64px] border-b border-slate-200 bg-slate-50 px-3 py-3 text-xs font-semibold text-slate-500">
-                <span className="text-center">排名</span>
-                <span>股票</span>
-                <span className="text-right">價格</span>
-                <span className="text-right">評分</span>
-            </div>
-            {rows.map((row, index) => (
-                <button
-                    key={row.ticker}
-                    className="grid w-full grid-cols-[48px_minmax(0,1fr)_92px_64px] items-center gap-0 border-b border-slate-100 px-3 py-3 text-left last:border-b-0 active:bg-slate-50"
-                    type="button"
-                    onClick={() => handleRowPress(row)}
-                >
-                    <div className="flex justify-center">
-                        <span className="inline-flex size-9 items-center justify-center rounded-lg bg-emerald-50 text-sm font-semibold text-emerald-700">{index + 1}</span>
-                    </div>
-                    <div className="min-w-0 px-2">
-                        <p className="truncate text-base font-semibold text-slate-950">{row.ticker}</p>
-                        <p className="truncate text-sm text-slate-500">{row.name}</p>
-                    </div>
-                    <div className="text-right">
-                        <p className="text-sm font-semibold text-slate-950">{formatCurrency(row.price)}</p>
-                        <p className={row.changePercent >= 0 ? "text-sm text-emerald-600" : "text-sm text-red-500"}>{formatPercent(row.changePercent)}</p>
-                    </div>
-                    <div className="flex justify-end">
-                        <span className={getScoreClassName(row.totalScore, "mobilePill")}>{formatScore(row.totalScore)}</span>
-                    </div>
-                </button>
-            ))}
-            <MobileStockDetailModal row={selectedRow} onDetailPress={onDetailPress} onOpenChange={handleModalOpenChange} />
-        </section>
-    );
-});
-
-type SortableColumnHeaderProps = {
-    children: React.ReactNode;
-    sortDirection?: "ascending" | "descending";
-};
-
-const SortableColumnHeader = React.memo((props: SortableColumnHeaderProps) => {
-    const {children, sortDirection} = props;
-    const iconClassName = sortDirection === "descending" ? "size-3 rotate-180 transition-transform" : "size-3 transition-transform";
-
-    return (
-        <span className="flex items-center justify-between gap-2">
-            {children}
-            {sortDirection ? <ChevronUp className={iconClassName} /> : <span className="size-3" />}
-        </span>
     );
 });
 

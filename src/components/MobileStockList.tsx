@@ -1,0 +1,114 @@
+import React from "react";
+import type {SortDescriptor} from "@heroui/react";
+import {MobileSortBar, mobileSortOptions} from "./MobileSortBar";
+import {MobileStockDetailModal} from "./MobileStockDetailModal";
+import type {DetailKind} from "./ScoreDetailModal";
+import type {StockRow} from "../types/Screener";
+import {formatCompactCurrency, formatCurrency, formatPercent, formatScore, formatVolume} from "../utils/Format";
+import {getScoreClassName} from "../utils/ScoreStyle";
+
+type MobileStockListProps = {
+    error: string | null;
+    isLoading: boolean;
+    rows: StockRow[];
+    sortDescriptor: SortDescriptor;
+    onDetailPress: (row: StockRow, kind: DetailKind) => void;
+    onSortChange: (sortDescriptor: SortDescriptor) => void;
+};
+
+export const MobileStockList = React.memo((props: MobileStockListProps) => {
+    const {error, isLoading, rows, sortDescriptor, onDetailPress, onSortChange} = props;
+    const [selectedRow, setSelectedRow] = React.useState<StockRow | null>(null);
+
+    const handleRowPress = (row: StockRow) => {
+        setSelectedRow(row);
+    };
+
+    const handleModalOpenChange = (isOpen: boolean) => {
+        if (!isOpen) {
+            setSelectedRow(null);
+        }
+    };
+
+    const metricLabel = getMobileMetricLabel(sortDescriptor);
+
+    return (
+        <React.Fragment>
+            <MobileSortBar sortDescriptor={sortDescriptor} onSortChange={onSortChange} />
+            <section className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
+                <div className="grid grid-cols-[48px_minmax(0,1fr)_92px_64px] border-b border-slate-200 bg-slate-50 px-3 py-3 text-xs font-semibold text-slate-500">
+                    <span className="text-center">排名</span>
+                    <span>股票</span>
+                    <span className="text-right">價格</span>
+                    <span className="text-right">{metricLabel}</span>
+                </div>
+                {isLoading ? (
+                    <div className="py-8 text-center text-sm text-slate-500">載入緊...</div>
+                ) : error ? (
+                    <div className="py-8 text-center text-sm text-red-600">{error}</div>
+                ) : rows.length === 0 ? (
+                    <div className="py-8 text-center text-sm text-slate-500">搵唔到符合條件嘅股票</div>
+                ) : (
+                    rows.map((row, index) => (
+                        <button
+                            key={row.ticker}
+                            className="grid w-full grid-cols-[48px_minmax(0,1fr)_92px_64px] items-center gap-0 border-b border-slate-100 px-3 py-3 text-left last:border-b-0 active:bg-slate-50"
+                            type="button"
+                            onClick={() => handleRowPress(row)}
+                        >
+                            <div className="flex justify-center">
+                                <span className="inline-flex size-9 items-center justify-center rounded-lg bg-emerald-50 text-sm font-semibold text-emerald-700">{index + 1}</span>
+                            </div>
+                            <div className="min-w-0 px-2">
+                                <p className="truncate text-base font-semibold text-slate-950">{row.ticker}</p>
+                                <p className="truncate text-sm text-slate-500">{row.name}</p>
+                            </div>
+                            <div className="text-right">
+                                <p className="text-sm font-semibold text-slate-950">{formatCurrency(row.price)}</p>
+                                <p className={row.changePercent >= 0 ? "text-sm text-emerald-600" : "text-sm text-red-500"}>{formatPercent(row.changePercent)}</p>
+                            </div>
+                            <div className="flex justify-end">
+                                <MobileMetricValue row={row} sortDescriptor={sortDescriptor} />
+                            </div>
+                        </button>
+                    ))
+                )}
+                <MobileStockDetailModal row={selectedRow} onDetailPress={onDetailPress} onOpenChange={handleModalOpenChange} />
+            </section>
+        </React.Fragment>
+    );
+});
+
+type MobileMetricValueProps = {
+    row: StockRow;
+    sortDescriptor: SortDescriptor;
+};
+
+const MobileMetricValue = React.memo((props: MobileMetricValueProps) => {
+    const {row, sortDescriptor} = props;
+    const column = String(sortDescriptor.column);
+
+    if (column === "market_cap") {
+        return <span className="text-sm font-semibold text-slate-800">{formatCompactCurrency(row.marketCap)}</span>;
+    }
+
+    if (column === "volume") {
+        return <span className="text-sm font-semibold text-slate-800">{formatVolume(row.volume)}</span>;
+    }
+
+    if (column === "fundamental_score") {
+        return <span className={getScoreClassName(row.fundamentalScore, "mobilePill")}>{formatScore(row.fundamentalScore)}</span>;
+    }
+
+    if (column === "technical_score") {
+        return <span className={getScoreClassName(row.technicalScore, "mobilePill")}>{formatScore(row.technicalScore)}</span>;
+    }
+
+    return <span className={getScoreClassName(row.totalScore, "mobilePill")}>{formatScore(row.totalScore)}</span>;
+});
+
+function getMobileMetricLabel(sortDescriptor: SortDescriptor): string {
+    const activeColumn = String(sortDescriptor.column);
+
+    return mobileSortOptions.find(option => option.id === activeColumn)?.label ?? "評分";
+}
