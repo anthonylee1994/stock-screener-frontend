@@ -178,6 +178,7 @@ const ScoreDetailModal = React.memo((props: ScoreDetailModalProps) => {
     const row = detailModal?.row;
     const title = detailModal?.kind === "fundamental" ? "基本面詳情" : "技術面詳情";
     const details = detailModal ? getDetailItems(detailModal) : [];
+    const summary = detailModal ? getDetailSummary(detailModal) : null;
     const gridClassName = detailModal?.kind === "technical" ? "grid grid-cols-1 gap-3" : "grid gap-3 sm:grid-cols-2";
 
     return (
@@ -190,6 +191,12 @@ const ScoreDetailModal = React.memo((props: ScoreDetailModalProps) => {
                     </Modal.Header>
                     <Modal.Body>
                         {row ? <p className="text-sm text-slate-500 mb-3">{row.name}</p> : null}
+                        {summary ? (
+                            <div className={getScoreClassName(summary.score, "summary")}>
+                                <p className="text-xs font-medium">{summary.label}</p>
+                                <p className="mt-1 text-3xl font-semibold">{formatScore(summary.score)}</p>
+                            </div>
+                        ) : null}
                         <div className={gridClassName}>
                             {details.map(detail => (
                                 <div key={detail.label} className="rounded-lg border border-slate-200 bg-slate-50 p-3">
@@ -209,6 +216,21 @@ type DetailItem = {
     label: string;
     value: string;
 };
+
+type DetailSummary = {
+    label: string;
+    score: number;
+};
+
+function getDetailSummary(detailModal: DetailModalState): DetailSummary {
+    const {kind, row} = detailModal;
+
+    if (kind === "fundamental") {
+        return {label: "基本面總分", score: row.fundamental.score};
+    }
+
+    return {label: "技術面總分", score: row.technical.score};
+}
 
 function getDetailItems(detailModal: DetailModalState): DetailItem[] {
     const {kind, row} = detailModal;
@@ -239,20 +261,20 @@ function formatNumber(value: number): string {
     return value.toFixed(2);
 }
 
-function getScoreClassName(score: number): string {
-    const baseClassName = "inline-flex min-w-16 justify-center rounded-md px-3 py-2 font-semibold";
+function getScoreClassName(score: number, variant: "pill" | "summary" = "pill"): string {
+    const baseClassName = variant === "summary" ? "mb-3 rounded-lg border p-4" : "inline-flex min-w-16 justify-center rounded-md px-3 py-2 font-semibold";
 
     if (score >= 80) {
-        return `${baseClassName} bg-emerald-100 text-emerald-700`;
+        return `${baseClassName} border-emerald-200 bg-emerald-100 text-emerald-700`;
     }
 
     if (score >= 60) {
-        return `${baseClassName} bg-lime-100 text-lime-700`;
+        return `${baseClassName} border-lime-200 bg-lime-100 text-lime-700`;
     }
 
     if (score >= 40) {
-        return `${baseClassName} bg-amber-100 text-amber-700`;
+        return `${baseClassName} border-amber-200 bg-amber-100 text-amber-700`;
     }
 
-    return `${baseClassName} bg-red-100 text-red-700`;
+    return `${baseClassName} border-red-200 bg-red-100 text-red-700`;
 }

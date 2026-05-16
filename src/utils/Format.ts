@@ -26,10 +26,9 @@ export function formatCompactCurrency(value: number): string {
 }
 
 export function formatPercent(value: number): string {
-    const normalizedValue = Math.abs(value) > 1 ? value / 100 : value;
-    const sign = normalizedValue > 0 ? "+" : "";
+    const sign = value > 0 ? "+" : "";
 
-    return `${sign}${(normalizedValue * 100).toFixed(2)}%`;
+    return `${sign}${(value * 100).toFixed(2)}%`;
 }
 
 export function formatScore(value: number): string {
