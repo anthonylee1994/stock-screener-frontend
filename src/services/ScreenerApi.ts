@@ -34,9 +34,6 @@ function getApiUrl(): string {
 }
 
 function normalizeStockRow(row: ScreenerApiRow): StockRow {
-    const fundamentalScore = row.fundamental.fundamental_score;
-    const technicalScore = row.technical.technical_score;
-
     return {
         ticker: row.ticker,
         name: row.name,
@@ -46,8 +43,8 @@ function normalizeStockRow(row: ScreenerApiRow): StockRow {
         change: row.change,
         changePercent: row.change_percent,
         volume: row.volume,
-        fundamentalScore,
-        technicalScore,
-        totalScore: fundamentalScore * 0.7 + technicalScore * 0.3,
+        fundamentalScore: row.fundamental.fundamental_score,
+        technicalScore: row.technical.technical_score,
+        totalScore: row.total_score,
     };
 }

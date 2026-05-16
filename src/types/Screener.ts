@@ -51,6 +51,7 @@ export type ScreenerApiRow = {
         technical_score: number;
     };
     ticker: string;
+    total_score: number;
     volume: number;
 };
 
