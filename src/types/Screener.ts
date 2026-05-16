@@ -12,7 +12,7 @@ export type SectorFilter =
     | "Technology"
     | "Utilities";
 
-export type MarketCapFilter = "+mid" | "micro" | "small" | "mid" | "large" | "mega";
+export type MarketCapFilter = "+mid" | "mid" | "large" | "mega";
 
 export type OrderFilter = "market_cap" | "fundamental_score" | "technical_score" | "total_score" | "volume";
 
