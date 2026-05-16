@@ -26,15 +26,44 @@ export interface ScreenerFilters {
 export interface StockRow {
     change: number;
     changePercent: number;
+    fundamental: StockFundamentalDetail;
     fundamentalScore: number;
     marketCap: number;
     name: string;
     price: number;
     sector: string;
+    technical: StockTechnicalDetail;
     technicalScore: number;
     ticker: string;
     totalScore: number;
     volume: number;
+}
+
+export interface StockFundamentalDetail {
+    epsPast5Y: number;
+    epsPast5YScore: number;
+    forwardPe: number;
+    forwardPeScore: number;
+    marketCap: number;
+    marketCapScore: number;
+    peg: number;
+    pegScore: number;
+    roe: number;
+    roeScore: number;
+    score: number;
+}
+
+export interface StockTechnicalDetail {
+    ema200Distance: number;
+    ema50Distance: number;
+    longTermScore: number;
+    midTermScore: number;
+    ppoSlope3: number;
+    roc125: number;
+    roc20: number;
+    rsi14: number;
+    score: number;
+    shortTermScore: number;
 }
 
 export type ScreenerApiRow = {
