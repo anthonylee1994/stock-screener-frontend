@@ -1,5 +1,5 @@
-export function getScoreClassName(score: number, variant: "pill" | "summary" = "pill"): string {
-    const baseClassName = variant === "summary" ? "mb-3 rounded-lg border p-4" : "inline-flex min-w-16 justify-center rounded-md px-3 py-2 font-semibold";
+export function getScoreClassName(score: number, variant: "mobilePill" | "pill" | "summary" = "pill"): string {
+    const baseClassName = getScoreBaseClassName(variant);
 
     if (score >= 80) {
         return `${baseClassName} border-emerald-200 bg-emerald-100 text-emerald-700`;
@@ -14,4 +14,16 @@ export function getScoreClassName(score: number, variant: "pill" | "summary" = "
     }
 
     return `${baseClassName} border-red-200 bg-red-100 text-red-700`;
+}
+
+function getScoreBaseClassName(variant: "mobilePill" | "pill" | "summary"): string {
+    if (variant === "summary") {
+        return "mb-3 rounded-lg border p-4";
+    }
+
+    if (variant === "mobilePill") {
+        return "inline-flex min-w-12 justify-center rounded-lg px-2 py-2 text-sm font-semibold";
+    }
+
+    return "inline-flex min-w-16 justify-center rounded-md px-3 py-2 font-semibold";
 }
