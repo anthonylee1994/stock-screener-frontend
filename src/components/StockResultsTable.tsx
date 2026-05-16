@@ -122,8 +122,26 @@ function renderTableBody(rows: StockRow[], isLoading: boolean, error: string | n
             <Table.Cell>{formatScore(row.fundamentalScore)}</Table.Cell>
             <Table.Cell>{formatScore(row.technicalScore)}</Table.Cell>
             <Table.Cell>
-                <span className="inline-flex min-w-16 justify-center rounded-md bg-emerald-50 px-3 py-2 font-semibold text-emerald-700">{formatScore(row.totalScore)}</span>
+                <span className={getScoreClassName(row.totalScore)}>{formatScore(row.totalScore)}</span>
             </Table.Cell>
         </Table.Row>
     ));
+}
+
+function getScoreClassName(score: number): string {
+    const baseClassName = "inline-flex min-w-16 justify-center rounded-md px-3 py-2 font-semibold";
+
+    if (score >= 80) {
+        return `${baseClassName} bg-emerald-100 text-emerald-700`;
+    }
+
+    if (score >= 60) {
+        return `${baseClassName} bg-lime-100 text-lime-700`;
+    }
+
+    if (score >= 40) {
+        return `${baseClassName} bg-amber-100 text-amber-700`;
+    }
+
+    return `${baseClassName} bg-red-100 text-red-700`;
 }
