@@ -76,9 +76,12 @@ export const App = React.memo(() => {
     };
 
     const handleSortChange = (sortDescriptor: SortDescriptor) => {
+        const isChangingColumn = String(sortDescriptor.column) !== filters.order;
+        const direction = isChangingColumn ? "descending" : sortDescriptor.direction;
+
         setFilters({
             ...filters,
-            ascend: sortDescriptor.direction === "ascending",
+            ascend: direction === "ascending",
             order: String(sortDescriptor.column) as ScreenerFilters["order"],
         });
     };

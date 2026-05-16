@@ -41,7 +41,7 @@ export const StockResultsTable = React.memo((props: StockResultsTableProps) => {
                 <Table.ScrollContainer>
                     <Table.Content aria-label="Stock screener results" className="min-w-[980px]" sortDescriptor={sortDescriptor} onSortChange={onSortChange}>
                         <Table.Header>
-                            <Table.Column className="w-12" isRowHeader>
+                            <Table.Column className="min-w-[64px]" isRowHeader>
                                 排名
                             </Table.Column>
                             <Table.Column className="min-w-[128px] md:min-w-[220px]">股票</Table.Column>

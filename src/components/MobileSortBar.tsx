@@ -34,7 +34,7 @@ export const MobileSortBar = React.memo((props: MobileSortBarProps) => {
                 <div className="min-w-0 flex-1">
                     <div className="flex items-center gap-2">
                         <span className="shrink-0 text-xs font-semibold text-slate-500">排序</span>
-                        <div className="flex min-w-0 gap-0 overflow-x-auto py-1">
+                        <div className="flex min-w-0 flex-1 justify-center gap-0 py-1">
                             {mobileSortOptions.map(option => {
                                 const isSelected = activeColumn === option.id;
                                 const className = isSelected
@@ -50,7 +50,7 @@ export const MobileSortBar = React.memo((props: MobileSortBarProps) => {
                                         onClick={() => {
                                             onSortChange({
                                                 column: option.id,
-                                                direction: isSelected && isAscending ? "descending" : "ascending",
+                                                direction: isSelected && !isAscending ? "ascending" : "descending",
                                             });
                                         }}
                                     >
