@@ -16,6 +16,18 @@ type FilterPanelProps = {
 
 export const FilterPanel = React.memo((props: FilterPanelProps) => {
     const {filters, isLoading, query, onFiltersChange, onQueryChange, onRetry} = props;
+    const [searchText, setSearchText] = React.useState(query);
+    const debouncedSearchText = useDebounce(searchText, 250);
+
+    React.useEffect(() => {
+        setSearchText(query);
+    }, [query]);
+
+    React.useEffect(() => {
+        if (debouncedSearchText !== query) {
+            onQueryChange(debouncedSearchText);
+        }
+    }, [debouncedSearchText, onQueryChange, query]);
 
     const handleSectorChange = (value: Key | null) => {
         onFiltersChange({...filters, sector: String(value ?? "All") as SectorFilter});
@@ -26,13 +38,13 @@ export const FilterPanel = React.memo((props: FilterPanelProps) => {
     };
 
     const handleQueryChange = (value: string) => {
-        onQueryChange(value);
+        setSearchText(value);
     };
 
     return (
         <section className="mt-5 mb-4 rounded-2xl border border-slate-200 bg-white/90 p-3 shadow-sm">
             <div className="grid gap-3 lg:grid-cols-[minmax(260px,1.8fr)_minmax(150px,0.7fr)_minmax(170px,0.7fr)_auto] lg:items-end">
-                <SearchField className="min-w-0" name="stock-search" value={query} onChange={handleQueryChange}>
+                <SearchField className="min-w-0" name="stock-search" value={searchText} onChange={handleQueryChange}>
                     <Label className="sr-only">搜尋</Label>
                     <SearchField.Group className="h-10 rounded-lg border-slate-200 bg-slate-50 shadow-none">
                         <SearchField.SearchIcon>
@@ -88,3 +100,19 @@ const FilterSelect = React.memo((props: FilterSelectProps) => {
         </Select>
     );
 });
+
+function useDebounce<T>(value: T, delayMs: number): T {
+    const [debouncedValue, setDebouncedValue] = React.useState(value);
+
+    React.useEffect(() => {
+        const timeoutId = window.setTimeout(() => {
+            setDebouncedValue(value);
+        }, delayMs);
+
+        return () => {
+            window.clearTimeout(timeoutId);
+        };
+    }, [delayMs, value]);
+
+    return debouncedValue;
+}
