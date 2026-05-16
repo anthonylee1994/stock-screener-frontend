@@ -38,21 +38,40 @@ export interface StockRow {
 }
 
 export type ScreenerApiRow = {
-    change: number;
-    change_percent: number;
-    fundamental: {
-        fundamental_score: number;
-    };
-    market_cap: number;
+    ticker: string;
     name: string;
+    volume: number;
+    market_cap: number;
     price: number;
     sector: string;
+    change: number;
+    change_percent: number;
+    total_score: number;
+    fundamental: {
+        fundamental_score: number;
+        market_cap: number;
+        forward_pe: number;
+        peg: number;
+        eps_past_5y: number;
+        roe: number;
+        market_cap_score: number;
+        forward_pe_score: number;
+        peg_score: number;
+        eps_past_5y_score: number;
+        roe_score: number;
+    };
     technical: {
+        ema_200_distance: number;
+        roc_125: number;
+        ema_50_distance: number;
+        roc_20: number;
+        ppo_slope_3: number;
+        rsi14: number;
+        long_term_score: number;
+        mid_term_score: number;
+        short_term_score: number;
         technical_score: number;
     };
-    ticker: string;
-    total_score: number;
-    volume: number;
 };
 
 export type ScreenerApiResponse =
