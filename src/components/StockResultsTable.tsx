@@ -135,7 +135,7 @@ function renderTableBody(rows: StockRow[], isLoading: boolean, error: string | n
                 <ScoreButton score={row.technicalScore} onPress={() => onDetailPress(row, "technical")} />
             </Table.Cell>
             <Table.Cell className="px-2 md:px-4">
-                <span className={getScoreClassName(row.totalScore)}>{formatScore(row.totalScore)}</span>
+                <span className={getScoreClassName(row.totalScore, "button")}>{formatScore(row.totalScore)}</span>
             </Table.Cell>
         </Table.Row>
     ));

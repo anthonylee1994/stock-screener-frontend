@@ -22,11 +22,11 @@ function getScoreBaseClassName(variant: "button" | "mobilePill" | "pill" | "summ
     }
 
     if (variant === "button") {
-        return "h-8 min-w-14 rounded-md border px-2 font-semibold";
+        return "inline-flex h-8 min-w-14 items-center justify-center rounded-md border px-2 font-semibold";
     }
 
     if (variant === "mobilePill") {
-        return "inline-flex min-w-11 justify-center rounded-lg px-2 py-1.5 text-xs font-semibold";
+        return "inline-flex min-w-11 justify-center rounded-lg px-2 py-1.5 text-xs font-semibold border";
     }
 
     return "inline-flex min-w-16 justify-center rounded-md px-3 py-2 font-semibold";
