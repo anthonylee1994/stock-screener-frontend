@@ -17,6 +17,7 @@ export const sectorOptions: readonly {label: string; value: SectorFilter}[] = [
 
 export const marketCapOptions: readonly {label: string; value: MarketCapFilter}[] = [
     {label: "中型或以上", value: "+mid"},
+    {label: "大型或以上", value: "+large"},
     {label: "中型", value: "mid"},
     {label: "大型", value: "large"},
     {label: "超大型", value: "mega"},
