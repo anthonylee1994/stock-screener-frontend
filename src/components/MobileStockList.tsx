@@ -36,7 +36,7 @@ export const MobileStockList = React.memo((props: MobileStockListProps) => {
         <React.Fragment>
             <MobileSortBar sortDescriptor={sortDescriptor} onSortChange={onSortChange} />
             <section className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
-                <div className="grid grid-cols-[48px_minmax(0,1fr)_92px_64px] border-b border-slate-200 bg-slate-50 px-3 py-3 text-xs font-semibold text-slate-500">
+                <div className="grid grid-cols-[42px_minmax(0,1fr)_76px_70px] border-b border-slate-200 bg-slate-50 px-2.5 py-3 text-xs font-semibold text-slate-500">
                     <span className="text-center">排名</span>
                     <span>股票</span>
                     <span className="text-right">價格</span>
@@ -52,20 +52,20 @@ export const MobileStockList = React.memo((props: MobileStockListProps) => {
                     rows.map((row, index) => (
                         <button
                             key={row.ticker}
-                            className="grid w-full grid-cols-[48px_minmax(0,1fr)_92px_64px] items-center gap-0 border-b border-slate-100 px-3 py-3 text-left last:border-b-0 active:bg-slate-50"
+                            className="grid w-full grid-cols-[42px_minmax(0,1fr)_76px_70px] items-center gap-0 border-b border-slate-100 px-2.5 py-3 text-left last:border-b-0 active:bg-slate-50"
                             type="button"
                             onClick={() => handleRowPress(row)}
                         >
                             <div className="flex justify-center">
                                 <span className="inline-flex size-9 items-center justify-center rounded-lg bg-emerald-50 text-sm font-semibold text-emerald-700">{index + 1}</span>
                             </div>
-                            <div className="min-w-0 px-2">
-                                <p className="truncate text-base font-semibold text-slate-950">{row.ticker}</p>
-                                <p className="truncate text-sm text-slate-500">{row.name}</p>
+                            <div className="min-w-0 px-1.5">
+                                <p className="truncate text-sm font-semibold text-slate-950">{row.ticker}</p>
+                                <p className="truncate text-xs text-slate-500">{row.name}</p>
                             </div>
                             <div className="text-right">
-                                <p className="text-sm font-semibold text-slate-950">{formatCurrency(row.price)}</p>
-                                <p className={row.changePercent >= 0 ? "text-sm text-emerald-600" : "text-sm text-red-500"}>{formatPercent(row.changePercent)}</p>
+                                <p className="text-[13px] font-semibold leading-5 text-slate-950">{formatCurrency(row.price)}</p>
+                                <p className={row.changePercent >= 0 ? "text-xs leading-5 text-emerald-600" : "text-xs leading-5 text-red-500"}>{formatPercent(row.changePercent)}</p>
                             </div>
                             <div className="flex justify-end">
                                 <MobileMetricValue row={row} sortDescriptor={sortDescriptor} />
@@ -89,11 +89,11 @@ const MobileMetricValue = React.memo((props: MobileMetricValueProps) => {
     const column = String(sortDescriptor.column);
 
     if (column === "market_cap") {
-        return <span className="text-sm font-semibold text-slate-800">{formatCompactCurrency(row.marketCap)}</span>;
+        return <span className="text-[13px] font-semibold leading-5 text-slate-800">{formatCompactCurrency(row.marketCap)}</span>;
     }
 
     if (column === "volume") {
-        return <span className="text-sm font-semibold text-slate-800">{formatVolume(row.volume)}</span>;
+        return <span className="text-[13px] font-semibold leading-5 text-slate-800">{formatVolume(row.volume)}</span>;
     }
 
     if (column === "fundamental_score") {
