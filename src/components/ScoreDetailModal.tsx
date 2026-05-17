@@ -89,7 +89,7 @@ function getDetailItems(detailModal: DetailModalState): DetailItem[] {
             {label: "過去5年每股盈利", value: formatPercent(row.fundamental.epsPast5Y)},
             {label: "過去5年每股盈利得分", value: formatScore(row.fundamental.epsPast5YScore)},
             {label: "ROE", value: formatPercent(row.fundamental.roe)},
-            {label: "ROE得分", value: formatScore(row.fundamental.roeScore)},
+            {label: "ROE 得分", value: formatScore(row.fundamental.roeScore)},
         ];
     }
 
