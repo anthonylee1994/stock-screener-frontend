@@ -1,7 +1,8 @@
 import React from "react";
 import type {SortDescriptor} from "@heroui/react";
-import {Button, Chip, Table} from "@heroui/react";
+import {Chip, Table} from "@heroui/react";
 import {MobileStockList} from "./MobileStockList";
+import {ScoreButton} from "./ScoreButton";
 import {ScoreDetailModal} from "./ScoreDetailModal";
 import type {DetailKind, DetailModalState} from "./ScoreDetailModal";
 import {SortableColumnHeader} from "./SortableColumnHeader";
@@ -60,7 +61,7 @@ export const StockResultsTable = React.memo((props: StockResultsTableProps) => {
                                 {({sortDirection}) => <SortableColumnHeader sortDirection={sortDirection}>技術面</SortableColumnHeader>}
                             </Table.Column>
                             <Table.Column allowsSorting className="min-w-[82px]" id="total_score">
-                                {({sortDirection}) => <SortableColumnHeader sortDirection={sortDirection}>評分</SortableColumnHeader>}
+                                {({sortDirection}) => <SortableColumnHeader sortDirection={sortDirection}>綜合</SortableColumnHeader>}
                             </Table.Column>
                         </Table.Header>
                         <Table.Body>{renderTableBody(rows, isLoading, error, handleDetailPress)}</Table.Body>
@@ -139,18 +140,3 @@ function renderTableBody(rows: StockRow[], isLoading: boolean, error: string | n
         </Table.Row>
     ));
 }
-
-type ScoreButtonProps = {
-    score: number;
-    onPress: () => void;
-};
-
-const ScoreButton = React.memo((props: ScoreButtonProps) => {
-    const {score, onPress} = props;
-
-    return (
-        <Button className="h-8 min-w-14 rounded-md px-2 font-semibold text-slate-800" size="sm" variant="ghost" onPress={onPress}>
-            {formatScore(score)}
-        </Button>
-    );
-});

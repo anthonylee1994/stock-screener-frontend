@@ -3,7 +3,7 @@ import type {SortDescriptor} from "@heroui/react";
 import {ArrowDown, ArrowUp} from "lucide-react";
 
 export const mobileSortOptions = [
-    {id: "total_score", label: "評分"},
+    {id: "total_score", label: "綜合"},
     {id: "market_cap", label: "市值"},
     {id: "volume", label: "成交量"},
     {id: "fundamental_score", label: "基本面"},
@@ -33,8 +33,7 @@ export const MobileSortBar = React.memo((props: MobileSortBarProps) => {
             <div className="flex items-center gap-2">
                 <div className="min-w-0 flex-1">
                     <div className="flex items-center gap-2">
-                        <span className="shrink-0 text-xs font-semibold text-slate-500">排序</span>
-                        <div className="flex min-w-0 flex-1 justify-center gap-0 py-1">
+                        <div className="flex min-w-0 flex-1 justify-center gap-2 py-1">
                             {mobileSortOptions.map(option => {
                                 const isSelected = activeColumn === option.id;
                                 const className = isSelected

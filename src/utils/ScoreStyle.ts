@@ -1,4 +1,4 @@
-export function getScoreClassName(score: number, variant: "mobilePill" | "pill" | "summary" = "pill"): string {
+export function getScoreClassName(score: number, variant: "button" | "mobilePill" | "pill" | "summary" = "pill"): string {
     const baseClassName = getScoreBaseClassName(variant);
 
     if (score >= 80) {
@@ -16,9 +16,13 @@ export function getScoreClassName(score: number, variant: "mobilePill" | "pill" 
     return `${baseClassName} border-red-200 bg-red-100 text-red-700`;
 }
 
-function getScoreBaseClassName(variant: "mobilePill" | "pill" | "summary"): string {
+function getScoreBaseClassName(variant: "button" | "mobilePill" | "pill" | "summary"): string {
     if (variant === "summary") {
         return "mb-3 rounded-lg border p-4";
+    }
+
+    if (variant === "button") {
+        return "h-8 min-w-14 rounded-md border px-2 font-semibold";
     }
 
     if (variant === "mobilePill") {

@@ -110,5 +110,5 @@ const MobileMetricValue = React.memo((props: MobileMetricValueProps) => {
 function getMobileMetricLabel(sortDescriptor: SortDescriptor): string {
     const activeColumn = String(sortDescriptor.column);
 
-    return mobileSortOptions.find(option => option.id === activeColumn)?.label ?? "評分";
+    return mobileSortOptions.find(option => option.id === activeColumn)?.label ?? "綜合";
 }

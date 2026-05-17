@@ -22,7 +22,7 @@ export const ScoreDetailModal = React.memo((props: ScoreDetailModalProps) => {
     const title = detailModal?.kind === "fundamental" ? "基本面詳情" : "技術面詳情";
     const details = detailModal ? getDetailItems(detailModal) : [];
     const summary = detailModal ? getDetailSummary(detailModal) : null;
-    const gridClassName = detailModal?.kind === "technical" ? "grid grid-cols-1 gap-3" : "grid gap-3 sm:grid-cols-2";
+    const gridClassName = detailModal?.kind === "technical" ? "grid grid-cols-3 gap-3" : "grid gap-3 grid-cols-2";
 
     return (
         <Modal.Backdrop isOpen={detailModal !== null} onOpenChange={onOpenChange}>
@@ -88,15 +88,15 @@ function getDetailItems(detailModal: DetailModalState): DetailItem[] {
             {label: "PEG 得分", value: formatScore(row.fundamental.pegScore)},
             {label: "過去5年每股盈利", value: formatPercent(row.fundamental.epsPast5Y)},
             {label: "過去5年每股盈利得分", value: formatScore(row.fundamental.epsPast5YScore)},
-            {label: "股東權益報酬率", value: formatPercent(row.fundamental.roe)},
+            {label: "ROE", value: formatPercent(row.fundamental.roe)},
             {label: "ROE 得分", value: formatScore(row.fundamental.roeScore)},
         ];
     }
 
     return [
-        {label: "短期得分", value: formatScore(row.technical.shortTermScore)},
-        {label: "中期得分", value: formatScore(row.technical.midTermScore)},
-        {label: "長期得分", value: formatScore(row.technical.longTermScore)},
+        {label: "短期走勢", value: formatScore(row.technical.shortTermScore)},
+        {label: "中期走勢", value: formatScore(row.technical.midTermScore)},
+        {label: "長期走勢", value: formatScore(row.technical.longTermScore)},
     ];
 }
 
