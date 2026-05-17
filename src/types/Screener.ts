@@ -54,16 +54,10 @@ export interface StockFundamentalDetail {
 }
 
 export interface StockTechnicalDetail {
-    ema200Distance: number;
-    ema50Distance: number;
-    longTermScore: number;
-    midTermScore: number;
-    ppoSlope3: number;
-    roc125: number;
-    roc20: number;
-    rsi14: number;
-    score: number;
     shortTermScore: number;
+    midTermScore: number;
+    longTermScore: number;
+    score: number;
 }
 
 export type ScreenerApiRow = {
@@ -90,12 +84,6 @@ export type ScreenerApiRow = {
         roe_score: number;
     };
     technical: {
-        ema_200_distance: number;
-        roc_125: number;
-        ema_50_distance: number;
-        roc_20: number;
-        ppo_slope_3: number;
-        rsi14: number;
         long_term_score: number;
         mid_term_score: number;
         short_term_score: number;

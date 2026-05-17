@@ -2,14 +2,19 @@ import type {ScreenerApiResponse, ScreenerApiRow, ScreenerFilters, StockRow} fro
 
 const apiToken = import.meta.env.VITE_API_TOKEN;
 
-export async function fetchScreenerRows(filters: ScreenerFilters, signal: AbortSignal): Promise<{count: number; data: StockRow[]}> {
+export async function fetchScreenerRows(filters: ScreenerFilters, search: string, signal: AbortSignal): Promise<{count: number; data: StockRow[]}> {
     const url = new URL("/screener", getApiUrl());
+    const normalizedSearch = search.trim();
 
     url.searchParams.set("api_token", apiToken);
     url.searchParams.set("sector", filters.sector);
     url.searchParams.set("market_cap", filters.marketCap);
     url.searchParams.set("order", filters.order);
     url.searchParams.set("ascend", String(filters.ascend));
+
+    if (normalizedSearch.length > 0) {
+        url.searchParams.set("search", normalizedSearch);
+    }
 
     const response = await fetch(url, {signal});
 
@@ -58,14 +63,8 @@ function normalizeStockRow(row: ScreenerApiRow): StockRow {
         },
         fundamentalScore: row.fundamental.fundamental_score,
         technical: {
-            ema200Distance: row.technical.ema_200_distance,
-            ema50Distance: row.technical.ema_50_distance,
             longTermScore: row.technical.long_term_score,
             midTermScore: row.technical.mid_term_score,
-            ppoSlope3: row.technical.ppo_slope_3,
-            roc125: row.technical.roc_125,
-            roc20: row.technical.roc_20,
-            rsi14: row.technical.rsi14,
             score: row.technical.technical_score,
             shortTermScore: row.technical.short_term_score,
         },

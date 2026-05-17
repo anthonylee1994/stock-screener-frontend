@@ -28,7 +28,7 @@ export const App = React.memo(() => {
             setError(null);
 
             try {
-                const response = await fetchScreenerRows(filters, abortController.signal);
+                const response = await fetchScreenerRows(filters, query, abortController.signal);
 
                 setRows(response.data);
             } catch (fetchError) {
@@ -49,19 +49,7 @@ export const App = React.memo(() => {
         return () => {
             abortController.abort();
         };
-    }, [filters]);
-
-    const filteredRows = React.useMemo(() => {
-        const normalizedQuery = query.trim().toLowerCase();
-
-        if (normalizedQuery.length === 0) {
-            return rows;
-        }
-
-        return rows.filter(row => {
-            return row.ticker.toLowerCase().includes(normalizedQuery) || row.name.toLowerCase().includes(normalizedQuery);
-        });
-    }, [query, rows]);
+    }, [filters, query]);
 
     const handleFiltersChange = (nextFilters: ScreenerFilters) => {
         setFilters(nextFilters);
@@ -95,9 +83,9 @@ export const App = React.memo(() => {
         <React.Fragment>
             <main className="min-h-screen bg-slate-50 text-slate-950">
                 <div className="mx-auto flex min-h-screen w-full max-w-7xl flex-col px-4 py-5 sm:px-6 lg:px-8">
-                    <ScreenHeader count={filteredRows.length} />
+                    <ScreenHeader count={rows.length} />
                     <FilterPanel filters={filters} isLoading={isLoading} query={query} onFiltersChange={handleFiltersChange} onQueryChange={handleQueryChange} onRetry={handleRetry} />
-                    <StockResultsTable error={error} isLoading={isLoading} rows={filteredRows} sortDescriptor={sortDescriptor} onSortChange={handleSortChange} />
+                    <StockResultsTable error={error} isLoading={isLoading} rows={rows} sortDescriptor={sortDescriptor} onSortChange={handleSortChange} />
                 </div>
             </main>
         </React.Fragment>
