@@ -1,8 +1,29 @@
 import type {ScreenerApiResponse, ScreenerApiRow, ScreenerFilters, StockRow} from "../types/Screener";
 
-const apiToken = import.meta.env.VITE_API_TOKEN;
+type AuthResponse = {
+    authorized: boolean;
+};
 
-export async function fetchScreenerRows(filters: ScreenerFilters, search: string, signal: AbortSignal): Promise<{count: number; data: StockRow[]}> {
+export async function authenticate(apiToken: string, signal?: AbortSignal): Promise<boolean> {
+    const response = await fetch(new URL("/auth", getApiUrl()), {
+        body: JSON.stringify({api_token: apiToken}),
+        headers: {
+            "Content-Type": "application/json",
+        },
+        method: "POST",
+        signal,
+    });
+
+    if (!response.ok) {
+        throw new Error(`Backend 回應 ${response.status}`);
+    }
+
+    const payload = (await response.json()) as AuthResponse;
+
+    return payload.authorized;
+}
+
+export async function fetchScreenerRows(filters: ScreenerFilters, search: string, apiToken: string, signal: AbortSignal): Promise<{count: number; data: StockRow[]}> {
     const url = new URL("/screener", getApiUrl());
     const normalizedSearch = search.trim();
 

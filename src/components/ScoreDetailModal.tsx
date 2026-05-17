@@ -81,15 +81,15 @@ function getDetailItems(detailModal: DetailModalState): DetailItem[] {
     if (kind === "fundamental") {
         return [
             {label: "市值", value: formatCompactCurrency(row.fundamental.marketCap)},
-            {label: "市值得分", value: formatScore(row.fundamental.marketCapScore)},
+            {label: "得分", value: formatScore(row.fundamental.marketCapScore)},
             {label: "預測市盈率", value: formatNumber(row.fundamental.forwardPe)},
-            {label: "預測市盈率得分", value: formatScore(row.fundamental.forwardPeScore)},
+            {label: "得分", value: formatScore(row.fundamental.forwardPeScore)},
             {label: "PEG", value: formatNumber(row.fundamental.peg)},
-            {label: "PEG 得分", value: formatScore(row.fundamental.pegScore)},
+            {label: "得分", value: formatScore(row.fundamental.pegScore)},
             {label: "過去5年每股盈利", value: formatPercent(row.fundamental.epsPast5Y)},
-            {label: "過去5年每股盈利得分", value: formatScore(row.fundamental.epsPast5YScore)},
+            {label: "得分", value: formatScore(row.fundamental.epsPast5YScore)},
             {label: "ROE", value: formatPercent(row.fundamental.roe)},
-            {label: "ROE 得分", value: formatScore(row.fundamental.roeScore)},
+            {label: "得分", value: formatScore(row.fundamental.roeScore)},
         ];
     }
 
