@@ -5,17 +5,16 @@ import {RefreshCw, Search} from "lucide-react";
 import {marketCapOptions, sectorOptions} from "../constants/FilterOptions";
 import type {MarketCapFilter, ScreenerFilters, SectorFilter} from "../types/Screener";
 
-type FilterPanelProps = {
+interface Props {
     filters: ScreenerFilters;
     isLoading: boolean;
     query: string;
     onFiltersChange: (filters: ScreenerFilters) => void;
     onQueryChange: (query: string) => void;
     onRetry: () => void;
-};
+}
 
-export const FilterPanel = React.memo((props: FilterPanelProps) => {
-    const {filters, isLoading, query, onFiltersChange, onQueryChange, onRetry} = props;
+export const FilterPanel = React.memo<Props>(({filters, isLoading, query, onFiltersChange, onQueryChange, onRetry}) => {
     const [searchText, setSearchText] = React.useState(query);
     const debouncedSearchText = useDebounce(searchText, 250);
 

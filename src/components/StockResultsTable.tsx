@@ -11,16 +11,15 @@ import {formatCompactCurrency, formatCurrency, formatPercent, formatScore, forma
 import {getScoreClassName} from "../utils/ScoreStyle";
 import type {StockRow} from "../types/Screener";
 
-type StockResultsTableProps = {
+interface Props {
     error: string | null;
     isLoading: boolean;
     sortDescriptor: SortDescriptor;
     rows: StockRow[];
     onSortChange: (sortDescriptor: SortDescriptor) => void;
-};
+}
 
-export const StockResultsTable = React.memo((props: StockResultsTableProps) => {
-    const {error, isLoading, rows, sortDescriptor, onSortChange} = props;
+export const StockResultsTable = React.memo<Props>(({error, isLoading, rows, sortDescriptor, onSortChange}) => {
     const [detailModal, setDetailModal] = React.useState<DetailModalState | null>(null);
 
     const handleDetailPress = (row: StockRow, kind: DetailKind) => {

@@ -6,18 +6,17 @@ import {getScoreClassName} from "../utils/ScoreStyle";
 
 export type DetailKind = "fundamental" | "technical";
 
-export type DetailModalState = {
+export interface DetailModalState {
     kind: DetailKind;
     row: StockRow;
-};
+}
 
-type ScoreDetailModalProps = {
+interface Props {
     detailModal: DetailModalState | null;
     onOpenChange: (isOpen: boolean) => void;
-};
+}
 
-export const ScoreDetailModal = React.memo((props: ScoreDetailModalProps) => {
-    const {detailModal, onOpenChange} = props;
+export const ScoreDetailModal = React.memo<Props>(({detailModal, onOpenChange}) => {
     const row = detailModal?.row;
     const title = detailModal?.kind === "fundamental" ? "基本面詳情" : "技術面詳情";
     const details = detailModal ? getDetailItems(detailModal) : [];
@@ -55,15 +54,15 @@ export const ScoreDetailModal = React.memo((props: ScoreDetailModalProps) => {
     );
 });
 
-type DetailItem = {
+interface DetailItem {
     label: string;
     value: string;
-};
+}
 
-type DetailSummary = {
+interface DetailSummary {
     label: string;
     score: number;
-};
+}
 
 function getDetailSummary(detailModal: DetailModalState): DetailSummary {
     const {kind, row} = detailModal;

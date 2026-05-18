@@ -1,13 +1,12 @@
 import React from "react";
 import {ChevronUp} from "lucide-react";
 
-type SortableColumnHeaderProps = {
+interface Props {
     children: React.ReactNode;
     sortDirection?: "ascending" | "descending";
-};
+}
 
-export const SortableColumnHeader = React.memo((props: SortableColumnHeaderProps) => {
-    const {children, sortDirection} = props;
+export const SortableColumnHeader = React.memo<Props>(({children, sortDirection}) => {
     const iconClassName = sortDirection === "descending" ? "size-3 rotate-180 transition-transform" : "size-3 transition-transform";
 
     return (

@@ -7,17 +7,16 @@ import type {StockRow} from "../types/Screener";
 import {formatCompactCurrency, formatCurrency, formatPercent, formatScore, formatVolume} from "../utils/Format";
 import {getScoreClassName} from "../utils/ScoreStyle";
 
-type MobileStockListProps = {
+interface Props {
     error: string | null;
     isLoading: boolean;
     rows: StockRow[];
     sortDescriptor: SortDescriptor;
     onDetailPress: (row: StockRow, kind: DetailKind) => void;
     onSortChange: (sortDescriptor: SortDescriptor) => void;
-};
+}
 
-export const MobileStockList = React.memo((props: MobileStockListProps) => {
-    const {error, isLoading, rows, sortDescriptor, onDetailPress, onSortChange} = props;
+export const MobileStockList = React.memo<Props>(({error, isLoading, rows, sortDescriptor, onDetailPress, onSortChange}) => {
     const [selectedRow, setSelectedRow] = React.useState<StockRow | null>(null);
 
     const handleRowPress = (row: StockRow) => {

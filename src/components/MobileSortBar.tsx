@@ -10,13 +10,12 @@ export const mobileSortOptions = [
     {id: "technical_score", label: "技術面"},
 ] as const;
 
-type MobileSortBarProps = {
+type Props = {
     sortDescriptor: SortDescriptor;
     onSortChange: (sortDescriptor: SortDescriptor) => void;
 };
 
-export const MobileSortBar = React.memo((props: MobileSortBarProps) => {
-    const {sortDescriptor, onSortChange} = props;
+export const MobileSortBar = React.memo<Props>(({sortDescriptor, onSortChange}) => {
     const activeColumn = String(sortDescriptor.column);
     const isAscending = sortDescriptor.direction === "ascending";
     const activeOption = mobileSortOptions.find(option => option.id === activeColumn) ?? mobileSortOptions[0];

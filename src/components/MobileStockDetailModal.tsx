@@ -6,15 +6,13 @@ import type {StockRow} from "../types/Screener";
 import {formatCompactCurrency, formatScore, formatVolume} from "../utils/Format";
 import {getScoreClassName} from "../utils/ScoreStyle";
 
-type MobileStockDetailModalProps = {
+interface Props {
     row: StockRow | null;
     onDetailPress: (row: StockRow, kind: DetailKind) => void;
     onOpenChange: (isOpen: boolean) => void;
-};
+}
 
-export const MobileStockDetailModal = React.memo((props: MobileStockDetailModalProps) => {
-    const {row, onDetailPress, onOpenChange} = props;
-
+export const MobileStockDetailModal = React.memo<Props>(({row, onDetailPress, onOpenChange}) => {
     const handleFundamentalPress = () => {
         if (row) {
             onOpenChange(false);

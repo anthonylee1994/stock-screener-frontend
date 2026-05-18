@@ -3,14 +3,12 @@ import {Button} from "@heroui/react";
 import {formatScore} from "../utils/Format";
 import {getScoreClassName} from "../utils/ScoreStyle";
 
-type ScoreButtonProps = {
+interface Props {
     score: number;
     onPress: () => void;
-};
+}
 
-export const ScoreButton = React.memo((props: ScoreButtonProps) => {
-    const {score, onPress} = props;
-
+export const ScoreButton = React.memo<Props>(({score, onPress}) => {
     return (
         <Button className={getScoreClassName(score, "button")} size="sm" variant="ghost" onPress={onPress}>
             {formatScore(score)}

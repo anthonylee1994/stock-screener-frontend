@@ -2,17 +2,15 @@ import React from "react";
 import {Button, Form, Input, Label} from "@heroui/react";
 import {KeyRound} from "lucide-react";
 
-type AuthPageProps = {
+interface Props {
     error: string | null;
     isAuthenticating: boolean;
     tokenInput: string;
     onSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
     onTokenInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-};
+}
 
-export const AuthPage = React.memo((props: AuthPageProps) => {
-    const {error, isAuthenticating, tokenInput, onSubmit, onTokenInputChange} = props;
-
+export const AuthPage = React.memo<Props>(({error, isAuthenticating, tokenInput, onSubmit, onTokenInputChange}) => {
     return (
         <React.Fragment>
             <main className="min-h-screen bg-slate-50 text-slate-950">
