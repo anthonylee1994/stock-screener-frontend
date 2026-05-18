@@ -9,7 +9,7 @@ interface Props {
 
 export const ScreenHeader = React.memo<Props>(({count, onLogout}) => {
     return (
-        <header className="flex flex-row items-center justify-between gap-3 border-b border-slate-200 px-3 pb-5">
+        <header className="flex flex-row items-center justify-between gap-3 border-b border-slate-200 md:px-3 pb-5">
             <div className="flex items-center justify-end gap-2">
                 <h1 className="text-2xl font-semibold tracking-normal text-slate-950">美股選股器</h1>
                 <Chip>共 {count} 隻股票</Chip>
