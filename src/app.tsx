@@ -1,6 +1,7 @@
 import React from "react";
 import {AuthPage} from "./components/AuthPage";
 import {FilterPanel} from "./components/FilterPanel";
+import {MaintenancePage} from "./components/MaintenancePage";
 import {ScreenHeader} from "./components/ScreenHeader";
 import {StockResultsTable} from "./components/StockResultsTable";
 import {authenticate, fetchScreenerRows} from "./services/ScreenerApi";
@@ -8,6 +9,7 @@ import type {SortDescriptor} from "@heroui/react";
 import type {ScreenerFilters, StockRow} from "./types/Screener";
 
 const authTokenStorageKey = "stock-screener-api-token";
+const maintenanceMode = import.meta.env.VITE_MAINTENANCE_MODE === "1";
 
 const defaultFilters: ScreenerFilters = {
     sector: "All",
@@ -17,6 +19,10 @@ const defaultFilters: ScreenerFilters = {
 };
 
 export const App = React.memo(() => {
+    if (maintenanceMode) {
+        return <MaintenancePage />;
+    }
+
     const [apiToken, setApiToken] = React.useState(() => window.localStorage.getItem(authTokenStorageKey) ?? "");
     const [tokenInput, setTokenInput] = React.useState("");
     const [filters, setFilters] = React.useState<ScreenerFilters>(defaultFilters);
