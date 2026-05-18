@@ -1,5 +1,5 @@
 import React from "react";
-import {Button, Chip} from "@heroui/react";
+import {Button, Chip, Tooltip} from "@heroui/react";
 import {LogOut} from "lucide-react";
 
 interface Props {
@@ -14,10 +14,15 @@ export const ScreenHeader = React.memo<Props>(({count, onLogout}) => {
                 <h1 className="text-2xl font-semibold tracking-normal text-slate-950">美股選股器</h1>
                 <Chip>共 {count} 隻股票</Chip>
             </div>
-            <Button className="h-9 rounded-lg px-3" size="sm" variant="outline" onPress={onLogout}>
-                <LogOut className="size-4" />
-                <span>登出</span>
-            </Button>
+            <Tooltip delay={0}>
+                <Button className="h-9 rounded-lg px-3" size="sm" variant="ghost" onPress={onLogout}>
+                    <LogOut className="size-4" />
+                </Button>
+                <Tooltip.Content showArrow placement="left">
+                    <Tooltip.Arrow />
+                    登出
+                </Tooltip.Content>
+            </Tooltip>
         </header>
     );
 });
