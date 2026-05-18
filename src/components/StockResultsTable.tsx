@@ -135,7 +135,9 @@ function renderTableBody(rows: StockRow[], isLoading: boolean, error: string | n
             <Table.Cell className="px-2 md:px-4">
                 <div className="min-w-0">
                     <p className="text-base font-semibold text-slate-950">{row.ticker}</p>
-                    <p className="max-w-[140px] truncate text-sm text-slate-500 md:max-w-[240px]">{row.name}</p>
+                    <p className="max-w-[140px] truncate text-sm text-slate-500 md:max-w-[240px]" title={row.name}>
+                        {row.name}
+                    </p>
                 </div>
             </Table.Cell>
             <Table.Cell className="hidden md:table-cell">
