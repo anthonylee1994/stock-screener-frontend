@@ -25,6 +25,7 @@ export const marketCapOptions: readonly {label: string; value: MarketCapFilter}[
 
 export const orderOptions: readonly {label: string; value: OrderFilter}[] = [
     {label: "總分", value: "total_score"},
+    {label: "升跌幅", value: "change_percent"},
     {label: "基本面分", value: "fundamental_score"},
     {label: "技術面分", value: "technical_score"},
     {label: "市值", value: "market_cap"},

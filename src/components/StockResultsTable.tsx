@@ -71,7 +71,9 @@ export const StockResultsTable = React.memo<Props>(({error, isLoading, rows, sor
                             <Table.Column allowsSorting className="hidden min-w-[92px] md:table-cell" id="market_cap">
                                 {({sortDirection}) => <SortableColumnHeader sortDirection={sortDirection}>市值</SortableColumnHeader>}
                             </Table.Column>
-                            <Table.Column className="min-w-[96px]">價格</Table.Column>
+                            <Table.Column allowsSorting className="min-w-[96px]" id="change_percent">
+                                {({sortDirection}) => <SortableColumnHeader sortDirection={sortDirection}>升跌幅</SortableColumnHeader>}
+                            </Table.Column>
                             <Table.Column allowsSorting className="hidden min-w-[100px] md:table-cell" id="volume">
                                 {({sortDirection}) => <SortableColumnHeader sortDirection={sortDirection}>成交量</SortableColumnHeader>}
                             </Table.Column>

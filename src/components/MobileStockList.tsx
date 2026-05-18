@@ -95,6 +95,14 @@ const MobileMetricValue = React.memo((props: MobileMetricValueProps) => {
         return <span className="text-[13px] font-semibold leading-5 text-slate-800">{formatVolume(row.volume)}</span>;
     }
 
+    if (column === "change_percent") {
+        return (
+            <span className={row.changePercent >= 0 ? "text-[13px] font-semibold leading-5 text-emerald-600" : "text-[13px] font-semibold leading-5 text-red-500"}>
+                {formatPercent(row.changePercent)}
+            </span>
+        );
+    }
+
     if (column === "fundamental_score") {
         return <span className={getScoreClassName(row.fundamentalScore, "mobilePill")}>{formatScore(row.fundamentalScore)}</span>;
     }

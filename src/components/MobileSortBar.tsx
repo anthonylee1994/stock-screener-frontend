@@ -8,6 +8,7 @@ export const mobileSortOptions = [
     {id: "volume", label: "成交量"},
     {id: "fundamental_score", label: "基本面"},
     {id: "technical_score", label: "技術面"},
+    {id: "change_percent", label: "升跌幅"},
 ] as const;
 
 type Props = {
@@ -28,35 +29,33 @@ export const MobileSortBar = React.memo<Props>(({sortDescriptor, onSortChange}) 
     };
 
     return (
-        <section className="mb-4 rounded-2xl border border-slate-200 bg-white px-2 py-2 shadow-sm">
-            <div className="flex items-center gap-2">
-                <div className="min-w-0 flex-1">
-                    <div className="flex items-center gap-2">
-                        <div className="flex min-w-0 flex-1 justify-center gap-2 py-1">
-                            {mobileSortOptions.map(option => {
-                                const isSelected = activeColumn === option.id;
-                                const className = isSelected
-                                    ? "whitespace-nowrap rounded-lg bg-slate-950 px-2.5 py-1.5 text-xs font-semibold text-white"
-                                    : "whitespace-nowrap rounded-lg px-2.5 py-1.5 text-xs font-semibold text-slate-500 active:bg-slate-100";
+        <section className="mb-4 rounded-2xl border border-slate-200 bg-white p-2 shadow-sm">
+            <div className="grid grid-cols-[minmax(0,1fr)_36px] items-center gap-2">
+                <div className="no-scrollbar min-w-0 overflow-x-auto">
+                    <div className="flex w-max min-w-full items-center gap-2 py-1">
+                        {mobileSortOptions.map(option => {
+                            const isSelected = activeColumn === option.id;
+                            const className = isSelected
+                                ? "shrink-0 whitespace-nowrap rounded-lg bg-slate-950 px-2.5 py-1.5 text-xs font-semibold text-white"
+                                : "shrink-0 whitespace-nowrap rounded-lg px-2.5 py-1.5 text-xs font-semibold text-slate-500 active:bg-slate-100";
 
-                                return (
-                                    <button
-                                        key={option.id}
-                                        aria-pressed={isSelected}
-                                        className={className}
-                                        type="button"
-                                        onClick={() => {
-                                            onSortChange({
-                                                column: option.id,
-                                                direction: isSelected && !isAscending ? "ascending" : "descending",
-                                            });
-                                        }}
-                                    >
-                                        {option.label}
-                                    </button>
-                                );
-                            })}
-                        </div>
+                            return (
+                                <button
+                                    key={option.id}
+                                    aria-pressed={isSelected}
+                                    className={className}
+                                    type="button"
+                                    onClick={() => {
+                                        onSortChange({
+                                            column: option.id,
+                                            direction: isSelected && !isAscending ? "ascending" : "descending",
+                                        });
+                                    }}
+                                >
+                                    {option.label}
+                                </button>
+                            );
+                        })}
                     </div>
                 </div>
                 <button
