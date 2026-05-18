@@ -31,8 +31,9 @@ export const AuthPage = React.memo<Props>(({error, isAuthenticating, tokenInput,
                                     密碼
                                 </Label>
                                 <Input
+                                    variant="secondary"
                                     autoComplete="current-password"
-                                    className="h-11 rounded-lg border-slate-200 bg-slate-50 shadow-none"
+                                    className="h-11 rounded-lg bg-slate-100 shadow-none"
                                     fullWidth
                                     id="api-token"
                                     name="api-token"
