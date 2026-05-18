@@ -1,6 +1,7 @@
 import React from "react";
 import type {SortDescriptor} from "@heroui/react";
-import {Chip, Table} from "@heroui/react";
+import {Chip, Popover, Table} from "@heroui/react";
+import {FinvizChart} from "./FinvizChart";
 import {MobileStockList} from "./MobileStockList";
 import {ScoreButton} from "./ScoreButton";
 import {ScoreDetailModal} from "./ScoreDetailModal";
@@ -21,6 +22,7 @@ interface Props {
 
 export const StockResultsTable = React.memo<Props>(({error, isLoading, rows, sortDescriptor, onSortChange}) => {
     const [detailModal, setDetailModal] = React.useState<DetailModalState | null>(null);
+    const [chartTicker, setChartTicker] = React.useState<string | null>(null);
     const [mobileSelectedRow, setMobileSelectedRow] = React.useState<StockRow | null>(null);
     const [mobileReturnRow, setMobileReturnRow] = React.useState<StockRow | null>(null);
 
@@ -32,6 +34,10 @@ export const StockResultsTable = React.memo<Props>(({error, isLoading, rows, sor
         setMobileSelectedRow(null);
         setMobileReturnRow(row);
         setDetailModal({kind, row});
+    };
+
+    const handleChartOpenChange = (ticker: string, isOpen: boolean) => {
+        setChartTicker(isOpen ? ticker : null);
     };
 
     const handleModalOpenChange = (isOpen: boolean) => {
@@ -87,7 +93,7 @@ export const StockResultsTable = React.memo<Props>(({error, isLoading, rows, sor
                                 {({sortDirection}) => <SortableColumnHeader sortDirection={sortDirection}>綜合</SortableColumnHeader>}
                             </Table.Column>
                         </Table.Header>
-                        <Table.Body>{renderTableBody(rows, isLoading, error, handleDetailPress)}</Table.Body>
+                        <Table.Body>{renderTableBody(rows, isLoading, error, chartTicker, handleDetailPress, handleChartOpenChange)}</Table.Body>
                     </Table.Content>
                 </Table.ScrollContainer>
             </Table>
@@ -96,7 +102,14 @@ export const StockResultsTable = React.memo<Props>(({error, isLoading, rows, sor
     );
 });
 
-function renderTableBody(rows: StockRow[], isLoading: boolean, error: string | null, onDetailPress: (row: StockRow, kind: DetailKind) => void): React.ReactNode {
+function renderTableBody(
+    rows: StockRow[],
+    isLoading: boolean,
+    error: string | null,
+    chartTicker: string | null,
+    onDetailPress: (row: StockRow, kind: DetailKind) => void,
+    onChartOpenChange: (ticker: string, isOpen: boolean) => void
+): React.ReactNode {
     if (isLoading) {
         return (
             <Table.Row>
@@ -128,19 +141,31 @@ function renderTableBody(rows: StockRow[], isLoading: boolean, error: string | n
     }
 
     return rows.map((row, index) => (
-        <Table.Row key={row.ticker}>
+        <Table.Row key={row.ticker} className="cursor-pointer" onAction={() => onChartOpenChange(row.ticker, chartTicker !== row.ticker)}>
             <Table.Cell className="px-2 md:px-4">
                 <span className="inline-flex size-9 items-center justify-center rounded-lg bg-neutral-300/30 text-sm font-semibold text-neutral-700 dark:bg-neutral-400/15 dark:text-neutral-300">
                     {index + 1}
                 </span>
             </Table.Cell>
             <Table.Cell className="px-2 md:px-4">
-                <div className="min-w-0">
-                    <p className="text-base font-semibold text-neutral-950 dark:text-neutral-100">{row.ticker}</p>
-                    <p className="max-w-[140px] truncate text-sm text-neutral-500 md:max-w-[240px] dark:text-neutral-400" title={row.name}>
-                        {row.name}
-                    </p>
-                </div>
+                <Popover isOpen={chartTicker === row.ticker} onOpenChange={isOpen => onChartOpenChange(row.ticker, isOpen)}>
+                    <Popover.Trigger className="block min-w-0">
+                        <div className="min-w-0">
+                            <p className="text-base font-semibold text-neutral-950 dark:text-neutral-100">{row.ticker}</p>
+                            <p className="max-w-[140px] truncate text-sm text-neutral-500 md:max-w-[240px] dark:text-neutral-400" title={row.name}>
+                                {row.name}
+                            </p>
+                        </div>
+                    </Popover.Trigger>
+                    <Popover.Content
+                        className="w-[620px] max-w-[calc(100vw-2rem)] border border-neutral-200 bg-white text-neutral-950 shadow-xl dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-100"
+                        placement="right"
+                    >
+                        <Popover.Dialog className="p-3">
+                            <FinvizChart className="min-h-[278px]" ticker={row.ticker} />
+                        </Popover.Dialog>
+                    </Popover.Content>
+                </Popover>
             </Table.Cell>
             <Table.Cell className="hidden md:table-cell">
                 <Chip variant="secondary">{getSectorDisplayName(row.sector)}</Chip>
