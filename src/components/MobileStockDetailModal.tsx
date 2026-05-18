@@ -45,7 +45,7 @@ export const MobileStockDetailModal = React.memo<Props>(({row, onDetailPress, on
                                     <MobileDetailItem label="成交量" value={formatVolume(row.volume)} />
                                     <MobileDetailItem label="總分" value={formatScore(row.totalScore)} />
                                 </div>
-                                <div className="flex flex-col gap-3 pt-3">
+                                <div className="grid grid-cols-2 gap-3 pt-3">
                                     <MobileScoreAction label="基本面" score={row.fundamentalScore} onPress={handleFundamentalPress} />
                                     <MobileScoreAction label="技術面" score={row.technicalScore} onPress={handleTechnicalPress} />
                                 </div>

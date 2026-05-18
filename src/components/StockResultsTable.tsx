@@ -21,21 +21,43 @@ interface Props {
 
 export const StockResultsTable = React.memo<Props>(({error, isLoading, rows, sortDescriptor, onSortChange}) => {
     const [detailModal, setDetailModal] = React.useState<DetailModalState | null>(null);
+    const [mobileSelectedRow, setMobileSelectedRow] = React.useState<StockRow | null>(null);
+    const [mobileReturnRow, setMobileReturnRow] = React.useState<StockRow | null>(null);
 
     const handleDetailPress = (row: StockRow, kind: DetailKind) => {
+        setDetailModal({kind, row});
+    };
+
+    const handleMobileDetailPress = (row: StockRow, kind: DetailKind) => {
+        setMobileSelectedRow(null);
+        setMobileReturnRow(row);
         setDetailModal({kind, row});
     };
 
     const handleModalOpenChange = (isOpen: boolean) => {
         if (!isOpen) {
             setDetailModal(null);
+
+            if (mobileReturnRow) {
+                setMobileSelectedRow(mobileReturnRow);
+                setMobileReturnRow(null);
+            }
         }
     };
 
     return (
         <React.Fragment>
             <div className="md:hidden">
-                <MobileStockList error={error} isLoading={isLoading} rows={rows} sortDescriptor={sortDescriptor} onDetailPress={handleDetailPress} onSortChange={onSortChange} />
+                <MobileStockList
+                    error={error}
+                    isLoading={isLoading}
+                    rows={rows}
+                    selectedRow={mobileSelectedRow}
+                    sortDescriptor={sortDescriptor}
+                    onDetailPress={handleMobileDetailPress}
+                    onSelectedRowChange={setMobileSelectedRow}
+                    onSortChange={onSortChange}
+                />
             </div>
             <Table className="hidden md:block">
                 <Table.ScrollContainer>

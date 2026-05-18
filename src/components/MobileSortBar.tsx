@@ -28,7 +28,7 @@ export const MobileSortBar = React.memo<Props>(({sortDescriptor, onSortChange}) 
     };
 
     return (
-        <section className="mb-3 rounded-2xl border border-slate-200 bg-white px-2 py-2 shadow-sm">
+        <section className="mb-4 rounded-2xl border border-slate-200 bg-white px-2 py-2 shadow-sm">
             <div className="flex items-center gap-2">
                 <div className="min-w-0 flex-1">
                     <div className="flex items-center gap-2">

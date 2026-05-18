@@ -11,21 +11,21 @@ interface Props {
     error: string | null;
     isLoading: boolean;
     rows: StockRow[];
+    selectedRow: StockRow | null;
     sortDescriptor: SortDescriptor;
     onDetailPress: (row: StockRow, kind: DetailKind) => void;
+    onSelectedRowChange: (row: StockRow | null) => void;
     onSortChange: (sortDescriptor: SortDescriptor) => void;
 }
 
-export const MobileStockList = React.memo<Props>(({error, isLoading, rows, sortDescriptor, onDetailPress, onSortChange}) => {
-    const [selectedRow, setSelectedRow] = React.useState<StockRow | null>(null);
-
+export const MobileStockList = React.memo<Props>(({error, isLoading, rows, selectedRow, sortDescriptor, onDetailPress, onSelectedRowChange, onSortChange}) => {
     const handleRowPress = (row: StockRow) => {
-        setSelectedRow(row);
+        onSelectedRowChange(row);
     };
 
     const handleModalOpenChange = (isOpen: boolean) => {
         if (!isOpen) {
-            setSelectedRow(null);
+            onSelectedRowChange(null);
         }
     };
 
