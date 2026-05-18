@@ -40,7 +40,7 @@ export const MobileStockDetailModal = React.memo<Props>(({row, onDetailPress, on
                         {row ? (
                             <React.Fragment>
                                 <p className="mb-3 text-sm text-neutral-500 dark:text-neutral-400">{row.name}</p>
-                                <FinvizChart className="mb-4 min-h-[190px]" ticker={row.ticker} />
+                                <FinvizChart className="mb-4" ticker={row.ticker} />
                                 <div className="grid grid-cols-2 gap-3">
                                     <MobileDetailItem label="板塊" value={getSectorDisplayName(row.sector)} />
                                     <MobileDetailItem label="市值" value={formatCompactCurrency(row.marketCap)} />
