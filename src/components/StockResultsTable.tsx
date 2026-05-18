@@ -101,7 +101,7 @@ function renderTableBody(rows: StockRow[], isLoading: boolean, error: string | n
         return (
             <Table.Row>
                 <Table.Cell colSpan={9}>
-                    <div className="py-8 text-center text-sm text-slate-500">載入緊...</div>
+                    <div className="py-8 text-center text-sm text-neutral-500 dark:text-neutral-400">載入緊...</div>
                 </Table.Cell>
             </Table.Row>
         );
@@ -111,7 +111,7 @@ function renderTableBody(rows: StockRow[], isLoading: boolean, error: string | n
         return (
             <Table.Row>
                 <Table.Cell colSpan={9}>
-                    <div className="py-8 text-center text-sm text-red-600">{error}</div>
+                    <div className="py-8 text-center text-sm text-red-600 dark:text-red-400">{error}</div>
                 </Table.Cell>
             </Table.Row>
         );
@@ -121,7 +121,7 @@ function renderTableBody(rows: StockRow[], isLoading: boolean, error: string | n
         return (
             <Table.Row>
                 <Table.Cell colSpan={9}>
-                    <div className="py-8 text-center text-sm text-slate-500">搵唔到符合條件嘅股票</div>
+                    <div className="py-8 text-center text-sm text-neutral-500 dark:text-neutral-400">搵唔到符合條件嘅股票</div>
                 </Table.Cell>
             </Table.Row>
         );
@@ -130,12 +130,14 @@ function renderTableBody(rows: StockRow[], isLoading: boolean, error: string | n
     return rows.map((row, index) => (
         <Table.Row key={row.ticker}>
             <Table.Cell className="px-2 md:px-4">
-                <span className="inline-flex size-9 items-center justify-center rounded-lg bg-emerald-50 text-sm font-semibold text-emerald-700">{index + 1}</span>
+                <span className="inline-flex size-9 items-center justify-center rounded-lg bg-neutral-300/30 text-sm font-semibold text-neutral-700 dark:bg-neutral-400/15 dark:text-neutral-300">
+                    {index + 1}
+                </span>
             </Table.Cell>
             <Table.Cell className="px-2 md:px-4">
                 <div className="min-w-0">
-                    <p className="text-base font-semibold text-slate-950">{row.ticker}</p>
-                    <p className="max-w-[140px] truncate text-sm text-slate-500 md:max-w-[240px]" title={row.name}>
+                    <p className="text-base font-semibold text-neutral-950 dark:text-neutral-100">{row.ticker}</p>
+                    <p className="max-w-[140px] truncate text-sm text-neutral-500 md:max-w-[240px] dark:text-neutral-400" title={row.name}>
                         {row.name}
                     </p>
                 </div>
@@ -148,8 +150,8 @@ function renderTableBody(rows: StockRow[], isLoading: boolean, error: string | n
             </Table.Cell>
             <Table.Cell className="px-2 md:px-4">
                 <div className="text-right">
-                    <p className="text-base font-semibold text-slate-950">{formatCurrency(row.price)}</p>
-                    <p className={row.changePercent >= 0 ? "text-sm text-emerald-600" : "text-sm text-red-500"}>{formatPercent(row.changePercent)}</p>
+                    <p className="text-base font-semibold text-neutral-950 dark:text-neutral-100">{formatCurrency(row.price)}</p>
+                    <p className={row.changePercent >= 0 ? "text-sm text-emerald-600 dark:text-emerald-400" : "text-sm text-red-500 dark:text-red-400"}>{formatPercent(row.changePercent)}</p>
                 </div>
             </Table.Cell>
             <Table.Cell className="hidden md:table-cell">{formatVolume(row.volume)}</Table.Cell>

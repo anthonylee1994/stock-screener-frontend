@@ -30,7 +30,7 @@ export const MobileStockDetailModal = React.memo<Props>(({row, onDetailPress, on
     return (
         <Modal.Backdrop isOpen={row !== null} onOpenChange={onOpenChange}>
             <Modal.Container size="lg" placement="center">
-                <Modal.Dialog>
+                <Modal.Dialog className="dark:bg-neutral-900">
                     <Modal.CloseTrigger />
                     <Modal.Header>
                         <Modal.Heading>{row ? `${row.ticker} 詳情` : "股票詳情"}</Modal.Heading>
@@ -38,7 +38,7 @@ export const MobileStockDetailModal = React.memo<Props>(({row, onDetailPress, on
                     <Modal.Body>
                         {row ? (
                             <React.Fragment>
-                                <p className="text-sm text-slate-500 mb-3">{row.name}</p>
+                                <p className="mb-3 text-sm text-neutral-500 dark:text-neutral-400">{row.name}</p>
                                 <div className="grid grid-cols-2 gap-3">
                                     <MobileDetailItem label="板塊" value={getSectorDisplayName(row.sector)} />
                                     <MobileDetailItem label="市值" value={formatCompactCurrency(row.marketCap)} />
@@ -68,8 +68,12 @@ const MobileScoreAction = React.memo((props: MobileScoreActionProps) => {
     const {label, score, onPress} = props;
 
     return (
-        <button className="flex w-full items-center justify-between rounded-lg border border-slate-200 bg-white px-3 py-3 text-left active:bg-slate-50" type="button" onClick={onPress}>
-            <span className="text-sm font-medium text-slate-600">{label}</span>
+        <button
+            className="flex w-full items-center justify-between rounded-lg border border-neutral-200 bg-white px-3 py-3 text-left active:bg-neutral-50 dark:border-neutral-800 dark:bg-neutral-900 dark:active:bg-neutral-800/30"
+            type="button"
+            onClick={onPress}
+        >
+            <span className="text-sm font-medium text-neutral-600 dark:text-neutral-300">{label}</span>
             <span className={getScoreClassName(score, "mobilePill")}>{formatScore(score)}</span>
         </button>
     );
@@ -84,9 +88,9 @@ const MobileDetailItem = React.memo((props: MobileDetailItemProps) => {
     const {label, value} = props;
 
     return (
-        <div className="rounded-lg border border-slate-200 bg-slate-50 p-3">
-            <p className="text-xs font-medium text-slate-500">{label}</p>
-            <p className="mt-1 text-base font-semibold text-slate-950">{value}</p>
+        <div className="rounded-lg border border-neutral-200 bg-neutral-50 p-3 dark:border-neutral-700 dark:bg-neutral-800">
+            <p className="text-xs font-medium text-neutral-500 dark:text-neutral-400">{label}</p>
+            <p className="mt-1 text-base font-semibold text-neutral-950 dark:text-neutral-100">{value}</p>
         </div>
     );
 });

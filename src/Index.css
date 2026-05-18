@@ -1,6 +1,8 @@
 @import "tailwindcss";
 @import "@heroui/styles";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 :root {
     color-scheme: light;
     font-family:
@@ -20,6 +22,15 @@
 body {
     margin: 0;
     min-width: 320px;
+    background: #fafafa;
+}
+
+html.dark {
+    color-scheme: dark;
+}
+
+html.dark body {
+    background: #000000;
 }
 
 .no-scrollbar {

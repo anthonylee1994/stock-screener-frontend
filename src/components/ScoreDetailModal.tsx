@@ -26,13 +26,13 @@ export const ScoreDetailModal = React.memo<Props>(({detailModal, onOpenChange}) 
     return (
         <Modal.Backdrop isOpen={detailModal !== null} onOpenChange={onOpenChange}>
             <Modal.Container size="lg" placement="center">
-                <Modal.Dialog>
+                <Modal.Dialog className="dark:bg-neutral-900">
                     <Modal.CloseTrigger />
                     <Modal.Header>
                         <Modal.Heading>{row ? `${row.ticker} ${title}` : title}</Modal.Heading>
                     </Modal.Header>
                     <Modal.Body>
-                        {row ? <p className="text-sm text-slate-500 mb-3">{row.name}</p> : null}
+                        {row ? <p className="mb-3 text-sm text-neutral-500 dark:text-neutral-400">{row.name}</p> : null}
                         {summary ? (
                             <div className={getScoreClassName(summary.score, "summary")}>
                                 <p className="text-xs font-medium">{summary.label}</p>
@@ -41,9 +41,9 @@ export const ScoreDetailModal = React.memo<Props>(({detailModal, onOpenChange}) 
                         ) : null}
                         <div className={gridClassName}>
                             {details.map(detail => (
-                                <div key={detail.label} className="rounded-lg border border-slate-200 bg-slate-50 p-3">
-                                    <p className="text-xs font-medium text-slate-500">{detail.label}</p>
-                                    <p className="mt-1 text-lg font-semibold text-slate-950">{detail.value}</p>
+                                <div key={detail.label} className="rounded-lg border border-neutral-200 bg-neutral-50 p-3 dark:border-neutral-700 dark:bg-neutral-800">
+                                    <p className="text-xs font-medium text-neutral-500 dark:text-neutral-400">{detail.label}</p>
+                                    <p className="mt-1 text-lg font-semibold text-neutral-950 dark:text-neutral-100">{detail.value}</p>
                                 </div>
                             ))}
                         </div>

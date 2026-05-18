@@ -41,13 +41,13 @@ export const FilterPanel = React.memo<Props>(({filters, isLoading, query, onFilt
     };
 
     return (
-        <section className="mt-5 mb-4 rounded-2xl border border-slate-200 bg-white/90 p-3 shadow-sm">
+        <section className="mt-5 mb-4 rounded-2xl border border-neutral-200 bg-white/90 p-3 shadow-sm dark:border-neutral-800 dark:bg-neutral-900/90">
             <div className="grid gap-3 lg:grid-cols-[minmax(260px,1.8fr)_minmax(150px,0.7fr)_minmax(170px,0.7fr)_auto] lg:items-end">
                 <SearchField className="min-w-0" name="stock-search" value={searchText} onChange={handleQueryChange}>
                     <Label className="sr-only">搜尋</Label>
-                    <SearchField.Group className="h-10 rounded-lg border-slate-200 bg-slate-50 shadow-none">
+                    <SearchField.Group className="h-10 rounded-lg border-neutral-200 bg-neutral-100 shadow-none dark:border-neutral-700 dark:bg-neutral-800">
                         <SearchField.SearchIcon>
-                            <Search className="size-4 text-slate-500" />
+                            <Search className="size-4 text-neutral-500 dark:text-neutral-400" />
                         </SearchField.SearchIcon>
                         <SearchField.Input className="w-full text-sm" placeholder="搜尋股票代碼或名稱..." />
                         <SearchField.ClearButton />
@@ -76,22 +76,22 @@ const FilterSelect = React.memo((props: FilterSelectProps) => {
     const {label, options, placeholder, value, onChange} = props;
 
     return (
-        <Select className="text-slate-950" placeholder={placeholder} value={value} onChange={onChange}>
+        <Select className="text-neutral-950 dark:text-neutral-100" placeholder={placeholder} value={value} onChange={onChange}>
             <Label className="sr-only">{label}</Label>
-            <Select.Trigger className="h-10 rounded-lg border-slate-200 bg-slate-50 text-sm font-medium text-slate-950 shadow-none">
+            <Select.Trigger className="h-10 rounded-lg border-neutral-200 bg-neutral-100 text-sm font-medium text-neutral-950 shadow-none dark:border-neutral-700 dark:bg-neutral-800 dark:text-neutral-100">
                 <Select.Value />
                 <Select.Indicator />
             </Select.Trigger>
-            <Select.Popover className="border border-slate-200 bg-white text-slate-950 shadow-xl">
-                <ListBox className="bg-white p-2 text-slate-950">
+            <Select.Popover className="border border-neutral-200 bg-white text-neutral-950 shadow-xl dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-100">
+                <ListBox className="bg-white p-2 text-neutral-950 dark:bg-neutral-900 dark:text-neutral-100">
                     {options.map(option => (
                         <ListBox.Item
                             key={option.value}
-                            className="cursor-pointer rounded-2xl px-3 py-2 text-sm text-slate-950 outline-none hover:bg-emerald-50 data-focused:bg-emerald-50 data-selected:bg-emerald-100"
+                            className="cursor-pointer rounded-2xl px-3 py-2 text-sm text-neutral-950 outline-none hover:bg-emerald-50 data-focused:bg-emerald-50 data-selected:bg-emerald-100 dark:text-neutral-100 dark:hover:bg-emerald-400/10 dark:data-focused:bg-emerald-400/10 dark:data-selected:bg-emerald-400/20"
                             id={option.value}
                             textValue={option.label}
                         >
-                            <span className="font-medium text-slate-950">{option.label}</span>
+                            <span className="font-medium text-neutral-950 dark:text-neutral-100">{option.label}</span>
                         </ListBox.Item>
                     ))}
                 </ListBox>

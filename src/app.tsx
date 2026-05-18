@@ -9,6 +9,7 @@ import type {SortDescriptor} from "@heroui/react";
 import type {ScreenerFilters, StockRow} from "./types/Screener";
 
 const authTokenStorageKey = "stock-screener-api-token";
+const colorModeStorageKey = "stock-screener-color-mode";
 const maintenanceMode = import.meta.env.VITE_MAINTENANCE_MODE === "1";
 
 const defaultFilters: ScreenerFilters = {
@@ -19,11 +20,8 @@ const defaultFilters: ScreenerFilters = {
 };
 
 export const App = React.memo(() => {
-    if (maintenanceMode) {
-        return <MaintenancePage />;
-    }
-
     const [apiToken, setApiToken] = React.useState(() => window.localStorage.getItem(authTokenStorageKey) ?? "");
+    const [isDarkMode, setIsDarkMode] = React.useState(getInitialDarkMode);
     const [tokenInput, setTokenInput] = React.useState("");
     const [filters, setFilters] = React.useState<ScreenerFilters>(defaultFilters);
     const [query, setQuery] = React.useState("");
@@ -32,6 +30,11 @@ export const App = React.memo(() => {
     const [isLoading, setIsLoading] = React.useState(apiToken.length > 0);
     const [authError, setAuthError] = React.useState<string | null>(null);
     const [error, setError] = React.useState<string | null>(null);
+
+    React.useEffect(() => {
+        document.documentElement.classList.toggle("dark", isDarkMode);
+        window.localStorage.setItem(colorModeStorageKey, isDarkMode ? "dark" : "light");
+    }, [isDarkMode]);
 
     React.useEffect(() => {
         if (apiToken.length === 0) {
@@ -138,6 +141,10 @@ export const App = React.memo(() => {
         setTokenInput("");
     };
 
+    const handleDarkModeToggle = () => {
+        setIsDarkMode(!isDarkMode);
+    };
+
     const handleSortChange = (sortDescriptor: SortDescriptor) => {
         const isChangingColumn = String(sortDescriptor.column) !== filters.order;
         const direction = isChangingColumn ? "descending" : sortDescriptor.direction;
@@ -154,15 +161,29 @@ export const App = React.memo(() => {
         direction: filters.ascend ? "ascending" : "descending",
     };
 
+    if (maintenanceMode) {
+        return <MaintenancePage isDarkMode={isDarkMode} onDarkModeToggle={handleDarkModeToggle} />;
+    }
+
     if (apiToken.length === 0) {
-        return <AuthPage error={authError} isAuthenticating={isAuthenticating} tokenInput={tokenInput} onSubmit={handleAuthSubmit} onTokenInputChange={handleTokenInputChange} />;
+        return (
+            <AuthPage
+                error={authError}
+                isAuthenticating={isAuthenticating}
+                isDarkMode={isDarkMode}
+                tokenInput={tokenInput}
+                onDarkModeToggle={handleDarkModeToggle}
+                onSubmit={handleAuthSubmit}
+                onTokenInputChange={handleTokenInputChange}
+            />
+        );
     }
 
     return (
         <React.Fragment>
-            <main className="min-h-screen bg-slate-50 text-slate-950">
+            <main className="min-h-screen bg-neutral-50 text-neutral-950 dark:bg-neutral-950 dark:text-neutral-100">
                 <div className="mx-auto flex min-h-screen w-full max-w-7xl flex-col px-4 py-5 sm:px-6 lg:px-8">
-                    <ScreenHeader count={rows.length} onLogout={handleLogout} />
+                    <ScreenHeader count={rows.length} isDarkMode={isDarkMode} onDarkModeToggle={handleDarkModeToggle} onLogout={handleLogout} />
                     <FilterPanel filters={filters} isLoading={isLoading} query={query} onFiltersChange={handleFiltersChange} onQueryChange={handleQueryChange} onRetry={handleRetry} />
                     <StockResultsTable error={error} isLoading={isLoading} rows={rows} sortDescriptor={sortDescriptor} onSortChange={handleSortChange} />
                 </div>
@@ -170,3 +191,17 @@ export const App = React.memo(() => {
         </React.Fragment>
     );
 });
+
+function getInitialDarkMode(): boolean {
+    const storedColorMode = window.localStorage.getItem(colorModeStorageKey);
+
+    if (storedColorMode === "dark") {
+        return true;
+    }
+
+    if (storedColorMode === "light") {
+        return false;
+    }
+
+    return window.matchMedia("(prefers-color-scheme: dark)").matches;
+}
