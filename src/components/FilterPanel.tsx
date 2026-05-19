@@ -53,7 +53,7 @@ export const FilterPanel = React.memo(() => {
                 </SearchField>
                 <FilterSelect label="板塊" options={sectorOptions} placeholder="板塊" value={filters.sector} onChange={handleSectorChange} />
                 <FilterSelect label="市值" options={marketCapOptions} placeholder="市值" value={filters.marketCap} onChange={handleMarketCapChange} />
-                <Button className="h-10 w-full whitespace-nowrap rounded-lg px-3" isDisabled={isLoading} variant="tertiary" onPress={retryRows}>
+                <Button className="h-10 w-full whitespace-nowrap rounded-lg px-3" isDisabled={isLoading} variant="primary" onPress={retryRows}>
                     <RefreshCw className={isLoading ? "size-4 animate-spin" : "size-4"} />
                     <span>重新整理</span>
                 </Button>
@@ -85,7 +85,7 @@ const FilterSelect = React.memo((props: FilterSelectProps) => {
                     {options.map(option => (
                         <ListBox.Item
                             key={option.value}
-                            className="cursor-pointer rounded-2xl px-3 py-2 text-sm text-neutral-950 outline-none hover:bg-emerald-50 data-focused:bg-emerald-50 data-selected:bg-emerald-100 dark:text-neutral-100 dark:hover:bg-emerald-400/10 dark:data-focused:bg-emerald-400/10 dark:data-selected:bg-emerald-400/20"
+                            className="cursor-pointer rounded-2xl px-3 py-2 text-sm text-neutral-950 outline-none hover:bg-natural-50 data-focused:bg-natural-50 data-selected:bg-natural-100 dark:text-neutral-100 dark:hover:bg-natural-400/10 dark:data-focused:bg-natural-400/10 dark:data-selected:bg-natural-400/20"
                             id={option.value}
                             textValue={option.label}
                         >
