@@ -40,15 +40,15 @@ export interface StockRow {
 }
 
 export interface StockFundamentalDetail {
-    epsPast5Y: number;
+    epsPast5Y: number | null;
     epsPast5YScore: number;
-    forwardPe: number;
+    forwardPe: number | null;
     forwardPeScore: number;
-    marketCap: number;
+    marketCap: number | null;
     marketCapScore: number;
-    peg: number;
+    peg: number | null;
     pegScore: number;
-    roe: number;
+    roe: number | null;
     roeScore: number;
     score: number;
 }
