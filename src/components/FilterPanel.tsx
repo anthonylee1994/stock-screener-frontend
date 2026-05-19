@@ -1,10 +1,12 @@
 import React from "react";
 import type {Key} from "@heroui/react";
-import {Button, Label, ListBox, SearchField, Select} from "@heroui/react";
+import {Button, Label, SearchField} from "@heroui/react";
 import {RefreshCw, Search} from "lucide-react";
 import {marketCapOptions, sectorOptions} from "../constants/FilterOptions";
+import {useDebounce} from "../hooks/useDebounce";
 import {useScreenerStore} from "../stores/useScreenerStore";
 import type {MarketCapFilter, SectorFilter} from "../types/Screener";
+import {FilterSelect} from "./FilterSelect";
 
 export const FilterPanel = React.memo(() => {
     const filters = useScreenerStore(state => state.filters);
@@ -61,55 +63,3 @@ export const FilterPanel = React.memo(() => {
         </section>
     );
 });
-
-type FilterSelectProps = {
-    label: string;
-    options: readonly {label: string; value: string}[];
-    placeholder: string;
-    value: string;
-    onChange: (value: Key | null) => void;
-};
-
-const FilterSelect = React.memo((props: FilterSelectProps) => {
-    const {label, options, placeholder, value, onChange} = props;
-
-    return (
-        <Select className="text-neutral-950 dark:text-neutral-100" placeholder={placeholder} value={value} onChange={onChange}>
-            <Label className="sr-only">{label}</Label>
-            <Select.Trigger className="h-10 rounded-lg border-neutral-200 bg-neutral-100 text-sm font-medium text-neutral-950 shadow-none dark:border-neutral-700 dark:bg-neutral-800 dark:text-neutral-100">
-                <Select.Value />
-                <Select.Indicator />
-            </Select.Trigger>
-            <Select.Popover className="border border-neutral-200 bg-white text-neutral-950 shadow-xl dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-100">
-                <ListBox className="bg-white p-2 text-neutral-950 dark:bg-neutral-900 dark:text-neutral-100">
-                    {options.map(option => (
-                        <ListBox.Item
-                            key={option.value}
-                            className="cursor-pointer rounded-2xl px-3 py-2 text-sm text-neutral-950 outline-none hover:bg-natural-50 data-focused:bg-natural-50 data-selected:bg-natural-100 dark:text-neutral-100 dark:hover:bg-natural-400/10 dark:data-focused:bg-natural-400/10 dark:data-selected:bg-natural-400/20"
-                            id={option.value}
-                            textValue={option.label}
-                        >
-                            <span className="font-medium text-neutral-950 dark:text-neutral-100">{option.label}</span>
-                        </ListBox.Item>
-                    ))}
-                </ListBox>
-            </Select.Popover>
-        </Select>
-    );
-});
-
-function useDebounce<T>(value: T, delayMs: number): T {
-    const [debouncedValue, setDebouncedValue] = React.useState(value);
-
-    React.useEffect(() => {
-        const timeoutId = window.setTimeout(() => {
-            setDebouncedValue(value);
-        }, delayMs);
-
-        return () => {
-            window.clearTimeout(timeoutId);
-        };
-    }, [delayMs, value]);
-
-    return debouncedValue;
-}
