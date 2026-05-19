@@ -3,6 +3,7 @@ import {Modal} from "@heroui/react";
 import type {StockRow} from "../types/Screener";
 import {formatCompactCurrency, formatPercent, formatScore} from "../utils/Format";
 import {getScoreClassName} from "../utils/ScoreStyle";
+import {FinvizChart} from "./FinvizChart";
 
 export type DetailKind = "fundamental" | "technical";
 
@@ -33,6 +34,7 @@ export const ScoreDetailModal = React.memo<Props>(({detailModal, onOpenChange}) 
                     </Modal.Header>
                     <Modal.Body>
                         {row ? <p className="mb-3 text-sm text-neutral-500 dark:text-neutral-400">{row.name}</p> : null}
+                        {row && detailModal?.kind === "technical" ? <FinvizChart className="mb-4" ticker={row.ticker} /> : null}
                         {summary ? (
                             <div className={getScoreClassName(summary.score, "summary")}>
                                 <p className="text-xs font-medium">{summary.label}</p>
