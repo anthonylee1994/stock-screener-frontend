@@ -80,7 +80,6 @@ function getDetailItems(detailModal: DetailModalState): DetailItem[] {
     const {kind, row} = detailModal;
 
     if (kind === "fundamental") {
-        console.log(row.fundamental);
         return [
             {label: "市值", value: formatCompactCurrency(row.fundamental.marketCap ?? 0)},
             {label: "市值得分", value: formatScore(row.fundamental.marketCapScore)},
