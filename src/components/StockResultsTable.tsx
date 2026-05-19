@@ -8,23 +8,25 @@ import {ScoreDetailModal} from "./ScoreDetailModal";
 import type {DetailKind, DetailModalState} from "./ScoreDetailModal";
 import {SortableColumnHeader} from "./SortableColumnHeader";
 import {getSectorDisplayName} from "../constants/FilterOptions";
+import {useScreenerStore} from "../stores/useScreenerStore";
 import {formatCompactCurrency, formatCurrency, formatPercent, formatScore, formatVolume} from "../utils/Format";
 import {getScoreClassName} from "../utils/ScoreStyle";
 import type {StockRow} from "../types/Screener";
 
-interface Props {
-    error: string | null;
-    isLoading: boolean;
-    sortDescriptor: SortDescriptor;
-    rows: StockRow[];
-    onSortChange: (sortDescriptor: SortDescriptor) => void;
-}
-
-export const StockResultsTable = React.memo<Props>(({error, isLoading, rows, sortDescriptor, onSortChange}) => {
+export const StockResultsTable = React.memo(() => {
+    const error = useScreenerStore(state => state.error);
+    const filters = useScreenerStore(state => state.filters);
+    const isLoading = useScreenerStore(state => state.isLoading);
+    const rows = useScreenerStore(state => state.rows);
+    const sortRows = useScreenerStore(state => state.sortRows);
     const [detailModal, setDetailModal] = React.useState<DetailModalState | null>(null);
     const [chartTicker, setChartTicker] = React.useState<string | null>(null);
     const [mobileSelectedRow, setMobileSelectedRow] = React.useState<StockRow | null>(null);
     const [mobileReturnRow, setMobileReturnRow] = React.useState<StockRow | null>(null);
+    const sortDescriptor: SortDescriptor = {
+        column: filters.order,
+        direction: filters.ascend ? "ascending" : "descending",
+    };
 
     const handleDetailPress = (row: StockRow, kind: DetailKind) => {
         setDetailModal({kind, row});
@@ -62,12 +64,12 @@ export const StockResultsTable = React.memo<Props>(({error, isLoading, rows, sor
                     sortDescriptor={sortDescriptor}
                     onDetailPress={handleMobileDetailPress}
                     onSelectedRowChange={setMobileSelectedRow}
-                    onSortChange={onSortChange}
+                    onSortChange={sortRows}
                 />
             </div>
             <Table className="hidden md:block">
                 <Table.ScrollContainer>
-                    <Table.Content aria-label="Stock screener results" className="min-w-[980px]" sortDescriptor={sortDescriptor} onSortChange={onSortChange}>
+                    <Table.Content aria-label="Stock screener results" className="min-w-[980px]" sortDescriptor={sortDescriptor} onSortChange={sortRows}>
                         <Table.Header>
                             <Table.Column className="min-w-[64px]" isRowHeader>
                                 排名

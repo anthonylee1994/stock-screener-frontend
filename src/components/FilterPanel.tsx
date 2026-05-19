@@ -3,18 +3,16 @@ import type {Key} from "@heroui/react";
 import {Button, Label, ListBox, SearchField, Select} from "@heroui/react";
 import {RefreshCw, Search} from "lucide-react";
 import {marketCapOptions, sectorOptions} from "../constants/FilterOptions";
-import type {MarketCapFilter, ScreenerFilters, SectorFilter} from "../types/Screener";
+import {useScreenerStore} from "../stores/useScreenerStore";
+import type {MarketCapFilter, SectorFilter} from "../types/Screener";
 
-interface Props {
-    filters: ScreenerFilters;
-    isLoading: boolean;
-    query: string;
-    onFiltersChange: (filters: ScreenerFilters) => void;
-    onQueryChange: (query: string) => void;
-    onRetry: () => void;
-}
-
-export const FilterPanel = React.memo<Props>(({filters, isLoading, query, onFiltersChange, onQueryChange, onRetry}) => {
+export const FilterPanel = React.memo(() => {
+    const filters = useScreenerStore(state => state.filters);
+    const isLoading = useScreenerStore(state => state.isLoading);
+    const query = useScreenerStore(state => state.query);
+    const retryRows = useScreenerStore(state => state.retryRows);
+    const setFilters = useScreenerStore(state => state.setFilters);
+    const setQuery = useScreenerStore(state => state.setQuery);
     const [searchText, setSearchText] = React.useState(query);
     const debouncedSearchText = useDebounce(searchText, 250);
 
@@ -24,16 +22,16 @@ export const FilterPanel = React.memo<Props>(({filters, isLoading, query, onFilt
 
     React.useEffect(() => {
         if (debouncedSearchText !== query) {
-            onQueryChange(debouncedSearchText);
+            setQuery(debouncedSearchText);
         }
-    }, [debouncedSearchText, onQueryChange, query]);
+    }, [debouncedSearchText, query, setQuery]);
 
     const handleSectorChange = (value: Key | null) => {
-        onFiltersChange({...filters, sector: String(value ?? "All") as SectorFilter});
+        setFilters({...filters, sector: String(value ?? "All") as SectorFilter});
     };
 
     const handleMarketCapChange = (value: Key | null) => {
-        onFiltersChange({...filters, marketCap: String(value ?? "+mid") as MarketCapFilter});
+        setFilters({...filters, marketCap: String(value ?? "+mid") as MarketCapFilter});
     };
 
     const handleQueryChange = (value: string) => {
@@ -55,7 +53,7 @@ export const FilterPanel = React.memo<Props>(({filters, isLoading, query, onFilt
                 </SearchField>
                 <FilterSelect label="板塊" options={sectorOptions} placeholder="板塊" value={filters.sector} onChange={handleSectorChange} />
                 <FilterSelect label="市值" options={marketCapOptions} placeholder="市值" value={filters.marketCap} onChange={handleMarketCapChange} />
-                <Button className="h-10 w-full whitespace-nowrap rounded-lg px-3" isDisabled={isLoading} variant="tertiary" onPress={onRetry}>
+                <Button className="h-10 w-full whitespace-nowrap rounded-lg px-3" isDisabled={isLoading} variant="tertiary" onPress={retryRows}>
                     <RefreshCw className={isLoading ? "size-4 animate-spin" : "size-4"} />
                     <span>重新整理</span>
                 </Button>

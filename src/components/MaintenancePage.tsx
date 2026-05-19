@@ -1,18 +1,17 @@
 import React from "react";
 import {Wrench} from "lucide-react";
 import {ThemeToggleButton} from "./ThemeToggleButton";
+import {useScreenerStore} from "../stores/useScreenerStore";
 
-interface Props {
-    isDarkMode: boolean;
-    onDarkModeToggle: () => void;
-}
+export const MaintenancePage = React.memo(() => {
+    const isDarkMode = useScreenerStore(state => state.isDarkMode);
+    const toggleDarkMode = useScreenerStore(state => state.toggleDarkMode);
 
-export const MaintenancePage = React.memo<Props>(({isDarkMode, onDarkModeToggle}) => {
     return (
         <React.Fragment>
             <main className="min-h-screen bg-neutral-50 text-neutral-950 dark:bg-neutral-950 dark:text-neutral-100">
                 <div className="absolute top-4 right-4">
-                    <ThemeToggleButton isDarkMode={isDarkMode} onPress={onDarkModeToggle} />
+                    <ThemeToggleButton isDarkMode={isDarkMode} onPress={toggleDarkMode} />
                 </div>
                 <div className="mx-auto flex min-h-screen w-full max-w-md flex-col justify-center px-4 py-8 sm:px-6">
                     <section className="rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm dark:border-neutral-800 dark:bg-neutral-900">

@@ -11,21 +11,22 @@
         "format": "prettier --write ."
     },
     "dependencies": {
-        "@heroui/react": "^3.0.5",
-        "@heroui/styles": "^3.0.5",
-        "@tailwindcss/vite": "^4.1.17",
-        "lucide-react": "^0.556.0",
-        "react": "^19.2.0",
-        "react-dom": "^19.2.0",
-        "tailwindcss": "^4.1.17"
+        "@heroui/react": "3.0.5",
+        "@heroui/styles": "3.0.5",
+        "@tailwindcss/vite": "4.3.0",
+        "lucide-react": "1.16.0",
+        "react": "19.2.6",
+        "react-dom": "19.2.6",
+        "tailwindcss": "4.3.0",
+        "zustand": "5.0.13"
     },
     "devDependencies": {
-        "@types/node": "^24.10.1",
-        "@types/react": "^19.2.7",
-        "@types/react-dom": "^19.2.3",
-        "@vitejs/plugin-react": "^5.1.1",
-        "prettier": "^3.7.4",
-        "typescript": "~5.9.3",
-        "vite": "^7.2.4"
+        "@types/node": "25.9.0",
+        "@types/react": "19.2.14",
+        "@types/react-dom": "19.2.3",
+        "@vitejs/plugin-react": "6.0.2",
+        "prettier": "3.8.3",
+        "typescript": "6.0.3",
+        "vite": "8.0.13"
     }
 }
