@@ -21,7 +21,7 @@ export const FinvizChart = React.memo<Props>(({className, ticker}) => {
 });
 
 function buildContainerClassName(className: string | undefined, isLoading: boolean): string {
-    const baseClassName = `relative aspect-[13/6] w-full overflow-hidden rounded-md bg-neutral-100 dark:bg-neutral-800 ${isLoading ? "skeleton--shimmer" : ""}`;
+    const baseClassName = `relative aspect-[13/6] w-full overflow-hidden rounded-md bg-neutral-100 dark:bg-neutral-900 ${isLoading ? "skeleton--shimmer" : ""}`;
 
     if (!className) {
         return baseClassName;
