@@ -97,7 +97,7 @@ export const useScreenerStore = create<ScreenerStore>()((set, get) => {
             }
         },
         retryRows() {
-            set(function (state) {
+            set(state => {
                 return {reloadKey: state.reloadKey + 1};
             });
         },
@@ -122,7 +122,7 @@ export const useScreenerStore = create<ScreenerStore>()((set, get) => {
             set({filters: nextFilters});
         },
         toggleDarkMode() {
-            set(function (state) {
+            set(state => {
                 const isDarkMode = !state.isDarkMode;
 
                 window.localStorage.setItem(colorModeStorageKey, isDarkMode ? "dark" : "light");
