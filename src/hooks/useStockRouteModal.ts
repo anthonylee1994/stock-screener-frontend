@@ -38,12 +38,13 @@ export function useStockRouteModal(rows: StockRow[]): UseStockRouteModalResult {
     const routeRow = tableRouteRow ?? (routeLookupRow?.ticker.toUpperCase() === routeTicker ? routeLookupRow : null);
     const detailModal: DetailModalState | null = routeRow && routeDetailKind ? {kind: routeDetailKind, row: routeRow} : null;
     const selectedStockDetailRow = routeRow && !routeDetailKind ? routeRow : null;
+    const listPath = getListPath(location.search);
 
     React.useEffect(() => {
         if (params.detailKind && !routeDetailKind) {
-            navigate("/", {replace: true});
+            navigate(listPath, {replace: true});
         }
-    }, [params.detailKind, routeDetailKind, navigate]);
+    }, [listPath, params.detailKind, routeDetailKind, navigate]);
 
     React.useEffect(() => {
         if (!routeTicker || tableRouteRow || apiToken.length === 0) {
@@ -58,7 +59,7 @@ export function useStockRouteModal(rows: StockRow[]): UseStockRouteModalResult {
                 const lookupRow = response.data.find(row => row.ticker.toUpperCase() === routeTicker) ?? null;
 
                 if (!lookupRow) {
-                    navigate("/", {replace: true});
+                    navigate(listPath, {replace: true});
                     return;
                 }
 
@@ -74,31 +75,31 @@ export function useStockRouteModal(rows: StockRow[]): UseStockRouteModalResult {
         return () => {
             abortController.abort();
         };
-    }, [apiToken, routeTicker, tableRouteRow, navigate]);
+    }, [apiToken, listPath, routeTicker, tableRouteRow, navigate]);
 
     function handleDetailPress(row: StockRow, kind: DetailKind): void {
-        navigate(getScoreDetailPath(row, kind));
+        navigate(getScoreDetailPath(row, kind, location.search));
     }
 
     function handleStockDetailScorePress(row: StockRow, kind: DetailKind): void {
-        navigate(getScoreDetailPath(row, kind), {state: {returnPath: getStockDetailPath(row)} satisfies RouteState});
+        navigate(getScoreDetailPath(row, kind, location.search), {state: {returnPath: getStockDetailPath(row, location.search)} satisfies RouteState});
     }
 
     function handleStockDetailPress(row: StockRow): void {
-        navigate(getStockDetailPath(row));
+        navigate(getStockDetailPath(row, location.search));
     }
 
     function handleScoreDetailOpenChange(isOpen: boolean): void {
         if (!isOpen) {
             const state = location.state as RouteState | null;
 
-            navigate(state?.returnPath ?? "/");
+            navigate(state?.returnPath ?? listPath);
         }
     }
 
     function handleStockDetailOpenChange(isOpen: boolean): void {
         if (!isOpen) {
-            navigate("/");
+            navigate(listPath);
         }
     }
 
@@ -121,10 +122,14 @@ function getRouteDetailKind(detailKind: string | undefined): DetailKind | null {
     return null;
 }
 
-function getStockDetailPath(row: StockRow): string {
-    return `/${encodeURIComponent(row.ticker.toUpperCase())}`;
+function getListPath(search: string): string {
+    return `/${search}`;
 }
 
-function getScoreDetailPath(row: StockRow, kind: DetailKind): string {
-    return `${getStockDetailPath(row)}/${kind}`;
+function getStockDetailPath(row: StockRow, search: string): string {
+    return `/${encodeURIComponent(row.ticker.toUpperCase())}${search}`;
+}
+
+function getScoreDetailPath(row: StockRow, kind: DetailKind, search: string): string {
+    return `/${encodeURIComponent(row.ticker.toUpperCase())}/${kind}${search}`;
 }

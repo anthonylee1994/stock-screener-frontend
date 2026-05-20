@@ -18,16 +18,28 @@ export const FilterPanel = React.memo(() => {
     const setQuery = useScreenerStore(state => state.setQuery);
     const [searchText, setSearchText] = React.useState(query);
     const debouncedSearchText = useDebounce(searchText, 250);
+    const hasPendingSearchInputRef = React.useRef(false);
 
     React.useEffect(() => {
+        hasPendingSearchInputRef.current = false;
         setSearchText(query);
     }, [query]);
 
     React.useEffect(() => {
+        if (!hasPendingSearchInputRef.current) {
+            return;
+        }
+
+        if (debouncedSearchText !== searchText) {
+            return;
+        }
+
         if (debouncedSearchText !== query) {
             setQuery(debouncedSearchText);
         }
-    }, [debouncedSearchText, query, setQuery]);
+
+        hasPendingSearchInputRef.current = false;
+    }, [debouncedSearchText, query, searchText, setQuery]);
 
     const handleSectorChange = (value: Key | null) => {
         setFilters({...filters, sector: String(value ?? "All") as SectorFilter});
@@ -38,6 +50,7 @@ export const FilterPanel = React.memo(() => {
     };
 
     const handleQueryChange = (value: string) => {
+        hasPendingSearchInputRef.current = true;
         setSearchText(value);
     };
 
