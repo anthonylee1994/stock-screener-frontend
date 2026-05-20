@@ -6,7 +6,7 @@ export const authTokenStorageKey = "stock-screener-api-token";
 interface AuthStore {
     apiToken: string;
     authError: string | null;
-    authenticateWithToken(apiToken: string): void;
+    authenticateWithToken(apiToken: string, signal: AbortSignal): Promise<boolean>;
     isAuthenticating: boolean;
     tokenInput: string;
     login(signal: AbortSignal): Promise<void>;
@@ -22,19 +22,50 @@ export const useAuthStore = create<AuthStore>()((set, get) => {
         authError: null,
         isAuthenticating: false,
         tokenInput: "",
-        authenticateWithToken(apiToken: string) {
+        async authenticateWithToken(apiToken: string, signal: AbortSignal) {
             const nextApiToken = apiToken.trim();
 
             if (nextApiToken.length === 0) {
-                return;
+                set({authError: "請輸入密碼"});
+                return false;
             }
 
-            window.localStorage.setItem(authTokenStorageKey, nextApiToken);
             set({
-                apiToken: nextApiToken,
                 authError: null,
-                tokenInput: "",
+                isAuthenticating: true,
             });
+
+            try {
+                const authorized = await authenticate(nextApiToken, signal);
+
+                if (!authorized) {
+                    set({authError: "密碼唔正確"});
+                    return false;
+                }
+
+                window.localStorage.setItem(authTokenStorageKey, nextApiToken);
+                set({
+                    apiToken: nextApiToken,
+                    authError: null,
+                    tokenInput: "",
+                });
+
+                return true;
+            } catch (authFetchError) {
+                if (signal.aborted) {
+                    return false;
+                }
+
+                set({
+                    authError: authFetchError instanceof Error ? authFetchError.message : "驗證失敗",
+                });
+
+                return false;
+            } finally {
+                if (!signal.aborted) {
+                    set({isAuthenticating: false});
+                }
+            }
         },
         async login(signal: AbortSignal) {
             const nextApiToken = get().tokenInput.trim();

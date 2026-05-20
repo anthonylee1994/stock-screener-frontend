@@ -20,6 +20,7 @@ export const App = React.memo(() => {
     const location = useLocation();
     const authToken = getAuthToken(location.search);
     const authTokenRedirectPath = getAuthTokenRedirectPath(location);
+    const authTokenLoginPath = getAuthTokenLoginPath(location);
 
     React.useEffect(() => {
         document.documentElement.classList.toggle("dark", isDarkMode);
@@ -28,7 +29,10 @@ export const App = React.memo(() => {
     if (authToken) {
         return (
             <Routes>
-                <Route element={<AuthTokenRedirect authToken={authToken} redirectPath={authTokenRedirectPath} onAuthenticate={authenticateWithToken} />} path="*" />
+                <Route
+                    element={<AuthTokenRedirect authToken={authToken} loginPath={authTokenLoginPath} redirectPath={authTokenRedirectPath} onAuthenticate={authenticateWithToken} />}
+                    path="*"
+                />
             </Routes>
         );
     }
@@ -65,16 +69,33 @@ export const App = React.memo(() => {
 
 interface AuthTokenRedirectProps {
     authToken: string;
+    loginPath: string;
     redirectPath: string;
-    onAuthenticate(apiToken: string): void;
+    onAuthenticate(apiToken: string, signal: AbortSignal): Promise<boolean>;
 }
 
-const AuthTokenRedirect = React.memo<AuthTokenRedirectProps>(({authToken, redirectPath, onAuthenticate}) => {
-    React.useEffect(() => {
-        onAuthenticate(authToken);
-    }, [authToken, onAuthenticate]);
+const AuthTokenRedirect = React.memo<AuthTokenRedirectProps>(({authToken, loginPath, redirectPath, onAuthenticate}) => {
+    const [nextPath, setNextPath] = React.useState<string | null>(null);
 
-    return <Navigate replace to={redirectPath} />;
+    React.useEffect(() => {
+        const abortController = new AbortController();
+
+        void onAuthenticate(authToken, abortController.signal).then(isAuthenticated => {
+            if (!abortController.signal.aborted) {
+                setNextPath(isAuthenticated ? redirectPath : loginPath);
+            }
+        });
+
+        return () => {
+            abortController.abort();
+        };
+    }, [authToken, loginPath, onAuthenticate, redirectPath]);
+
+    if (!nextPath) {
+        return null;
+    }
+
+    return <Navigate replace state={nextPath === loginPath ? {returnPath: redirectPath} satisfies RouteState : undefined} to={nextPath} />;
 });
 
 function getReturnPath(location: Location): string | undefined {
@@ -105,4 +126,14 @@ function getAuthTokenRedirectPath(location: Location): string {
     const search = searchParams.toString();
 
     return `${location.pathname}${search ? `?${search}` : ""}${location.hash}`;
+}
+
+function getAuthTokenLoginPath(location: Location): string {
+    const searchParams = new URLSearchParams(location.search);
+
+    searchParams.delete("authToken");
+
+    const search = searchParams.toString();
+
+    return `/login${search ? `?${search}` : ""}${location.hash}`;
 }
