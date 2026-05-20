@@ -11,10 +11,10 @@ export const mobileSortOptions = [
     {id: "change_percent", label: "升跌幅"},
 ] as const;
 
-type Props = {
+interface Props {
     sortDescriptor: SortDescriptor;
     onSortChange: (sortDescriptor: SortDescriptor) => void;
-};
+}
 
 export const MobileSortBar = React.memo<Props>(({sortDescriptor, onSortChange}) => {
     const activeColumn = String(sortDescriptor.column);
