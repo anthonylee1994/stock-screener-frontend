@@ -6,6 +6,7 @@ export const authTokenStorageKey = "stock-screener-api-token";
 interface AuthStore {
     apiToken: string;
     authError: string | null;
+    authenticateWithToken(apiToken: string): void;
     isAuthenticating: boolean;
     tokenInput: string;
     login(signal: AbortSignal): Promise<void>;
@@ -21,6 +22,20 @@ export const useAuthStore = create<AuthStore>()((set, get) => {
         authError: null,
         isAuthenticating: false,
         tokenInput: "",
+        authenticateWithToken(apiToken: string) {
+            const nextApiToken = apiToken.trim();
+
+            if (nextApiToken.length === 0) {
+                return;
+            }
+
+            window.localStorage.setItem(authTokenStorageKey, nextApiToken);
+            set({
+                apiToken: nextApiToken,
+                authError: null,
+                tokenInput: "",
+            });
+        },
         async login(signal: AbortSignal) {
             const nextApiToken = get().tokenInput.trim();
 

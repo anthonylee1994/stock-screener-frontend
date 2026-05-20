@@ -15,12 +15,23 @@ interface RouteState {
 
 export const App = React.memo(() => {
     const apiToken = useAuthStore(state => state.apiToken);
+    const authenticateWithToken = useAuthStore(state => state.authenticateWithToken);
     const isDarkMode = useScreenerStore(state => state.isDarkMode);
     const location = useLocation();
+    const authToken = getAuthToken(location.search);
+    const authTokenRedirectPath = getAuthTokenRedirectPath(location);
 
     React.useEffect(() => {
         document.documentElement.classList.toggle("dark", isDarkMode);
     }, [isDarkMode]);
+
+    if (authToken) {
+        return (
+            <Routes>
+                <Route element={<AuthTokenRedirect authToken={authToken} redirectPath={authTokenRedirectPath} onAuthenticate={authenticateWithToken} />} path="*" />
+            </Routes>
+        );
+    }
 
     if (maintenanceMode) {
         return (
@@ -52,6 +63,20 @@ export const App = React.memo(() => {
     );
 });
 
+interface AuthTokenRedirectProps {
+    authToken: string;
+    redirectPath: string;
+    onAuthenticate(apiToken: string): void;
+}
+
+const AuthTokenRedirect = React.memo<AuthTokenRedirectProps>(({authToken, redirectPath, onAuthenticate}) => {
+    React.useEffect(() => {
+        onAuthenticate(authToken);
+    }, [authToken, onAuthenticate]);
+
+    return <Navigate replace to={redirectPath} />;
+});
+
 function getReturnPath(location: Location): string | undefined {
     const pathname = location.pathname;
 
@@ -66,4 +91,18 @@ function getLoginRedirectPath(location: Location): string {
     const state = location.state as RouteState | null;
 
     return state?.returnPath ?? "/";
+}
+
+function getAuthToken(search: string): string | null {
+    return new URLSearchParams(search).get("authToken");
+}
+
+function getAuthTokenRedirectPath(location: Location): string {
+    const searchParams = new URLSearchParams(location.search);
+
+    searchParams.delete("authToken");
+
+    const search = searchParams.toString();
+
+    return `${location.pathname}${search ? `?${search}` : ""}${location.hash}`;
 }
