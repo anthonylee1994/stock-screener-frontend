@@ -7,10 +7,10 @@ import {ScoreButton} from "./ScoreButton";
 import {ScoreDetailModal} from "./ScoreDetailModal";
 import type {DetailKind, DetailModalState} from "./ScoreDetailModal";
 import {SortableColumnHeader} from "./SortableColumnHeader";
+import {StockDetailModal} from "./StockDetailModal";
 import {getSectorDisplayName} from "../constants/FilterOptions";
 import {useScreenerStore} from "../stores/useScreenerStore";
-import {formatCompactCurrency, formatCurrency, formatPercent, formatScore, formatVolume} from "../utils/Format";
-import {getScoreClassName} from "../utils/ScoreStyle";
+import {formatCompactCurrency, formatCurrency, formatPercent, formatVolume} from "../utils/Format";
 import type {StockRow} from "../types/Screener";
 
 export const StockResultsTable = React.memo(() => {
@@ -21,6 +21,7 @@ export const StockResultsTable = React.memo(() => {
     const sortRows = useScreenerStore(state => state.sortRows);
     const [detailModal, setDetailModal] = React.useState<DetailModalState | null>(null);
     const [chartTicker, setChartTicker] = React.useState<string | null>(null);
+    const [selectedStockDetailRow, setSelectedStockDetailRow] = React.useState<StockRow | null>(null);
     const [mobileSelectedRow, setMobileSelectedRow] = React.useState<StockRow | null>(null);
     const [mobileReturnRow, setMobileReturnRow] = React.useState<StockRow | null>(null);
     const sortDescriptor: SortDescriptor = {
@@ -38,6 +39,11 @@ export const StockResultsTable = React.memo(() => {
         setDetailModal({kind, row});
     };
 
+    const handleStockDetailPress = (row: StockRow) => {
+        setChartTicker(null);
+        setSelectedStockDetailRow(row);
+    };
+
     const handleChartOpenChange = (ticker: string, isOpen: boolean) => {
         setChartTicker(isOpen ? ticker : null);
     };
@@ -50,6 +56,12 @@ export const StockResultsTable = React.memo(() => {
                 setMobileSelectedRow(mobileReturnRow);
                 setMobileReturnRow(null);
             }
+        }
+    };
+
+    const handleStockDetailOpenChange = (isOpen: boolean) => {
+        if (!isOpen) {
+            setSelectedStockDetailRow(null);
         }
     };
 
@@ -95,11 +107,12 @@ export const StockResultsTable = React.memo(() => {
                                 {({sortDirection}) => <SortableColumnHeader sortDirection={sortDirection}>綜合</SortableColumnHeader>}
                             </Table.Column>
                         </Table.Header>
-                        <Table.Body>{renderTableBody(rows, isLoading, error, chartTicker, handleDetailPress, handleChartOpenChange)}</Table.Body>
+                        <Table.Body>{renderTableBody(rows, isLoading, error, chartTicker, handleDetailPress, handleStockDetailPress, handleChartOpenChange)}</Table.Body>
                     </Table.Content>
                 </Table.ScrollContainer>
             </Table>
             <ScoreDetailModal detailModal={detailModal} onOpenChange={handleModalOpenChange} />
+            <StockDetailModal row={selectedStockDetailRow} onDetailPress={handleDetailPress} onOpenChange={handleStockDetailOpenChange} />
         </React.Fragment>
     );
 });
@@ -110,6 +123,7 @@ function renderTableBody(
     error: string | null,
     chartTicker: string | null,
     onDetailPress: (row: StockRow, kind: DetailKind) => void,
+    onStockDetailPress: (row: StockRow) => void,
     onChartOpenChange: (ticker: string, isOpen: boolean) => void
 ): React.ReactNode {
     if (isLoading) {
@@ -189,7 +203,7 @@ function renderTableBody(
                 <ScoreButton score={row.technicalScore} onPress={() => onDetailPress(row, "technical")} />
             </Table.Cell>
             <Table.Cell className="px-2 md:px-4">
-                <span className={getScoreClassName(row.totalScore, "button")}>{formatScore(row.totalScore)}</span>
+                <ScoreButton score={row.totalScore} onPress={() => onStockDetailPress(row)} />
             </Table.Cell>
         </Table.Row>
     ));

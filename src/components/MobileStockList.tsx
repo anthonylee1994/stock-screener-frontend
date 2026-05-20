@@ -1,8 +1,8 @@
 import React from "react";
 import type {SortDescriptor} from "@heroui/react";
 import {MobileSortBar, mobileSortOptions} from "./MobileSortBar";
-import {MobileStockDetailModal} from "./MobileStockDetailModal";
 import type {DetailKind} from "./ScoreDetailModal";
+import {StockDetailModal} from "./StockDetailModal";
 import type {StockRow} from "../types/Screener";
 import {formatCompactCurrency, formatCurrency, formatPercent, formatScore, formatVolume} from "../utils/Format";
 import {getScoreClassName} from "../utils/ScoreStyle";
@@ -76,7 +76,7 @@ export const MobileStockList = React.memo<Props>(({error, isLoading, rows, selec
                         </button>
                     ))
                 )}
-                <MobileStockDetailModal row={selectedRow} onDetailPress={onDetailPress} onOpenChange={handleModalOpenChange} />
+                <StockDetailModal row={selectedRow} onDetailPress={onDetailPress} onOpenChange={handleModalOpenChange} />
             </section>
         </React.Fragment>
     );
