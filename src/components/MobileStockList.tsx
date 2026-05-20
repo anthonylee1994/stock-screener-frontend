@@ -3,8 +3,6 @@ import type {SortDescriptor} from "@heroui/react";
 import classNames from "classnames";
 import {MobileMetricValue} from "./MobileMetricValue";
 import {MobileSortBar, mobileSortOptions} from "./MobileSortBar";
-import type {DetailKind} from "./ScoreDetailModal";
-import {StockDetailModal} from "./StockDetailModal";
 import type {StockRow} from "../types/Screener";
 import {formatCurrency, formatPercent} from "../utils/Format";
 
@@ -12,22 +10,14 @@ interface Props {
     error: string | null;
     isLoading: boolean;
     rows: StockRow[];
-    selectedRow: StockRow | null;
     sortDescriptor: SortDescriptor;
-    onDetailPress: (row: StockRow, kind: DetailKind) => void;
     onSelectedRowChange: (row: StockRow | null) => void;
     onSortChange: (sortDescriptor: SortDescriptor) => void;
 }
 
-export const MobileStockList = React.memo<Props>(({error, isLoading, rows, selectedRow, sortDescriptor, onDetailPress, onSelectedRowChange, onSortChange}) => {
+export const MobileStockList = React.memo<Props>(({error, isLoading, rows, sortDescriptor, onSelectedRowChange, onSortChange}) => {
     const handleRowPress = (row: StockRow) => {
         onSelectedRowChange(row);
-    };
-
-    const handleModalOpenChange = (isOpen: boolean) => {
-        if (!isOpen) {
-            onSelectedRowChange(null);
-        }
     };
 
     const metricLabel = getMobileMetricLabel(sortDescriptor);
@@ -83,7 +73,6 @@ export const MobileStockList = React.memo<Props>(({error, isLoading, rows, selec
                     ))
                 )}
             </section>
-            <StockDetailModal row={selectedRow} onDetailPress={onDetailPress} onOpenChange={handleModalOpenChange} />
         </React.Fragment>
     );
 });

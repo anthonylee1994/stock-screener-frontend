@@ -2,6 +2,7 @@ import React from "react";
 import type {SortDescriptor} from "@heroui/react";
 import {Chip, Popover, Table} from "@heroui/react";
 import classNames from "classnames";
+import {useLocation, useNavigate, useParams} from "react-router";
 import {FinvizChart} from "./FinvizChart";
 import {MobileStockList} from "./MobileStockList";
 import {ScoreButton} from "./ScoreButton";
@@ -10,46 +11,98 @@ import type {DetailKind, DetailModalState} from "./ScoreDetailModal";
 import {SortableColumnHeader} from "./SortableColumnHeader";
 import {StockDetailModal} from "./StockDetailModal";
 import {getSectorDisplayName} from "../constants/FilterOptions";
+import {fetchScreenerRows} from "../services/ScreenerApi";
+import {useAuthStore} from "../stores/useAuthStore";
 import {useScreenerStore} from "../stores/useScreenerStore";
 import {formatCompactCurrency, formatCurrency, formatPercent, formatVolume} from "../utils/Format";
-import type {StockRow} from "../types/Screener";
+import type {ScreenerFilters, StockRow} from "../types/Screener";
+
+interface RouteState {
+    returnPath?: string;
+}
+
+const routeLookupFilters: ScreenerFilters = {
+    ascend: false,
+    marketCap: "+mid",
+    order: "total_score",
+    sector: "All",
+};
 
 export const StockResultsTable = React.memo(() => {
+    const apiToken = useAuthStore(state => state.apiToken);
     const error = useScreenerStore(state => state.error);
     const filters = useScreenerStore(state => state.filters);
     const isLoading = useScreenerStore(state => state.isLoading);
     const rows = useScreenerStore(state => state.rows);
     const sortRows = useScreenerStore(state => state.sortRows);
-    const [detailModal, setDetailModal] = React.useState<DetailModalState | null>(null);
+    const location = useLocation();
+    const navigate = useNavigate();
+    const params = useParams();
     const [chartTicker, setChartTicker] = React.useState<string | null>(null);
-    const [selectedStockDetailRow, setSelectedStockDetailRow] = React.useState<StockRow | null>(null);
-    const [stockDetailReturnRow, setStockDetailReturnRow] = React.useState<StockRow | null>(null);
-    const [mobileSelectedRow, setMobileSelectedRow] = React.useState<StockRow | null>(null);
-    const [mobileReturnRow, setMobileReturnRow] = React.useState<StockRow | null>(null);
+    const [routeLookupRow, setRouteLookupRow] = React.useState<StockRow | null>(null);
+    const routeTicker = params.ticker ? decodeURIComponent(params.ticker).toUpperCase() : null;
+    const routeDetailKind = getRouteDetailKind(params.detailKind);
+    const tableRouteRow = routeTicker ? rows.find(row => row.ticker.toUpperCase() === routeTicker) ?? null : null;
+    const routeRow = tableRouteRow ?? (routeLookupRow?.ticker.toUpperCase() === routeTicker ? routeLookupRow : null);
+    const detailModal: DetailModalState | null = routeRow && routeDetailKind ? {kind: routeDetailKind, row: routeRow} : null;
+    const selectedStockDetailRow = routeRow && !routeDetailKind ? routeRow : null;
     const sortDescriptor: SortDescriptor = {
         column: filters.order,
         direction: filters.ascend ? "ascending" : "descending",
     };
 
-    const handleDetailPress = (row: StockRow, kind: DetailKind) => {
-        setDetailModal({kind, row});
-    };
+    React.useEffect(() => {
+        if (params.detailKind && !routeDetailKind) {
+            navigate("/", {replace: true});
+        }
+    }, [params.detailKind, routeDetailKind, navigate]);
 
-    const handleMobileDetailPress = (row: StockRow, kind: DetailKind) => {
-        setMobileSelectedRow(null);
-        setMobileReturnRow(row);
-        setDetailModal({kind, row});
+    React.useEffect(() => {
+        if (!routeTicker || tableRouteRow || apiToken.length === 0) {
+            setRouteLookupRow(null);
+            return;
+        }
+
+        const abortController = new AbortController();
+
+        void fetchScreenerRows(routeLookupFilters, routeTicker, apiToken, abortController.signal)
+            .then(response => {
+                const lookupRow = response.data.find(row => row.ticker.toUpperCase() === routeTicker) ?? null;
+
+                if (!lookupRow) {
+                    navigate("/", {replace: true});
+                    return;
+                }
+
+                setRouteLookupRow(lookupRow);
+            })
+            .catch(fetchError => {
+                if (!abortController.signal.aborted) {
+                    console.error(fetchError);
+                    setRouteLookupRow(null);
+                }
+            });
+
+        return () => {
+            abortController.abort();
+        };
+    }, [apiToken, routeTicker, tableRouteRow, navigate]);
+
+    const handleDetailPress = (row: StockRow, kind: DetailKind) => {
+        navigate(getScoreDetailPath(row, kind));
     };
 
     const handleStockDetailModalDetailPress = (row: StockRow, kind: DetailKind) => {
-        setSelectedStockDetailRow(null);
-        setStockDetailReturnRow(row);
-        setDetailModal({kind, row});
+        navigate(getScoreDetailPath(row, kind), {state: {returnPath: getStockDetailPath(row)} satisfies RouteState});
     };
 
     const handleStockDetailPress = (row: StockRow) => {
         setChartTicker(null);
-        setSelectedStockDetailRow(row);
+        navigate(getStockDetailPath(row));
+    };
+
+    const handleMobileSelectedRowChange = (row: StockRow | null) => {
+        navigate(row ? getStockDetailPath(row) : "/");
     };
 
     const handleChartOpenChange = (ticker: string, isOpen: boolean) => {
@@ -58,23 +111,15 @@ export const StockResultsTable = React.memo(() => {
 
     const handleModalOpenChange = (isOpen: boolean) => {
         if (!isOpen) {
-            setDetailModal(null);
+            const state = location.state as RouteState | null;
 
-            if (mobileReturnRow) {
-                setMobileSelectedRow(mobileReturnRow);
-                setMobileReturnRow(null);
-            }
-
-            if (stockDetailReturnRow) {
-                setSelectedStockDetailRow(stockDetailReturnRow);
-                setStockDetailReturnRow(null);
-            }
+            navigate(state?.returnPath ?? "/");
         }
     };
 
     const handleStockDetailOpenChange = (isOpen: boolean) => {
         if (!isOpen) {
-            setSelectedStockDetailRow(null);
+            navigate("/");
         }
     };
 
@@ -85,10 +130,8 @@ export const StockResultsTable = React.memo(() => {
                     error={error}
                     isLoading={isLoading}
                     rows={rows}
-                    selectedRow={mobileSelectedRow}
                     sortDescriptor={sortDescriptor}
-                    onDetailPress={handleMobileDetailPress}
-                    onSelectedRowChange={setMobileSelectedRow}
+                    onSelectedRowChange={handleMobileSelectedRowChange}
                     onSortChange={sortRows}
                 />
             </div>
@@ -129,6 +172,22 @@ export const StockResultsTable = React.memo(() => {
         </React.Fragment>
     );
 });
+
+function getRouteDetailKind(detailKind: string | undefined): DetailKind | null {
+    if (detailKind === "fundamental" || detailKind === "technical") {
+        return detailKind;
+    }
+
+    return null;
+}
+
+function getStockDetailPath(row: StockRow): string {
+    return `/${encodeURIComponent(row.ticker.toUpperCase())}`;
+}
+
+function getScoreDetailPath(row: StockRow, kind: DetailKind): string {
+    return `${getStockDetailPath(row)}/${kind}`;
+}
 
 function renderTableBody(
     rows: StockRow[],

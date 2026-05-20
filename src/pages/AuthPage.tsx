@@ -1,11 +1,17 @@
 import React from "react";
 import {Button, Form, InputGroup, Label} from "@heroui/react";
 import {Eye, EyeOff, KeyRound} from "lucide-react";
+import {useLocation, useNavigate} from "react-router";
 import {ThemeToggleButton} from "../components/ThemeToggleButton";
 import {useAuthStore} from "../stores/useAuthStore";
 import {useScreenerStore} from "../stores/useScreenerStore";
 
+interface LocationState {
+    returnPath?: string;
+}
+
 export const AuthPage = React.memo(() => {
+    const apiToken = useAuthStore(state => state.apiToken);
     const authError = useAuthStore(state => state.authError);
     const isAuthenticating = useAuthStore(state => state.isAuthenticating);
     const login = useAuthStore(state => state.login);
@@ -13,14 +19,24 @@ export const AuthPage = React.memo(() => {
     const tokenInput = useAuthStore(state => state.tokenInput);
     const isDarkMode = useScreenerStore(state => state.isDarkMode);
     const toggleDarkMode = useScreenerStore(state => state.toggleDarkMode);
+    const location = useLocation();
+    const navigate = useNavigate();
     const abortControllerRef = React.useRef<AbortController | null>(null);
     const [isPasswordVisible, setIsPasswordVisible] = React.useState(false);
+    const locationState = location.state as LocationState | null;
+    const returnPath = locationState?.returnPath ?? "/";
 
     React.useEffect(() => {
         return () => {
             abortControllerRef.current?.abort();
         };
     }, []);
+
+    React.useEffect(() => {
+        if (apiToken.length > 0) {
+            navigate(returnPath, {replace: true});
+        }
+    }, [apiToken, returnPath, navigate]);
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
