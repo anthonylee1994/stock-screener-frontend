@@ -31,7 +31,7 @@ export const StockDetailModal = React.memo<Props>(({row, onDetailPress, onOpenCh
 
     return (
         <Modal.Backdrop isOpen={row !== null} onOpenChange={onOpenChange}>
-            <Modal.Container size="lg" placement="center">
+            <Modal.Container size="lg" placement="center" scroll="outside">
                 <Modal.Dialog className="dark:bg-neutral-900">
                     <Modal.CloseTrigger />
                     <Modal.Header>

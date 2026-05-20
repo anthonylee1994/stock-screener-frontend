@@ -30,7 +30,7 @@ export const ScoreDetailModal = React.memo<Props>(({detailModal, onOpenChange}) 
 
     return (
         <Modal.Backdrop isOpen={detailModal !== null} onOpenChange={onOpenChange}>
-            <Modal.Container size="lg" placement="center">
+            <Modal.Container size="lg" placement="center" scroll="outside">
                 <Modal.Dialog className="dark:bg-neutral-900">
                     <Modal.CloseTrigger />
                     <Modal.Header>
@@ -91,10 +91,18 @@ function getDetailItems(detailModal: DetailModalState): DetailItem[] {
             {label: "預測市盈率得分", value: formatScore(row.fundamental.forwardPeScore)},
             {label: "PEG", value: formatNumber(row.fundamental.peg ?? 0)},
             {label: "PEG 得分", value: formatScore(row.fundamental.pegScore)},
-            {label: "過去5年每股盈利", value: formatPercent(row.fundamental.epsPast5Y ?? 0)},
-            {label: "過去5年每股盈利得分", value: formatScore(row.fundamental.epsPast5YScore)},
+            {label: "市銷率", value: formatNumber(row.fundamental.ps ?? 0)},
+            {label: "市銷率得分", value: formatScore(row.fundamental.psScore)},
+            {label: "過去5年每股盈利", value: formatPercent(row.fundamental.epsPast5y ?? 0)},
+            {label: "過去5年每股盈利得分", value: formatScore(row.fundamental.epsPast5yScore)},
+            {label: "過去5年每股營收", value: formatPercent(row.fundamental.salesPast5y ?? 0)},
+            {label: "過去5年每股營收得分", value: formatScore(row.fundamental.salesPast5yScore)},
             {label: "ROE", value: formatPercent(row.fundamental.roe ?? 0)},
             {label: "ROE 得分", value: formatScore(row.fundamental.roeScore)},
+            {label: "純利率", value: formatPercent(row.fundamental.profitMargin ?? 0)},
+            {label: "純利率得分", value: formatScore(row.fundamental.profitMarginScore)},
+            {label: "負債比率", value: formatPercent(row.fundamental.debtEquity ?? 0)},
+            {label: "負債比率得分", value: formatScore(row.fundamental.debtEquityScore)},
         ];
     }
 

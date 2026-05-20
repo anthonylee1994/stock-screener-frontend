@@ -40,16 +40,24 @@ export interface StockRow {
 }
 
 export interface StockFundamentalDetail {
-    epsPast5Y: number | null;
-    epsPast5YScore: number;
-    forwardPe: number | null;
-    forwardPeScore: number;
     marketCap: number | null;
-    marketCapScore: number;
+    forwardPe: number | null;
     peg: number | null;
-    pegScore: number;
+    ps: number | null;
+    epsPast5y: number | null;
+    salesPast5y: number | null;
     roe: number | null;
+    profitMargin: number | null;
+    debtEquity: number | null;
+    marketCapScore: number;
+    forwardPeScore: number;
+    pegScore: number;
+    psScore: number;
+    epsPast5yScore: number;
+    salesPast5yScore: number;
     roeScore: number;
+    profitMarginScore: number;
+    debtEquityScore: number;
     score: number;
 }
 
@@ -71,17 +79,25 @@ export type ScreenerApiRow = {
     change_percent: number;
     total_score: number;
     fundamental: {
-        fundamental_score: number;
-        market_cap: number;
-        forward_pe: number;
-        peg: number;
-        eps_past_5y: number;
-        roe: number;
+        market_cap: number | null;
+        forward_pe: number | null;
+        peg: number | null;
+        ps: number | null;
+        eps_past_5y: number | null;
+        sales_past_5y: number | null;
+        roe: number | null;
+        profit_margin: number | null;
+        debt_equity: number | null;
         market_cap_score: number;
         forward_pe_score: number;
         peg_score: number;
+        ps_score: number;
         eps_past_5y_score: number;
+        sales_past_5y_score: number;
         roe_score: number;
+        profit_margin_score: number;
+        debt_equity_score: number;
+        fundamental_score: number;
     };
     technical: {
         long_term_score: number;
