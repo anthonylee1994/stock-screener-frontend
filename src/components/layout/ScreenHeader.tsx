@@ -2,8 +2,8 @@ import React from "react";
 import {Button, Chip, Tooltip} from "@heroui/react";
 import {LogOut} from "lucide-react";
 import {ThemeToggleButton} from "./ThemeToggleButton";
-import {useAuthStore} from "../stores/useAuthStore";
-import {useScreenerStore} from "../stores/useScreenerStore";
+import {useAuthStore} from "../../stores/useAuthStore";
+import {useScreenerStore} from "../../stores/useScreenerStore";
 
 export const ScreenHeader = React.memo(() => {
     const clearRows = useScreenerStore(state => state.clearRows);

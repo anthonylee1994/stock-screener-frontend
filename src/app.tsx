@@ -1,8 +1,8 @@
 import React from "react";
 import {Navigate, Route, Routes, useLocation} from "react-router";
 import type {Location} from "react-router";
-import {AuthTokenRedirect} from "./components/AuthTokenRedirect";
-import {MaintenancePage} from "./components/MaintenancePage";
+import {AuthTokenRedirect} from "./components/app/AuthTokenRedirect";
+import {MaintenancePage} from "./components/app/MaintenancePage";
 import {AuthPage} from "./pages/AuthPage";
 import {ScreenerPage} from "./pages/ScreenerPage";
 import {useAuthStore} from "./stores/useAuthStore";

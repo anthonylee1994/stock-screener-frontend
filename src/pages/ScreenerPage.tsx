@@ -1,8 +1,8 @@
 import React from "react";
 import {useLocation, useNavigate} from "react-router";
-import {FilterPanel} from "../components/FilterPanel";
-import {ScreenHeader} from "../components/ScreenHeader";
-import {StockResultsTable} from "../components/StockResultsTable";
+import {FilterPanel} from "../components/filters/FilterPanel";
+import {ScreenHeader} from "../components/layout/ScreenHeader";
+import {StockResultsTable} from "../components/stocks/StockResultsTable";
 import {marketCapOptions, orderOptions, sectorOptions} from "../constants/FilterOptions";
 import {useAuthStore} from "../stores/useAuthStore";
 import {useScreenerStore} from "../stores/useScreenerStore";

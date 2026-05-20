@@ -1,7 +1,7 @@
 import React from "react";
 import {Button} from "@heroui/react";
-import {formatScore} from "../utils/Format";
-import {getScoreClassName} from "../utils/ScoreStyle";
+import {formatScore} from "../../utils/Format";
+import {getScoreClassName} from "../../utils/ScoreStyle";
 
 interface Props {
     score: number;

@@ -1,12 +1,12 @@
 import React from "react";
 import type {SortDescriptor} from "@heroui/react";
+import {ScoreDetailModal} from "../stock-detail/ScoreDetailModal";
+import {StockDetailModal} from "../stock-detail/StockDetailModal";
 import {DesktopStockTable} from "./DesktopStockTable";
 import {MobileStockList} from "./MobileStockList";
-import {ScoreDetailModal} from "./ScoreDetailModal";
-import {StockDetailModal} from "./StockDetailModal";
-import {useStockRouteModal} from "../hooks/useStockRouteModal";
-import {useScreenerStore} from "../stores/useScreenerStore";
-import type {StockRow} from "../types/Screener";
+import {useStockRouteModal} from "../../hooks/useStockRouteModal";
+import {useScreenerStore} from "../../stores/useScreenerStore";
+import type {StockRow} from "../../types/Screener";
 
 export const StockResultsTable = React.memo(() => {
     const error = useScreenerStore(state => state.error);

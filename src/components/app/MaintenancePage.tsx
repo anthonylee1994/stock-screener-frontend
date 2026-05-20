@@ -1,7 +1,7 @@
 import React from "react";
 import {Wrench} from "lucide-react";
-import {ThemeToggleButton} from "./ThemeToggleButton";
-import {useScreenerStore} from "../stores/useScreenerStore";
+import {ThemeToggleButton} from "../layout/ThemeToggleButton";
+import {useScreenerStore} from "../../stores/useScreenerStore";
 
 export const MaintenancePage = React.memo(() => {
     const isDarkMode = useScreenerStore(state => state.isDarkMode);

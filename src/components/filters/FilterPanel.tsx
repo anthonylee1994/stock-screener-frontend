@@ -3,10 +3,10 @@ import type {Key} from "@heroui/react";
 import {Button, Label, SearchField} from "@heroui/react";
 import classNames from "classnames";
 import {RefreshCw, Search} from "lucide-react";
-import {marketCapOptions, sectorOptions} from "../constants/FilterOptions";
-import {useDebounce} from "../hooks/useDebounce";
-import {useScreenerStore} from "../stores/useScreenerStore";
-import type {MarketCapFilter, SectorFilter} from "../types/Screener";
+import {marketCapOptions, sectorOptions} from "../../constants/FilterOptions";
+import {useDebounce} from "../../hooks/useDebounce";
+import {useScreenerStore} from "../../stores/useScreenerStore";
+import type {MarketCapFilter, SectorFilter} from "../../types/Screener";
 import {FilterSelect} from "./FilterSelect";
 
 export const FilterPanel = React.memo(() => {

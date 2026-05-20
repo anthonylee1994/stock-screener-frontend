@@ -1,17 +1,10 @@
 import React from "react";
 import {Modal} from "@heroui/react";
 import classNames from "classnames";
-import type {StockRow} from "../types/Screener";
-import {formatCompactCurrency, formatPercent, formatScore} from "../utils/Format";
-import {getScoreClassName} from "../utils/ScoreStyle";
 import {FinvizChart} from "./FinvizChart";
-
-export type DetailKind = "fundamental" | "technical";
-
-export interface DetailModalState {
-    kind: DetailKind;
-    row: StockRow;
-}
+import type {DetailModalState} from "../../types/StockDetail";
+import {formatCompactCurrency, formatPercent, formatScore} from "../../utils/Format";
+import {getScoreClassName} from "../../utils/ScoreStyle";
 
 interface DetailItem {
     label: string;

@@ -1,6 +1,6 @@
 import React from "react";
-import {formatScore} from "../utils/Format";
-import {getScoreClassName} from "../utils/ScoreStyle";
+import {formatScore} from "../../utils/Format";
+import {getScoreClassName} from "../../utils/ScoreStyle";
 
 interface Props {
     label: string;

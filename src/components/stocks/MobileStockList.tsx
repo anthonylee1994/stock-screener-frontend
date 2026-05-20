@@ -3,8 +3,8 @@ import type {SortDescriptor} from "@heroui/react";
 import classNames from "classnames";
 import {MobileMetricValue} from "./MobileMetricValue";
 import {MobileSortBar, mobileSortOptions} from "./MobileSortBar";
-import type {StockRow} from "../types/Screener";
-import {formatCurrency, formatPercent} from "../utils/Format";
+import type {StockRow} from "../../types/Screener";
+import {formatCurrency, formatPercent} from "../../utils/Format";
 
 interface Props {
     error: string | null;
