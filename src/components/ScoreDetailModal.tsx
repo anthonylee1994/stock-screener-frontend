@@ -101,8 +101,8 @@ function getDetailItems(detailModal: DetailModalState): DetailItem[] {
             {label: "ROE 得分", value: formatScore(row.fundamental.roeScore)},
             {label: "純利率", value: formatPercent(row.fundamental.profitMargin ?? 0, false)},
             {label: "純利率得分", value: formatScore(row.fundamental.profitMarginScore)},
-            {label: "負債比率", value: formatPercent(row.fundamental.debtEquity ?? 0, false)},
-            {label: "負債比率得分", value: formatScore(row.fundamental.debtEquityScore)},
+            {label: "負債/資產比率", value: formatNumber(row.fundamental.debtEquity ?? 0)},
+            {label: "負債/資產比率得分", value: formatScore(row.fundamental.debtEquityScore)},
         ];
     }
 
