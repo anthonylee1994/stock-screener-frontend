@@ -23,6 +23,7 @@ export const StockResultsTable = React.memo(() => {
     const [detailModal, setDetailModal] = React.useState<DetailModalState | null>(null);
     const [chartTicker, setChartTicker] = React.useState<string | null>(null);
     const [selectedStockDetailRow, setSelectedStockDetailRow] = React.useState<StockRow | null>(null);
+    const [stockDetailReturnRow, setStockDetailReturnRow] = React.useState<StockRow | null>(null);
     const [mobileSelectedRow, setMobileSelectedRow] = React.useState<StockRow | null>(null);
     const [mobileReturnRow, setMobileReturnRow] = React.useState<StockRow | null>(null);
     const sortDescriptor: SortDescriptor = {
@@ -37,6 +38,12 @@ export const StockResultsTable = React.memo(() => {
     const handleMobileDetailPress = (row: StockRow, kind: DetailKind) => {
         setMobileSelectedRow(null);
         setMobileReturnRow(row);
+        setDetailModal({kind, row});
+    };
+
+    const handleStockDetailModalDetailPress = (row: StockRow, kind: DetailKind) => {
+        setSelectedStockDetailRow(null);
+        setStockDetailReturnRow(row);
         setDetailModal({kind, row});
     };
 
@@ -56,6 +63,11 @@ export const StockResultsTable = React.memo(() => {
             if (mobileReturnRow) {
                 setMobileSelectedRow(mobileReturnRow);
                 setMobileReturnRow(null);
+            }
+
+            if (stockDetailReturnRow) {
+                setSelectedStockDetailRow(stockDetailReturnRow);
+                setStockDetailReturnRow(null);
             }
         }
     };
@@ -113,7 +125,7 @@ export const StockResultsTable = React.memo(() => {
                 </Table.ScrollContainer>
             </Table>
             <ScoreDetailModal detailModal={detailModal} onOpenChange={handleModalOpenChange} />
-            <StockDetailModal row={selectedStockDetailRow} onDetailPress={handleDetailPress} onOpenChange={handleStockDetailOpenChange} />
+            <StockDetailModal row={selectedStockDetailRow} onDetailPress={handleStockDetailModalDetailPress} onOpenChange={handleStockDetailOpenChange} />
         </React.Fragment>
     );
 });
