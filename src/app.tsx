@@ -1,6 +1,7 @@
 import React from "react";
 import {Navigate, Route, Routes, useLocation} from "react-router";
 import type {Location} from "react-router";
+import {AuthTokenRedirect} from "./components/AuthTokenRedirect";
 import {MaintenancePage} from "./components/MaintenancePage";
 import {AuthPage} from "./pages/AuthPage";
 import {ScreenerPage} from "./pages/ScreenerPage";
@@ -65,37 +66,6 @@ export const App = React.memo(() => {
             <Route element={<Navigate replace to="/" />} path="*" />
         </Routes>
     );
-});
-
-interface AuthTokenRedirectProps {
-    authToken: string;
-    loginPath: string;
-    redirectPath: string;
-    onAuthenticate(apiToken: string, signal: AbortSignal): Promise<boolean>;
-}
-
-const AuthTokenRedirect = React.memo<AuthTokenRedirectProps>(({authToken, loginPath, redirectPath, onAuthenticate}) => {
-    const [nextPath, setNextPath] = React.useState<string | null>(null);
-
-    React.useEffect(() => {
-        const abortController = new AbortController();
-
-        void onAuthenticate(authToken, abortController.signal).then(isAuthenticated => {
-            if (!abortController.signal.aborted) {
-                setNextPath(isAuthenticated ? redirectPath : loginPath);
-            }
-        });
-
-        return () => {
-            abortController.abort();
-        };
-    }, [authToken, loginPath, onAuthenticate, redirectPath]);
-
-    if (!nextPath) {
-        return null;
-    }
-
-    return <Navigate replace state={nextPath === loginPath ? {returnPath: redirectPath} satisfies RouteState : undefined} to={nextPath} />;
 });
 
 function getReturnPath(location: Location): string | undefined {
