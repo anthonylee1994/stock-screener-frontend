@@ -13,6 +13,16 @@ export interface DetailModalState {
     row: StockRow;
 }
 
+interface DetailItem {
+    label: string;
+    value: string;
+}
+
+interface DetailSummary {
+    label: string;
+    score: number;
+}
+
 interface Props {
     detailModal: DetailModalState | null;
     onOpenChange: (isOpen: boolean) => void;
@@ -59,16 +69,6 @@ export const ScoreDetailModal = React.memo<Props>(({detailModal, onOpenChange}) 
         </Modal.Backdrop>
     );
 });
-
-interface DetailItem {
-    label: string;
-    value: string;
-}
-
-interface DetailSummary {
-    label: string;
-    score: number;
-}
 
 function getDetailSummary(detailModal: DetailModalState): DetailSummary {
     const {kind, row} = detailModal;
