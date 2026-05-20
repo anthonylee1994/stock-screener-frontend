@@ -1,5 +1,6 @@
 import React from "react";
 import type {SortDescriptor} from "@heroui/react";
+import classNames from "classnames";
 import {ArrowDown, ArrowUp} from "lucide-react";
 
 export const mobileSortOptions = [
@@ -35,9 +36,10 @@ export const MobileSortBar = React.memo<Props>(({sortDescriptor, onSortChange}) 
                     <div className="flex w-max min-w-full items-center gap-2 py-1">
                         {mobileSortOptions.map(option => {
                             const isSelected = activeColumn === option.id;
-                            const className = isSelected
-                                ? "shrink-0 whitespace-nowrap rounded-lg bg-neutral-950 px-2.5 py-1.5 text-xs font-semibold text-white dark:bg-neutral-100 dark:text-neutral-950"
-                                : "shrink-0 whitespace-nowrap rounded-lg px-2.5 py-1.5 text-xs font-semibold text-neutral-500 active:bg-neutral-100 dark:text-neutral-400 dark:active:bg-neutral-800";
+                            const className = classNames("shrink-0 whitespace-nowrap rounded-lg px-2.5 py-1.5 text-xs font-semibold", {
+                                "bg-neutral-950 text-white dark:bg-neutral-100 dark:text-neutral-950": isSelected,
+                                "text-neutral-500 active:bg-neutral-100 dark:text-neutral-400 dark:active:bg-neutral-800": !isSelected,
+                            });
 
                             return (
                                 <button

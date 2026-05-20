@@ -1,19 +1,21 @@
+import classNames from "classnames";
+
 export function getScoreClassName(score: number, variant: "button" | "mobilePill" | "pill" | "summary" = "pill"): string {
     const baseClassName = getScoreBaseClassName(variant);
 
     if (score >= 80) {
-        return `${baseClassName} border-emerald-200 bg-emerald-100 text-emerald-700 dark:border-emerald-400/30 dark:bg-emerald-400/15 dark:text-emerald-300`;
+        return classNames(baseClassName, "border-emerald-200 bg-emerald-100 text-emerald-700 dark:border-emerald-400/30 dark:bg-emerald-400/15 dark:text-emerald-300");
     }
 
     if (score >= 60) {
-        return `${baseClassName} border-lime-200 bg-lime-100 text-lime-700 dark:border-lime-400/30 dark:bg-lime-400/15 dark:text-lime-300`;
+        return classNames(baseClassName, "border-lime-200 bg-lime-100 text-lime-700 dark:border-lime-400/30 dark:bg-lime-400/15 dark:text-lime-300");
     }
 
     if (score >= 40) {
-        return `${baseClassName} border-amber-200 bg-amber-100 text-amber-700 dark:border-amber-400/30 dark:bg-amber-400/15 dark:text-amber-300`;
+        return classNames(baseClassName, "border-amber-200 bg-amber-100 text-amber-700 dark:border-amber-400/30 dark:bg-amber-400/15 dark:text-amber-300");
     }
 
-    return `${baseClassName} border-red-200 bg-red-100 text-red-700 dark:border-red-400/30 dark:bg-red-400/15 dark:text-red-300`;
+    return classNames(baseClassName, "border-red-200 bg-red-100 text-red-700 dark:border-red-400/30 dark:bg-red-400/15 dark:text-red-300");
 }
 
 function getScoreBaseClassName(variant: "button" | "mobilePill" | "pill" | "summary"): string {

@@ -1,5 +1,6 @@
 import React from "react";
 import {Modal} from "@heroui/react";
+import classNames from "classnames";
 import type {StockRow} from "../types/Screener";
 import {formatCompactCurrency, formatPercent, formatScore} from "../utils/Format";
 import {getScoreClassName} from "../utils/ScoreStyle";
@@ -22,7 +23,10 @@ export const ScoreDetailModal = React.memo<Props>(({detailModal, onOpenChange}) 
     const title = detailModal?.kind === "fundamental" ? "基本面詳情" : "技術面詳情";
     const details = detailModal ? getDetailItems(detailModal) : [];
     const summary = detailModal ? getDetailSummary(detailModal) : null;
-    const gridClassName = detailModal?.kind === "technical" ? "grid grid-cols-3 gap-3" : "grid gap-3 grid-cols-2";
+    const gridClassName = classNames("grid gap-3", {
+        "grid-cols-3": detailModal?.kind === "technical",
+        "grid-cols-2": detailModal?.kind !== "technical",
+    });
 
     return (
         <Modal.Backdrop isOpen={detailModal !== null} onOpenChange={onOpenChange}>

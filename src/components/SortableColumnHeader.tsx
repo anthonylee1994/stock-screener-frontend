@@ -1,4 +1,5 @@
 import React from "react";
+import classNames from "classnames";
 import {ChevronUp} from "lucide-react";
 
 interface Props {
@@ -7,7 +8,7 @@ interface Props {
 }
 
 export const SortableColumnHeader = React.memo<Props>(({children, sortDirection}) => {
-    const iconClassName = sortDirection === "descending" ? "size-3 rotate-180 transition-transform" : "size-3 transition-transform";
+    const iconClassName = classNames("size-3 transition-transform", {"rotate-180": sortDirection === "descending"});
 
     return (
         <span className="flex items-center justify-between gap-2">

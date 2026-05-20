@@ -1,6 +1,7 @@
 import React from "react";
 import type {SortDescriptor} from "@heroui/react";
 import {Chip, Popover, Table} from "@heroui/react";
+import classNames from "classnames";
 import {FinvizChart} from "./FinvizChart";
 import {MobileStockList} from "./MobileStockList";
 import {ScoreButton} from "./ScoreButton";
@@ -192,7 +193,14 @@ function renderTableBody(
             <Table.Cell className="px-2 md:px-4">
                 <div className="text-right">
                     <p className="text-base font-semibold text-neutral-950 dark:text-neutral-100">{formatCurrency(row.price)}</p>
-                    <p className={row.changePercent >= 0 ? "text-sm text-emerald-600 dark:text-emerald-400" : "text-sm text-red-500 dark:text-red-400"}>{formatPercent(row.changePercent)}</p>
+                    <p
+                        className={classNames("text-sm", {
+                            "text-emerald-600 dark:text-emerald-400": row.changePercent >= 0,
+                            "text-red-500 dark:text-red-400": row.changePercent < 0,
+                        })}
+                    >
+                        {formatPercent(row.changePercent)}
+                    </p>
                 </div>
             </Table.Cell>
             <Table.Cell className="hidden md:table-cell">{formatVolume(row.volume)}</Table.Cell>

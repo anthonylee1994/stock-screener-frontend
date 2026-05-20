@@ -1,5 +1,6 @@
 import React from "react";
 import type {SortDescriptor} from "@heroui/react";
+import classNames from "classnames";
 import {MobileMetricValue} from "./MobileMetricValue";
 import {MobileSortBar, mobileSortOptions} from "./MobileSortBar";
 import type {DetailKind} from "./ScoreDetailModal";
@@ -66,7 +67,12 @@ export const MobileStockList = React.memo<Props>(({error, isLoading, rows, selec
                             </div>
                             <div className="text-right">
                                 <p className="text-[13px] font-semibold leading-5 text-neutral-950 dark:text-neutral-100">{formatCurrency(row.price)}</p>
-                                <p className={row.changePercent >= 0 ? "text-xs leading-5 text-emerald-600 dark:text-emerald-400" : "text-xs leading-5 text-red-500 dark:text-red-400"}>
+                                <p
+                                    className={classNames("text-xs leading-5", {
+                                        "text-emerald-600 dark:text-emerald-400": row.changePercent >= 0,
+                                        "text-red-500 dark:text-red-400": row.changePercent < 0,
+                                    })}
+                                >
                                     {formatPercent(row.changePercent)}
                                 </p>
                             </div>

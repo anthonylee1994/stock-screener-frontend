@@ -1,5 +1,6 @@
 import React from "react";
 import type {SortDescriptor} from "@heroui/react";
+import classNames from "classnames";
 import type {StockRow} from "../types/Screener";
 import {formatCompactCurrency, formatPercent, formatScore, formatVolume} from "../utils/Format";
 import {getScoreClassName} from "../utils/ScoreStyle";
@@ -23,7 +24,10 @@ export const MobileMetricValue = React.memo<Props>(({row, sortDescriptor}) => {
     if (column === "change_percent") {
         return (
             <span
-                className={row.changePercent >= 0 ? "text-[13px] font-semibold leading-5 text-emerald-600 dark:text-emerald-400" : "text-[13px] font-semibold leading-5 text-red-500 dark:text-red-400"}
+                className={classNames("text-[13px] font-semibold leading-5", {
+                    "text-emerald-600 dark:text-emerald-400": row.changePercent >= 0,
+                    "text-red-500 dark:text-red-400": row.changePercent < 0,
+                })}
             >
                 {formatPercent(row.changePercent)}
             </span>

@@ -1,4 +1,5 @@
 import React from "react";
+import classNames from "classnames";
 
 interface Props {
     className?: string;
@@ -21,19 +22,14 @@ export const FinvizChart = React.memo<Props>(({className, ticker}) => {
 });
 
 function buildContainerClassName(className: string | undefined, isLoading: boolean): string {
-    const baseClassName = `relative aspect-[13/6] w-full overflow-hidden rounded-md bg-neutral-100 dark:bg-neutral-900 ${isLoading ? "skeleton--shimmer" : ""}`;
-
-    if (!className) {
-        return baseClassName;
-    }
-
-    return `${baseClassName} ${className}`;
+    return classNames("relative aspect-[13/6] w-full overflow-hidden rounded-md bg-neutral-100 dark:bg-neutral-900", {"skeleton--shimmer": isLoading}, className);
 }
 
 function buildImageClassName(isLoading: boolean): string {
-    const visibilityClassName = isLoading ? "opacity-0" : "opacity-100";
-
-    return `h-full w-full object-fill transition-opacity dark:[filter:invert(1)_hue-rotate(180deg)] ${visibilityClassName}`;
+    return classNames("h-full w-full object-fill transition-opacity dark:[filter:invert(1)_hue-rotate(180deg)]", {
+        "opacity-0": isLoading,
+        "opacity-100": !isLoading,
+    });
 }
 
 function getFinvizChartUrl(ticker: string): string {

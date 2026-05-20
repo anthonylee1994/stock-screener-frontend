@@ -1,6 +1,7 @@
 import React from "react";
 import type {Key} from "@heroui/react";
 import {Button, Label, SearchField} from "@heroui/react";
+import classNames from "classnames";
 import {RefreshCw, Search} from "lucide-react";
 import {marketCapOptions, sectorOptions} from "../constants/FilterOptions";
 import {useDebounce} from "../hooks/useDebounce";
@@ -56,7 +57,7 @@ export const FilterPanel = React.memo(() => {
                 <FilterSelect label="板塊" options={sectorOptions} placeholder="板塊" value={filters.sector} onChange={handleSectorChange} />
                 <FilterSelect label="市值" options={marketCapOptions} placeholder="市值" value={filters.marketCap} onChange={handleMarketCapChange} />
                 <Button className="h-10 w-full whitespace-nowrap rounded-lg px-3" isDisabled={isLoading} variant="primary" onPress={retryRows}>
-                    <RefreshCw className={isLoading ? "size-4 animate-spin" : "size-4"} />
+                    <RefreshCw className={classNames("size-4", {"animate-spin": isLoading})} />
                     <span>重新整理</span>
                 </Button>
             </div>
