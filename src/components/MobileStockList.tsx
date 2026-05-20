@@ -1,11 +1,11 @@
 import React from "react";
 import type {SortDescriptor} from "@heroui/react";
+import {MobileMetricValue} from "./MobileMetricValue";
 import {MobileSortBar, mobileSortOptions} from "./MobileSortBar";
 import type {DetailKind} from "./ScoreDetailModal";
 import {StockDetailModal} from "./StockDetailModal";
 import type {StockRow} from "../types/Screener";
-import {formatCompactCurrency, formatCurrency, formatPercent, formatScore, formatVolume} from "../utils/Format";
-import {getScoreClassName} from "../utils/ScoreStyle";
+import {formatCurrency, formatPercent} from "../utils/Format";
 
 interface Props {
     error: string | null;
@@ -76,48 +76,10 @@ export const MobileStockList = React.memo<Props>(({error, isLoading, rows, selec
                         </button>
                     ))
                 )}
-                <StockDetailModal row={selectedRow} onDetailPress={onDetailPress} onOpenChange={handleModalOpenChange} />
             </section>
+            <StockDetailModal row={selectedRow} onDetailPress={onDetailPress} onOpenChange={handleModalOpenChange} />
         </React.Fragment>
     );
-});
-
-type MobileMetricValueProps = {
-    row: StockRow;
-    sortDescriptor: SortDescriptor;
-};
-
-const MobileMetricValue = React.memo((props: MobileMetricValueProps) => {
-    const {row, sortDescriptor} = props;
-    const column = String(sortDescriptor.column);
-
-    if (column === "market_cap") {
-        return <span className="text-[13px] font-semibold leading-5 text-neutral-800 dark:text-neutral-200">{formatCompactCurrency(row.marketCap)}</span>;
-    }
-
-    if (column === "volume") {
-        return <span className="text-[13px] font-semibold leading-5 text-neutral-800 dark:text-neutral-200">{formatVolume(row.volume)}</span>;
-    }
-
-    if (column === "change_percent") {
-        return (
-            <span
-                className={row.changePercent >= 0 ? "text-[13px] font-semibold leading-5 text-emerald-600 dark:text-emerald-400" : "text-[13px] font-semibold leading-5 text-red-500 dark:text-red-400"}
-            >
-                {formatPercent(row.changePercent)}
-            </span>
-        );
-    }
-
-    if (column === "fundamental_score") {
-        return <span className={getScoreClassName(row.fundamentalScore, "mobilePill")}>{formatScore(row.fundamentalScore)}</span>;
-    }
-
-    if (column === "technical_score") {
-        return <span className={getScoreClassName(row.technicalScore, "mobilePill")}>{formatScore(row.technicalScore)}</span>;
-    }
-
-    return <span className={getScoreClassName(row.totalScore, "mobilePill")}>{formatScore(row.totalScore)}</span>;
 });
 
 function getMobileMetricLabel(sortDescriptor: SortDescriptor): string {

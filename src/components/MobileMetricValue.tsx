@@ -1,0 +1,42 @@
+import React from "react";
+import type {SortDescriptor} from "@heroui/react";
+import type {StockRow} from "../types/Screener";
+import {formatCompactCurrency, formatPercent, formatScore, formatVolume} from "../utils/Format";
+import {getScoreClassName} from "../utils/ScoreStyle";
+
+interface Props {
+    row: StockRow;
+    sortDescriptor: SortDescriptor;
+}
+
+export const MobileMetricValue = React.memo<Props>(({row, sortDescriptor}) => {
+    const column = String(sortDescriptor.column);
+
+    if (column === "market_cap") {
+        return <span className="text-[13px] font-semibold leading-5 text-neutral-800 dark:text-neutral-200">{formatCompactCurrency(row.marketCap)}</span>;
+    }
+
+    if (column === "volume") {
+        return <span className="text-[13px] font-semibold leading-5 text-neutral-800 dark:text-neutral-200">{formatVolume(row.volume)}</span>;
+    }
+
+    if (column === "change_percent") {
+        return (
+            <span
+                className={row.changePercent >= 0 ? "text-[13px] font-semibold leading-5 text-emerald-600 dark:text-emerald-400" : "text-[13px] font-semibold leading-5 text-red-500 dark:text-red-400"}
+            >
+                {formatPercent(row.changePercent)}
+            </span>
+        );
+    }
+
+    if (column === "fundamental_score") {
+        return <span className={getScoreClassName(row.fundamentalScore, "mobilePill")}>{formatScore(row.fundamentalScore)}</span>;
+    }
+
+    if (column === "technical_score") {
+        return <span className={getScoreClassName(row.technicalScore, "mobilePill")}>{formatScore(row.technicalScore)}</span>;
+    }
+
+    return <span className={getScoreClassName(row.totalScore, "mobilePill")}>{formatScore(row.totalScore)}</span>;
+});
