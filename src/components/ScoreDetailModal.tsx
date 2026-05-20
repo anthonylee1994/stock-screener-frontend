@@ -97,11 +97,11 @@ function getDetailItems(detailModal: DetailModalState): DetailItem[] {
             {label: "過去5年每股盈利得分", value: formatScore(row.fundamental.epsPast5yScore)},
             {label: "過去5年每股營收", value: formatPercent(row.fundamental.salesPast5y ?? 0)},
             {label: "過去5年每股營收得分", value: formatScore(row.fundamental.salesPast5yScore)},
-            {label: "ROE", value: formatPercent(row.fundamental.roe ?? 0)},
+            {label: "ROE", value: formatPercent(row.fundamental.roe ?? 0, false)},
             {label: "ROE 得分", value: formatScore(row.fundamental.roeScore)},
-            {label: "純利率", value: formatPercent(row.fundamental.profitMargin ?? 0)},
+            {label: "純利率", value: formatPercent(row.fundamental.profitMargin ?? 0, false)},
             {label: "純利率得分", value: formatScore(row.fundamental.profitMarginScore)},
-            {label: "負債比率", value: formatPercent(row.fundamental.debtEquity ?? 0)},
+            {label: "負債比率", value: formatPercent(row.fundamental.debtEquity ?? 0, false)},
             {label: "負債比率得分", value: formatScore(row.fundamental.debtEquityScore)},
         ];
     }

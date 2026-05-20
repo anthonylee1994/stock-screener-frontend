@@ -25,8 +25,8 @@ export function formatCompactCurrency(value: number): string {
     return compactCurrencyFormatter.format(value);
 }
 
-export function formatPercent(value: number): string {
-    const sign = value > 0 ? "+" : "";
+export function formatPercent(value: number, withSign: boolean = true): string {
+    const sign = withSign && value > 0 ? "+" : "";
 
     return `${sign}${(value * 100).toFixed(2)}%`;
 }
