@@ -33,7 +33,7 @@ export const ScreenHeader = React.memo(() => {
             <div className="flex items-center gap-1.5">
                 <ThemeToggleButton isDarkMode={isDarkMode} onPress={toggleDarkMode} />
                 <Tooltip delay={0}>
-                    <Button aria-label="登出" className="h-9 w-9 rounded-lg px-0" size="sm" variant="ghost" onPress={handleLogout}>
+                    <Button aria-label="登出" className="h-9 w-9 rounded-full px-0" size="sm" variant="ghost" onPress={handleLogout}>
                         <LogOut className="size-4" />
                     </Button>
                     <Tooltip.Content showArrow placement="bottom">

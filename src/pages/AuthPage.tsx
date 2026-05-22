@@ -65,7 +65,7 @@ export const AuthPage = React.memo(() => {
             <div className="mx-auto flex min-h-screen w-full max-w-md flex-col justify-center px-4 py-8 sm:px-6">
                 <section className="rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm dark:border-neutral-800 dark:bg-neutral-900">
                     <div className="mb-6 flex items-center gap-3">
-                        <div className="flex size-11 items-center justify-center rounded-xl bg-neutral-100 text-neutral-700 dark:bg-neutral-400/15 dark:text-neutral-300">
+                        <div className="flex size-11 items-center justify-center rounded-full bg-neutral-100 text-neutral-700 dark:bg-neutral-400/15 dark:text-neutral-300">
                             <KeyRound className="size-5" />
                         </div>
                         <div>
@@ -78,7 +78,7 @@ export const AuthPage = React.memo(() => {
                             <Label className="text-sm font-medium text-neutral-700 dark:text-neutral-300" htmlFor="api-token">
                                 密碼
                             </Label>
-                            <InputGroup className="h-11 rounded-lg bg-neutral-100 shadow-none dark:bg-neutral-800" variant="secondary">
+                            <InputGroup className="h-11 rounded-full bg-neutral-100 shadow-none dark:bg-neutral-800" variant="secondary">
                                 <InputGroup.Input
                                     autoComplete="current-password"
                                     className="w-full"
@@ -92,7 +92,7 @@ export const AuthPage = React.memo(() => {
                                 <InputGroup.Suffix className="pr-1">
                                     <Button
                                         aria-label={isPasswordVisible ? "隱藏密碼" : "顯示密碼"}
-                                        className="size-8 rounded-md px-0 dark:hover:bg-neutral-700"
+                                        className="size-8 rounded-full px-0 dark:hover:bg-neutral-700"
                                         isIconOnly
                                         size="sm"
                                         type="button"
@@ -105,7 +105,7 @@ export const AuthPage = React.memo(() => {
                             </InputGroup>
                         </div>
                         {authError ? <p className="text-sm font-medium text-red-600 dark:text-red-400">{authError}</p> : null}
-                        <Button className="h-11 w-full rounded-lg" isDisabled={tokenInput.trim().length === 0} isPending={isAuthenticating} type="submit">
+                        <Button className="h-11 w-full rounded-full" isDisabled={tokenInput.trim().length === 0} isPending={isAuthenticating} type="submit">
                             登入
                         </Button>
                     </Form>

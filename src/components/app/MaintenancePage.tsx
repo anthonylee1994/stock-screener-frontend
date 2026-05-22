@@ -15,7 +15,7 @@ export const MaintenancePage = React.memo(() => {
             <div className="mx-auto flex min-h-screen w-full max-w-md flex-col justify-center px-4 py-8 sm:px-6">
                 <section className="rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm dark:border-neutral-800 dark:bg-neutral-900">
                     <div className="mb-5 flex items-center gap-3">
-                        <div className="flex size-11 items-center justify-center rounded-xl bg-amber-50 text-amber-700 dark:bg-amber-400/15 dark:text-amber-300">
+                        <div className="flex size-11 items-center justify-center rounded-full bg-amber-50 text-amber-700 dark:bg-amber-400/15 dark:text-amber-300">
                             <Wrench className="size-5" />
                         </div>
                         <div>
