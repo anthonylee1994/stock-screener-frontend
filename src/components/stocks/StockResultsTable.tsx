@@ -4,15 +4,13 @@ import {Tabs} from "@heroui/react";
 import {FilterPanel} from "../filters/FilterPanel";
 import {ScoreDetailModal} from "../stock-detail/ScoreDetailModal";
 import {StockDetailModal} from "../stock-detail/StockDetailModal";
-import {DesktopStockTable} from "./DesktopStockTable";
-import {MobileStockList} from "./MobileStockList";
+import {StockResultsView} from "./StockResultsView";
 import {useStockRouteModal} from "../../hooks/useStockRouteModal";
 import {useAuthStore} from "../../stores/useAuthStore";
 import {useMainTabStore} from "../../stores/useMainTabStore";
 import {useScreenerStore} from "../../stores/useScreenerStore";
 import {useWatchlistStore} from "../../stores/useWatchlistStore";
 import type {StockRow} from "../../types/Screener";
-import type {DetailKind} from "../../types/StockDetail";
 
 export const StockResultsTable = React.memo(() => {
     const apiToken = useAuthStore(state => state.apiToken);
@@ -128,61 +126,3 @@ export const StockResultsTable = React.memo(() => {
         </React.Fragment>
     );
 });
-
-interface StockResultsViewProps {
-    emptyMessage: string;
-    error: string | null;
-    isLoading: boolean;
-    rows: StockRow[];
-    sortDescriptor: SortDescriptor;
-    watchlistTickers: string[];
-    onDetailPress(row: StockRow, kind: DetailKind): void;
-    onMobileSelectedRowChange(row: StockRow | null): void;
-    onSortChange(sortDescriptor: SortDescriptor): void;
-    onStockDetailPress(row: StockRow): void;
-    onWatchlistToggle(row: StockRow): void;
-}
-
-function StockResultsView({
-    emptyMessage,
-    error,
-    isLoading,
-    rows,
-    sortDescriptor,
-    watchlistTickers,
-    onDetailPress,
-    onMobileSelectedRowChange,
-    onSortChange,
-    onStockDetailPress,
-    onWatchlistToggle,
-}: StockResultsViewProps): React.ReactNode {
-    return (
-        <React.Fragment>
-            <div className="md:hidden">
-                <MobileStockList
-                    emptyMessage={emptyMessage}
-                    error={error}
-                    isLoading={isLoading}
-                    rows={rows}
-                    sortDescriptor={sortDescriptor}
-                    watchlistTickers={watchlistTickers}
-                    onSelectedRowChange={onMobileSelectedRowChange}
-                    onSortChange={onSortChange}
-                    onWatchlistToggle={onWatchlistToggle}
-                />
-            </div>
-            <DesktopStockTable
-                emptyMessage={emptyMessage}
-                error={error}
-                isLoading={isLoading}
-                rows={rows}
-                sortDescriptor={sortDescriptor}
-                watchlistTickers={watchlistTickers}
-                onDetailPress={onDetailPress}
-                onSortChange={onSortChange}
-                onStockDetailPress={onStockDetailPress}
-                onWatchlistToggle={onWatchlistToggle}
-            />
-        </React.Fragment>
-    );
-}
