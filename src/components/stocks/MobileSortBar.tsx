@@ -32,7 +32,7 @@ export const MobileSortBar = React.memo<Props>(({sortDescriptor, onSortChange}) 
     return (
         <section className="mb-4 rounded-4xl border border-neutral-200 bg-white p-2 shadow-sm dark:border-neutral-800 dark:bg-neutral-900">
             <div className="grid grid-cols-[minmax(0,1fr)_36px] items-center gap-2">
-                <div className="no-scrollbar min-w-0 overflow-x-auto">
+                <div className="no-scrollbar min-w-0 overflow-x-auto rounded-4xl">
                     <div className="flex w-max min-w-full items-center gap-2 py-1 px-1">
                         {mobileSortOptions.map(option => {
                             const isSelected = activeColumn === option.id;
