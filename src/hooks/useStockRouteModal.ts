@@ -54,7 +54,12 @@ export function useStockRouteModal(rows: StockRow[]): UseStockRouteModalResult {
 
         const abortController = new AbortController();
 
-        void fetchScreenerRows(routeLookupFilters, routeTicker, apiToken, abortController.signal)
+        void fetchScreenerRows({
+            apiToken,
+            filters: routeLookupFilters,
+            signal: abortController.signal,
+            tickers: [routeTicker],
+        })
             .then(response => {
                 const lookupRow = response.data.find(row => row.ticker.toUpperCase() === routeTicker) ?? null;
 

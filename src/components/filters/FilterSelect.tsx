@@ -14,7 +14,7 @@ export const FilterSelect = React.memo<Props>(({label, options, placeholder, val
     return (
         <Select className="text-neutral-950 dark:text-neutral-100" placeholder={placeholder} value={value} onChange={onChange}>
             <Label className="sr-only">{label}</Label>
-            <Select.Trigger className="h-10 rounded-lg border-neutral-200 bg-neutral-100 text-sm font-medium text-neutral-950 shadow-none dark:border-neutral-700 dark:bg-neutral-800 dark:text-neutral-100">
+            <Select.Trigger className="h-10 rounded-4xl border-neutral-200 bg-neutral-100 text-sm font-medium text-neutral-950 shadow-none dark:border-neutral-700 dark:bg-neutral-800 dark:text-neutral-100">
                 <Select.Value />
                 <Select.Indicator />
             </Select.Trigger>

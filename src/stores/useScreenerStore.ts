@@ -81,7 +81,12 @@ export const useScreenerStore = create<ScreenerStore>()((set, get) => {
 
             try {
                 const {filters, query} = get();
-                const response = await fetchScreenerRows(filters, query, apiToken, signal);
+                const response = await fetchScreenerRows({
+                    apiToken,
+                    filters,
+                    search: query,
+                    signal,
+                });
 
                 set({rows: response.data});
             } catch (fetchError) {

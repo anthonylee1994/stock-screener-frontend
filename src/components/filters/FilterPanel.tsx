@@ -55,11 +55,11 @@ export const FilterPanel = React.memo(() => {
     };
 
     return (
-        <section className="mt-5 mb-4 rounded-2xl border border-neutral-200 bg-white/90 p-3 shadow-sm dark:border-neutral-800 dark:bg-neutral-900/90">
+        <section className="mb-4 rounded-4xl border border-neutral-200 bg-white/90 p-3 shadow-sm dark:border-neutral-800 dark:bg-neutral-900/90">
             <div className="grid gap-3 lg:grid-cols-[minmax(260px,1.8fr)_minmax(150px,0.7fr)_minmax(170px,0.7fr)_auto] lg:items-end">
                 <SearchField className="min-w-0" name="stock-search" value={searchText} onChange={handleQueryChange}>
                     <Label className="sr-only">搜尋</Label>
-                    <SearchField.Group className="h-10 rounded-lg border-neutral-200 bg-neutral-100 shadow-none dark:border-neutral-700 dark:bg-neutral-800">
+                    <SearchField.Group className="h-10 rounded-4xl border-neutral-200 bg-neutral-100 shadow-none dark:border-neutral-700 dark:bg-neutral-800">
                         <SearchField.SearchIcon>
                             <Search className="size-4 text-neutral-500 dark:text-neutral-400" />
                         </SearchField.SearchIcon>
@@ -69,7 +69,7 @@ export const FilterPanel = React.memo(() => {
                 </SearchField>
                 <FilterSelect label="板塊" options={sectorOptions} placeholder="板塊" value={filters.sector} onChange={handleSectorChange} />
                 <FilterSelect label="市值" options={marketCapOptions} placeholder="市值" value={filters.marketCap} onChange={handleMarketCapChange} />
-                <Button className="h-10 w-full whitespace-nowrap rounded-lg px-3" isDisabled={isLoading} variant="primary" onPress={retryRows}>
+                <Button className="h-10 w-full whitespace-nowrap rounded-4xl px-3" isDisabled={isLoading} variant="primary" onPress={retryRows}>
                     <RefreshCw className={classNames("size-4", {"animate-spin": isLoading})} />
                     <span>重新整理</span>
                 </Button>

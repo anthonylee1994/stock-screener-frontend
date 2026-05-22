@@ -4,6 +4,14 @@ type AuthResponse = {
     authorized: boolean;
 };
 
+interface FetchScreenerRowsOptions {
+    apiToken: string;
+    filters: ScreenerFilters;
+    search?: string;
+    signal: AbortSignal;
+    tickers?: string[];
+}
+
 export async function authenticate(apiToken: string, signal?: AbortSignal): Promise<boolean> {
     const response = await fetch(new URL("/auth", getApiUrl()), {
         body: JSON.stringify({api_token: apiToken}),
@@ -23,21 +31,27 @@ export async function authenticate(apiToken: string, signal?: AbortSignal): Prom
     return payload.authorized;
 }
 
-export async function fetchScreenerRows(filters: ScreenerFilters, search: string, apiToken: string, signal: AbortSignal): Promise<{count: number; data: StockRow[]}> {
+export async function fetchScreenerRows(options: FetchScreenerRowsOptions): Promise<{count: number; data: StockRow[]}> {
     const url = new URL("/screener", getApiUrl());
-    const normalizedSearch = search.trim();
+    const normalizedSearch = options.search?.trim() ?? "";
+    const normalizedTickers = normalizeTickers(options.tickers ?? []);
 
-    url.searchParams.set("api_token", apiToken);
-    url.searchParams.set("sector", filters.sector);
-    url.searchParams.set("market_cap", filters.marketCap);
-    url.searchParams.set("order", filters.order);
-    url.searchParams.set("ascend", String(filters.ascend));
+    url.searchParams.set("api_token", options.apiToken);
+    url.searchParams.set("order", options.filters.order);
+    url.searchParams.set("ascend", String(options.filters.ascend));
 
-    if (normalizedSearch.length > 0) {
+    if (normalizedTickers.length > 0) {
+        url.searchParams.set("tickers", normalizedTickers.join(","));
+    } else {
+        url.searchParams.set("sector", options.filters.sector);
+        url.searchParams.set("market_cap", options.filters.marketCap);
+    }
+
+    if (normalizedTickers.length === 0 && normalizedSearch.length > 0) {
         url.searchParams.set("search", normalizedSearch);
     }
 
-    const response = await fetch(url, {signal});
+    const response = await fetch(url, {signal: options.signal});
 
     if (!response.ok) {
         throw new Error(`Backend 回應 ${response.status}`);
@@ -53,6 +67,16 @@ export async function fetchScreenerRows(filters: ScreenerFilters, search: string
         count: payload.count,
         data: payload.data.map(normalizeStockRow),
     };
+}
+
+function normalizeTickers(tickers: string[]): string[] {
+    return Array.from(
+        new Set(
+            tickers
+                .map(ticker => ticker.trim().toUpperCase())
+                .filter(ticker => ticker.length > 0)
+        )
+    );
 }
 
 function getApiUrl(): string {
