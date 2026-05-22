@@ -18,7 +18,7 @@ export const ScreenHeader = React.memo(() => {
     };
 
     return (
-        <header className="flex flex-row items-center justify-between gap-3 border-b border-neutral-200 pb-5 md:px-3 dark:border-neutral-800">
+        <header className="flex flex-row items-center justify-between gap-3 md:px-3">
             <div className="flex items-center justify-end gap-2">
                 <h1 className="text-2xl font-semibold tracking-normal text-neutral-950 dark:text-neutral-100">美股選股器</h1>
                 <Chip>共 {rows.length} 隻股票</Chip>
