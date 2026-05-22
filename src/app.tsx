@@ -30,10 +30,7 @@ export const App = React.memo(() => {
     if (authToken) {
         return (
             <Routes>
-                <Route
-                    element={<AuthTokenRedirect authToken={authToken} loginPath={authTokenLoginPath} redirectPath={authTokenRedirectPath} onAuthenticate={authenticateWithToken} />}
-                    path="*"
-                />
+                <Route element={<AuthTokenRedirect authToken={authToken} loginPath={authTokenLoginPath} redirectPath={authTokenRedirectPath} onAuthenticate={authenticateWithToken} />} path="*" />
             </Routes>
         );
     }

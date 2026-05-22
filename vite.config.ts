@@ -11,16 +11,20 @@ export default defineConfig({
                         return undefined;
                     }
 
-                    if (id.includes("react") || id.includes("scheduler")) {
-                        return "react";
-                    }
-
                     if (id.includes("@heroui") || id.includes("@react-aria") || id.includes("@react-stately")) {
                         return "heroui";
                     }
 
                     if (id.includes("lucide-react")) {
                         return "icons";
+                    }
+
+                    if (id.includes("react-router")) {
+                        return "router";
+                    }
+
+                    if (id.includes("react") || id.includes("scheduler")) {
+                        return "react";
                     }
 
                     return "vendor";

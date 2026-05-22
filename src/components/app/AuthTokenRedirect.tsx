@@ -33,5 +33,5 @@ export const AuthTokenRedirect = React.memo<Props>(({authToken, loginPath, redir
         return null;
     }
 
-    return <Navigate replace state={nextPath === loginPath ? {returnPath: redirectPath} satisfies RouteState : undefined} to={nextPath} />;
+    return <Navigate replace state={nextPath === loginPath ? ({returnPath: redirectPath} satisfies RouteState) : undefined} to={nextPath} />;
 });
