@@ -26,7 +26,7 @@ function buildContainerClassName(className: string | undefined, isLoading: boole
 }
 
 function buildImageClassName(isLoading: boolean): string {
-    return classNames("h-full w-full object-fill transition-opacity dark:[filter:invert(1)_hue-rotate(180deg)]", {
+    return classNames("h-full w-full object-fill transition-opacity dark:[filter:invert(1)_hue-rotate(180deg)] pointer-events-none", {
         "opacity-0": isLoading,
         "opacity-100": !isLoading,
     });
