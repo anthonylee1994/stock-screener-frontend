@@ -89,7 +89,7 @@ export const StockResultsTable = React.memo(() => {
                         </Tabs.Tab>
                     </Tabs.List>
                 </Tabs.ListContainer>
-                <Tabs.Panel className="px-0" id="all">
+                <Tabs.Panel className="px-0 mb-14 xl:mb-0" id="all">
                     <FilterPanel />
                     <StockResultsView
                         emptyMessage="搵唔到符合條件嘅股票"
@@ -105,7 +105,7 @@ export const StockResultsTable = React.memo(() => {
                         onWatchlistToggle={handleWatchlistToggle}
                     />
                 </Tabs.Panel>
-                <Tabs.Panel className="px-0" id="watchlist">
+                <Tabs.Panel className="px-0 mb-14 xl:mb-0" id="watchlist">
                     <StockResultsView
                         emptyMessage={watchlistEmptyMessage}
                         error={watchlistError}
