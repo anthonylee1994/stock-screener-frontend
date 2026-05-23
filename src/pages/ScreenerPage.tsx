@@ -1,5 +1,6 @@
 import React from "react";
 import {useLocation, useNavigate} from "react-router";
+import {ScrollToTopButton} from "../components/layout/ScrollToTopButton";
 import {ScreenHeader} from "../components/layout/ScreenHeader";
 import {StockResultsTable} from "../components/stocks/StockResultsTable";
 import {marketCapOptions, orderOptions, sectorOptions} from "../constants/FilterOptions";
@@ -98,6 +99,7 @@ export const ScreenerPage = React.memo(() => {
                 <ScreenHeader />
                 <StockResultsTable />
             </div>
+            <ScrollToTopButton />
         </main>
     );
 });
