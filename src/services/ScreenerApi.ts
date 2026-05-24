@@ -70,13 +70,7 @@ export async function fetchScreenerRows(options: FetchScreenerRowsOptions): Prom
 }
 
 function normalizeTickers(tickers: string[]): string[] {
-    return Array.from(
-        new Set(
-            tickers
-                .map(ticker => ticker.trim().toUpperCase())
-                .filter(ticker => ticker.length > 0)
-        )
-    );
+    return Array.from(new Set(tickers.map(ticker => ticker.trim().toUpperCase()).filter(ticker => ticker.length > 0)));
 }
 
 function getApiUrl(): string {
@@ -98,18 +92,22 @@ function normalizeStockRow(row: ScreenerApiRow): StockRow {
             forwardPe: row.fundamental.forward_pe,
             peg: row.fundamental.peg,
             ps: row.fundamental.ps,
+            pfcf: row.fundamental.pfcf,
             epsPast5y: row.fundamental.eps_past_5y,
             salesPast5y: row.fundamental.sales_past_5y,
             roe: row.fundamental.roe,
+            roic: row.fundamental.roic,
             profitMargin: row.fundamental.profit_margin,
             debtEquity: row.fundamental.debt_equity,
             marketCapScore: row.fundamental.market_cap_score,
             forwardPeScore: row.fundamental.forward_pe_score,
             pegScore: row.fundamental.peg_score,
             psScore: row.fundamental.ps_score,
+            pfcfScore: row.fundamental.pfcf_score,
             epsPast5yScore: row.fundamental.eps_past_5y_score,
             salesPast5yScore: row.fundamental.sales_past_5y_score,
             roeScore: row.fundamental.roe_score,
+            roicScore: row.fundamental.roic_score,
             profitMarginScore: row.fundamental.profit_margin_score,
             debtEquityScore: row.fundamental.debt_equity_score,
             score: row.fundamental.fundamental_score,

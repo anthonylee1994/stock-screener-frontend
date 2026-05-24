@@ -99,6 +99,8 @@ function getDetailSections(detailModal: DetailModalState): DetailSection[] {
                     {label: "過去5年每股盈利得分", value: formatScore(row.fundamental.epsPast5yScore)},
                     {label: "ROE", value: formatPercent(row.fundamental.roe ?? 0, false)},
                     {label: "ROE 得分", value: formatScore(row.fundamental.roeScore)},
+                    {label: "ROIC", value: formatPercent(row.fundamental.roic ?? 0, false)},
+                    {label: "ROIC 得分", value: formatScore(row.fundamental.roicScore)},
                 ],
             },
             {
@@ -108,6 +110,8 @@ function getDetailSections(detailModal: DetailModalState): DetailSection[] {
                     {label: "預測市盈率得分", value: formatScore(row.fundamental.forwardPeScore)},
                     {label: "市銷率", value: formatNumber(row.fundamental.ps ?? 0)},
                     {label: "市銷率得分", value: formatScore(row.fundamental.psScore)},
+                    {label: "市現率", value: formatScore(row.fundamental.pfcf ?? 0)},
+                    {label: "市現率得分", value: formatScore(row.fundamental.pfcfScore)},
                     {label: "過去5年每股營收", value: formatPercent(row.fundamental.salesPast5y ?? 0)},
                     {label: "過去5年每股營收得分", value: formatScore(row.fundamental.salesPast5yScore)},
                     {label: "純利率", value: formatPercent(row.fundamental.profitMargin ?? 0, false)},

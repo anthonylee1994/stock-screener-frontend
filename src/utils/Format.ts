@@ -32,7 +32,7 @@ export function formatPercent(value: number, withSign: boolean = true): string {
 }
 
 export function formatScore(value: number): string {
-    return value?.toFixed(1);
+    return value?.toFixed(2);
 }
 
 export function formatVolume(value: number): string {
