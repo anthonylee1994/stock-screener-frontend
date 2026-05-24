@@ -93,8 +93,6 @@ function getDetailSections(detailModal: DetailModalState): DetailSection[] {
                 items: [
                     {label: "市值", value: formatCompactCurrency(row.fundamental.marketCap ?? 0)},
                     {label: "市值得分", value: formatScore(row.fundamental.marketCapScore)},
-                    {label: "預測市盈率", value: formatNumber(row.fundamental.forwardPe ?? 0)},
-                    {label: "預測市盈率得分", value: formatScore(row.fundamental.forwardPeScore)},
                     {label: "PEG", value: formatNumber(row.fundamental.peg ?? 0)},
                     {label: "PEG 得分", value: formatScore(row.fundamental.pegScore)},
                     {label: "過去5年每股盈利", value: formatPercent(row.fundamental.epsPast5y ?? 0)},
@@ -106,6 +104,8 @@ function getDetailSections(detailModal: DetailModalState): DetailSection[] {
             {
                 title: "不納入總分",
                 items: [
+                    {label: "預測市盈率", value: formatNumber(row.fundamental.forwardPe ?? 0)},
+                    {label: "預測市盈率得分", value: formatScore(row.fundamental.forwardPeScore)},
                     {label: "市銷率", value: formatNumber(row.fundamental.ps ?? 0)},
                     {label: "市銷率得分", value: formatScore(row.fundamental.psScore)},
                     {label: "過去5年每股營收", value: formatPercent(row.fundamental.salesPast5y ?? 0)},
