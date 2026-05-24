@@ -5,6 +5,8 @@ import {FilterPanel} from "../filters/FilterPanel";
 import {ScoreDetailModal} from "../stock-detail/ScoreDetailModal";
 import {StockDetailModal} from "../stock-detail/StockDetailModal";
 import {StockResultsView} from "./StockResultsView";
+import {WatchlistSearchBar} from "./WatchlistSearchBar";
+import {useDebounce} from "../../hooks/useDebounce";
 import {useStockRouteModal} from "../../hooks/useStockRouteModal";
 import {useAuthStore} from "../../stores/useAuthStore";
 import {useMainTabStore} from "../../stores/useMainTabStore";
@@ -30,9 +32,21 @@ export const StockResultsTable = React.memo(() => {
     const watchlistTickers = useWatchlistStore(state => state.tickers);
     const selectedTab = useMainTabStore(state => state.activeTab);
     const toggleWatchlistTicker = useWatchlistStore(state => state.toggleTicker);
+    const [watchlistSearchText, setWatchlistSearchText] = React.useState("");
+    const debouncedWatchlistSearchText = useDebounce(watchlistSearchText, 250);
+
+    const filteredWatchlistRows = React.useMemo(() => {
+        const normalizedSearchText = debouncedWatchlistSearchText.trim().toLowerCase();
+
+        if (normalizedSearchText.length === 0) {
+            return watchlistRows;
+        }
+
+        return watchlistRows.filter(row => matchesWatchlistSearch(row, normalizedSearchText));
+    }, [debouncedWatchlistSearchText, watchlistRows]);
 
     const {detailModal, selectedStockDetailRow, handleDetailPress, handleScoreDetailOpenChange, handleStockDetailOpenChange, handleStockDetailPress, handleStockDetailScorePress} = useStockRouteModal(
-        selectedTab === "watchlist" ? watchlistRows : rows
+        selectedTab === "watchlist" ? filteredWatchlistRows : rows
     );
 
     const sortDescriptor: SortDescriptor = {
@@ -72,7 +86,7 @@ export const StockResultsTable = React.memo(() => {
         toggleWatchlistTicker(row.ticker);
     };
 
-    const watchlistEmptyMessage = watchlistTickers.length === 0 ? "未加入任何股票" : "搵唔到 Watchlist 股票";
+    const watchlistEmptyMessage = getWatchlistEmptyMessage(watchlistTickers.length, debouncedWatchlistSearchText);
 
     return (
         <React.Fragment>
@@ -106,11 +120,12 @@ export const StockResultsTable = React.memo(() => {
                     />
                 </Tabs.Panel>
                 <Tabs.Panel className="px-0 mb-14 xl:mb-0" id="watchlist">
+                    <WatchlistSearchBar value={watchlistSearchText} onChange={setWatchlistSearchText} />
                     <StockResultsView
                         emptyMessage={watchlistEmptyMessage}
                         error={watchlistError}
                         isLoading={isWatchlistLoading}
-                        rows={watchlistRows}
+                        rows={filteredWatchlistRows}
                         sortDescriptor={sortDescriptor}
                         watchlistTickers={watchlistTickers}
                         onDetailPress={handleDetailPress}
@@ -126,3 +141,19 @@ export const StockResultsTable = React.memo(() => {
         </React.Fragment>
     );
 });
+
+function getWatchlistEmptyMessage(watchlistTickerCount: number, searchText: string): string {
+    if (watchlistTickerCount === 0) {
+        return "未加入任何股票";
+    }
+
+    if (searchText.trim().length > 0) {
+        return "搵唔到符合條件嘅股票";
+    }
+
+    return "搵唔到觀察名單股票";
+}
+
+function matchesWatchlistSearch(row: StockRow, normalizedSearchText: string): boolean {
+    return row.ticker.toLowerCase().includes(normalizedSearchText) || row.name.toLowerCase().includes(normalizedSearchText) || row.sector.toLowerCase().includes(normalizedSearchText);
+}
