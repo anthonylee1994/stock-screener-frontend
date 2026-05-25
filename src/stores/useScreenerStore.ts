@@ -30,16 +30,22 @@ const sectorFilterValues = new Set<string>([
 
 const marketCapFilterValues = new Set<string>(["+mid", "+large", "mid", "large", "mega"]);
 const orderFilterValues = new Set<string>(["change_percent", "market_cap", "fundamental_score", "technical_score", "total_score", "volume"]);
+const screenerPageLimit = 100;
 
 interface ScreenerStore {
     error: string | null;
     filters: ScreenerFilters;
+    hasMore: boolean;
     isDarkMode: boolean;
+    isLoadingMore: boolean;
     isLoading: boolean;
+    loadMoreError: string | null;
+    nextOffset: number | null;
     query: string;
     reloadKey: number;
     rows: StockRow[];
     clearRows(): void;
+    loadMoreRows(apiToken: string): Promise<void>;
     loadRows(apiToken: string, signal: AbortSignal): Promise<void>;
     retryRows(): void;
     setFilters(filters: ScreenerFilters): void;
@@ -49,26 +55,93 @@ interface ScreenerStore {
 }
 
 export const useScreenerStore = create<ScreenerStore>()((set, get) => {
+    let loadMoreRequestId = 0;
+
     return {
         error: null,
         filters: getInitialFilters(),
+        hasMore: false,
         isDarkMode: getInitialDarkMode(),
+        isLoadingMore: false,
         isLoading: false,
+        loadMoreError: null,
+        nextOffset: null,
         query: "",
         reloadKey: 0,
         rows: [],
         clearRows() {
+            loadMoreRequestId += 1;
+
             set({
                 error: null,
+                hasMore: false,
+                isLoadingMore: false,
                 isLoading: false,
+                loadMoreError: null,
+                nextOffset: null,
                 rows: [],
             });
         },
+        async loadMoreRows(apiToken: string) {
+            const {filters, hasMore, isLoading, isLoadingMore, nextOffset, query} = get();
+
+            if (apiToken.length === 0 || isLoading || isLoadingMore || !hasMore || nextOffset === null) {
+                return;
+            }
+
+            const requestId = (loadMoreRequestId += 1);
+            const requestKey = getRowsRequestKey(filters, query);
+
+            set({
+                isLoadingMore: true,
+                loadMoreError: null,
+            });
+
+            try {
+                const response = await fetchScreenerRows({
+                    apiToken,
+                    filters,
+                    limit: screenerPageLimit,
+                    offset: nextOffset,
+                    search: query,
+                    signal: new AbortController().signal,
+                });
+
+                if (requestId !== loadMoreRequestId || getRowsRequestKey(get().filters, get().query) !== requestKey || get().nextOffset !== nextOffset) {
+                    return;
+                }
+
+                set(state => {
+                    return {
+                        hasMore: response.hasMore,
+                        loadMoreError: null,
+                        nextOffset: response.nextOffset,
+                        rows: mergeRows(state.rows, response.data),
+                    };
+                });
+            } catch (fetchError) {
+                if (requestId !== loadMoreRequestId || getRowsRequestKey(get().filters, get().query) !== requestKey) {
+                    return;
+                }
+
+                set({loadMoreError: fetchError instanceof Error ? fetchError.message : "載入更多股票失敗"});
+            } finally {
+                if (requestId === loadMoreRequestId) {
+                    set({isLoadingMore: false});
+                }
+            }
+        },
         async loadRows(apiToken: string, signal: AbortSignal) {
+            loadMoreRequestId += 1;
+
             if (apiToken.length === 0) {
                 set({
                     error: null,
+                    hasMore: false,
+                    isLoadingMore: false,
                     isLoading: false,
+                    loadMoreError: null,
+                    nextOffset: null,
                     rows: [],
                 });
                 return;
@@ -76,7 +149,11 @@ export const useScreenerStore = create<ScreenerStore>()((set, get) => {
 
             set({
                 error: null,
+                hasMore: false,
+                isLoadingMore: false,
                 isLoading: true,
+                loadMoreError: null,
+                nextOffset: null,
             });
 
             try {
@@ -84,17 +161,28 @@ export const useScreenerStore = create<ScreenerStore>()((set, get) => {
                 const response = await fetchScreenerRows({
                     apiToken,
                     filters,
+                    limit: screenerPageLimit,
+                    offset: 0,
                     search: query,
                     signal,
                 });
 
-                set({rows: response.data});
+                set({
+                    hasMore: response.hasMore,
+                    nextOffset: response.nextOffset,
+                    rows: response.data,
+                });
             } catch (fetchError) {
                 if (signal.aborted) {
                     return;
                 }
 
-                set({error: fetchError instanceof Error ? fetchError.message : "載入選股資料失敗"});
+                set({
+                    error: fetchError instanceof Error ? fetchError.message : "載入選股資料失敗",
+                    hasMore: false,
+                    nextOffset: null,
+                    rows: [],
+                });
             } finally {
                 if (!signal.aborted) {
                     set({isLoading: false});
@@ -107,10 +195,12 @@ export const useScreenerStore = create<ScreenerStore>()((set, get) => {
             });
         },
         setFilters(filters: ScreenerFilters) {
+            loadMoreRequestId += 1;
             saveFilters(filters);
             set({filters});
         },
         setQuery(query: string) {
+            loadMoreRequestId += 1;
             set({query});
         },
         sortRows(sortDescriptor: SortDescriptor) {
@@ -123,6 +213,7 @@ export const useScreenerStore = create<ScreenerStore>()((set, get) => {
                 order: String(sortDescriptor.column) as ScreenerFilters["order"],
             };
 
+            loadMoreRequestId += 1;
             saveFilters(nextFilters);
             set({filters: nextFilters});
         },
@@ -167,6 +258,24 @@ function normalizeStoredFilters(value: unknown): ScreenerFilters {
 
 function saveFilters(filters: ScreenerFilters): void {
     window.localStorage.setItem(filterPreferencesStorageKey, JSON.stringify(filters));
+}
+
+function getRowsRequestKey(filters: ScreenerFilters, query: string): string {
+    return JSON.stringify({filters, query: query.trim()});
+}
+
+function mergeRows(currentRows: StockRow[], nextRows: StockRow[]): StockRow[] {
+    const rowsByTicker = new Map<string, StockRow>();
+
+    currentRows.forEach(row => {
+        rowsByTicker.set(row.ticker.toUpperCase(), row);
+    });
+
+    nextRows.forEach(row => {
+        rowsByTicker.set(row.ticker.toUpperCase(), row);
+    });
+
+    return Array.from(rowsByTicker.values());
 }
 
 function isRecord(value: unknown): value is Record<string, unknown> {

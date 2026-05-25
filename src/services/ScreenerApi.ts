@@ -1,4 +1,4 @@
-import type {ScreenerApiResponse, ScreenerApiRow, ScreenerFilters, StockRow} from "../types/Screener";
+import type {ScreenerApiResponse, ScreenerApiRow, ScreenerFilters, ScreenerRowsResponse, StockRow} from "../types/Screener";
 
 type AuthResponse = {
     authorized: boolean;
@@ -7,6 +7,8 @@ type AuthResponse = {
 interface FetchScreenerRowsOptions {
     apiToken: string;
     filters: ScreenerFilters;
+    limit?: number;
+    offset?: number;
     search?: string;
     signal: AbortSignal;
     tickers?: string[];
@@ -31,7 +33,7 @@ export async function authenticate(apiToken: string, signal?: AbortSignal): Prom
     return payload.authorized;
 }
 
-export async function fetchScreenerRows(options: FetchScreenerRowsOptions): Promise<{count: number; data: StockRow[]}> {
+export async function fetchScreenerRows(options: FetchScreenerRowsOptions): Promise<ScreenerRowsResponse> {
     const url = new URL("/screener", getApiUrl());
     const normalizedSearch = options.search?.trim() ?? "";
     const normalizedTickers = normalizeTickers(options.tickers ?? []);
@@ -39,6 +41,14 @@ export async function fetchScreenerRows(options: FetchScreenerRowsOptions): Prom
     url.searchParams.set("api_token", options.apiToken);
     url.searchParams.set("order", options.filters.order);
     url.searchParams.set("ascend", String(options.filters.ascend));
+
+    if (options.limit !== undefined) {
+        url.searchParams.set("limit", String(options.limit));
+    }
+
+    if (options.offset !== undefined) {
+        url.searchParams.set("offset", String(options.offset));
+    }
 
     if (normalizedTickers.length > 0) {
         url.searchParams.set("tickers", normalizedTickers.join(","));
@@ -66,6 +76,10 @@ export async function fetchScreenerRows(options: FetchScreenerRowsOptions): Prom
     return {
         count: payload.count,
         data: payload.data.map(normalizeStockRow),
+        hasMore: payload.has_more,
+        limit: payload.limit,
+        nextOffset: payload.next_offset,
+        offset: payload.offset,
     };
 }
 

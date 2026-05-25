@@ -119,7 +119,20 @@ export type ScreenerApiResponse =
     | {
           count: number;
           data: ScreenerApiRow[];
+          has_more: boolean;
+          limit: number;
+          next_offset: number | null;
+          offset: number;
       }
     | {
           error: string;
       };
+
+export interface ScreenerRowsResponse {
+    count: number;
+    data: StockRow[];
+    hasMore: boolean;
+    limit: number;
+    nextOffset: number | null;
+    offset: number;
+}

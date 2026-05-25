@@ -20,7 +20,11 @@ export const StockResultsTable = React.memo(() => {
 
     const error = useScreenerStore(state => state.error);
     const filters = useScreenerStore(state => state.filters);
+    const hasMore = useScreenerStore(state => state.hasMore);
     const isLoading = useScreenerStore(state => state.isLoading);
+    const isLoadingMore = useScreenerStore(state => state.isLoadingMore);
+    const loadMoreError = useScreenerStore(state => state.loadMoreError);
+    const loadMoreRows = useScreenerStore(state => state.loadMoreRows);
     const rows = useScreenerStore(state => state.rows);
     const sortRows = useScreenerStore(state => state.sortRows);
 
@@ -86,6 +90,10 @@ export const StockResultsTable = React.memo(() => {
         toggleWatchlistTicker(row.ticker);
     };
 
+    const handleLoadMore = () => {
+        void loadMoreRows(apiToken);
+    };
+
     const watchlistEmptyMessage = getWatchlistEmptyMessage(watchlistTickers.length, debouncedWatchlistSearchText);
 
     return (
@@ -108,11 +116,15 @@ export const StockResultsTable = React.memo(() => {
                     <StockResultsView
                         emptyMessage="搵唔到符合條件嘅股票"
                         error={error}
+                        hasMore={hasMore}
                         isLoading={isLoading}
+                        isLoadingMore={isLoadingMore}
+                        loadMoreError={loadMoreError}
                         rows={rows}
                         sortDescriptor={sortDescriptor}
                         watchlistTickers={watchlistTickers}
                         onDetailPress={handleDetailPress}
+                        onLoadMore={handleLoadMore}
                         onMobileSelectedRowChange={handleMobileSelectedRowChange}
                         onSortChange={sortRows}
                         onStockDetailPress={handleStockDetailPress}
@@ -124,11 +136,15 @@ export const StockResultsTable = React.memo(() => {
                     <StockResultsView
                         emptyMessage={watchlistEmptyMessage}
                         error={watchlistError}
+                        hasMore={false}
                         isLoading={isWatchlistLoading}
+                        isLoadingMore={false}
+                        loadMoreError={null}
                         rows={filteredWatchlistRows}
                         sortDescriptor={sortDescriptor}
                         watchlistTickers={watchlistTickers}
                         onDetailPress={handleDetailPress}
+                        onLoadMore={handleLoadMore}
                         onMobileSelectedRowChange={handleMobileSelectedRowChange}
                         onSortChange={sortRows}
                         onStockDetailPress={handleStockDetailPress}
