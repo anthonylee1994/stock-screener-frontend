@@ -42,7 +42,7 @@ export const StockResultsTable = React.memo(() => {
             return watchlistRows;
         }
 
-        return watchlistRows.filter(row => matchesWatchlistSearch(row, normalizedSearchText));
+        return getWatchlistSearchRows(watchlistRows, normalizedSearchText);
     }, [debouncedWatchlistSearchText, watchlistRows]);
 
     const {detailModal, selectedStockDetailRow, handleDetailPress, handleScoreDetailOpenChange, handleStockDetailOpenChange, handleStockDetailPress, handleStockDetailScorePress} = useStockRouteModal(
@@ -154,6 +154,12 @@ function getWatchlistEmptyMessage(watchlistTickerCount: number, searchText: stri
     return "搵唔到觀察名單股票";
 }
 
-function matchesWatchlistSearch(row: StockRow, normalizedSearchText: string): boolean {
-    return row.ticker.toLowerCase().includes(normalizedSearchText) || row.name.toLowerCase().includes(normalizedSearchText) || row.sector.toLowerCase().includes(normalizedSearchText);
+function getWatchlistSearchRows(rows: StockRow[], normalizedSearchText: string): StockRow[] {
+    const tickerRows = rows.filter(row => row.ticker.toLowerCase().includes(normalizedSearchText));
+
+    if (tickerRows.length > 0) {
+        return tickerRows;
+    }
+
+    return rows.filter(row => row.name.toLowerCase().includes(normalizedSearchText));
 }
