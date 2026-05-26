@@ -5,6 +5,7 @@ import {LoadMoreStatus} from "@/components/stocks/shared/LoadMoreStatus";
 import {MobileMetricValue} from "@/components/stocks/mobile/MobileMetricValue";
 import {MobileSortBar} from "@/components/stocks/mobile/MobileSortBar";
 import {WatchlistButton} from "@/components/stocks/shared/WatchlistButton";
+import {useLoadMoreObserver} from "@/hooks/useLoadMoreObserver";
 import type {StockRow} from "@/types/Screener";
 import {formatCurrency, formatPercent} from "@/utils/Format";
 import {getMobileMetricLabel} from "@/utils/MobileStockMetrics";
@@ -27,29 +28,7 @@ interface Props {
 
 export const MobileStockList = React.memo<Props>(
     ({emptyMessage, error, hasMore, isLoading, isLoadingMore, loadMoreError, rows, sortDescriptor, watchlistTickers, onLoadMore, onSelectedRowChange, onSortChange, onWatchlistToggle}) => {
-        const loadMoreRef = React.useRef<HTMLDivElement | null>(null);
-
-        React.useEffect(() => {
-            const element = loadMoreRef.current;
-
-            if (!element || !hasMore || isLoading || isLoadingMore || error || loadMoreError) {
-                return;
-            }
-
-            const observer = new IntersectionObserver(entries => {
-                const entry = entries[0];
-
-                if (entry?.isIntersecting) {
-                    onLoadMore();
-                }
-            });
-
-            observer.observe(element);
-
-            return () => {
-                observer.disconnect();
-            };
-        }, [error, hasMore, isLoading, isLoadingMore, loadMoreError, onLoadMore]);
+        const loadMoreRef = useLoadMoreObserver({error, hasMore, isLoading, isLoadingMore, loadMoreError, onLoadMore});
 
         const handleRowPress = (row: StockRow) => {
             onSelectedRowChange(row);

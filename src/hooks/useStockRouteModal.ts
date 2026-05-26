@@ -4,10 +4,7 @@ import {fetchScreenerRows} from "@/services/ScreenerApi";
 import {useAuthStore} from "@/stores/useAuthStore";
 import type {ScreenerFilters, StockRow} from "@/types/Screener";
 import type {DetailKind, DetailModalState} from "@/types/StockDetail";
-
-interface RouteState {
-    returnPath?: string;
-}
+import {getListPath, getRouteDetailKind, getScoreDetailPath, getStockDetailPath, type StockDetailRouteState} from "@/utils/StockDetailRoutes";
 
 interface UseStockRouteModalResult {
     detailModal: DetailModalState | null;
@@ -87,7 +84,7 @@ export function useStockRouteModal(rows: StockRow[]): UseStockRouteModalResult {
     }
 
     function handleStockDetailScorePress(row: StockRow, kind: DetailKind): void {
-        navigate(getScoreDetailPath(row, kind, location.search), {state: {returnPath: getStockDetailPath(row, location.search)} satisfies RouteState});
+        navigate(getScoreDetailPath(row, kind, location.search), {state: {returnPath: getStockDetailPath(row, location.search)} satisfies StockDetailRouteState});
     }
 
     function handleStockDetailPress(row: StockRow): void {
@@ -96,7 +93,7 @@ export function useStockRouteModal(rows: StockRow[]): UseStockRouteModalResult {
 
     function handleScoreDetailOpenChange(isOpen: boolean): void {
         if (!isOpen) {
-            const state = location.state as RouteState | null;
+            const state = location.state as StockDetailRouteState | null;
 
             navigate(state?.returnPath ?? listPath);
         }
@@ -117,24 +114,4 @@ export function useStockRouteModal(rows: StockRow[]): UseStockRouteModalResult {
         handleStockDetailPress,
         handleStockDetailScorePress,
     };
-}
-
-function getRouteDetailKind(detailKind: string | undefined): DetailKind | null {
-    if (detailKind === "fundamental" || detailKind === "technical") {
-        return detailKind;
-    }
-
-    return null;
-}
-
-function getListPath(search: string): string {
-    return `/${search}`;
-}
-
-function getStockDetailPath(row: StockRow, search: string): string {
-    return `/${encodeURIComponent(row.ticker.toUpperCase())}${search}`;
-}
-
-function getScoreDetailPath(row: StockRow, kind: DetailKind, search: string): string {
-    return `/${encodeURIComponent(row.ticker.toUpperCase())}/${kind}${search}`;
 }

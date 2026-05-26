@@ -1,9 +1,10 @@
 import React from "react";
+import type {SortDescriptor} from "@heroui/react";
 import {DesktopStockTableBody} from "@/components/stocks/desktop/DesktopStockTableBody";
 import {DesktopStockTableHeader} from "@/components/stocks/desktop/DesktopStockTableHeader";
+import {useLoadMoreObserver} from "@/hooks/useLoadMoreObserver";
 import type {StockRow} from "@/types/Screener";
-import {DetailKind} from "@/types/StockDetail";
-import {SortDescriptor} from "@heroui/react";
+import type {DetailKind} from "@/types/StockDetail";
 
 interface Props {
     emptyMessage: string;
@@ -40,29 +41,7 @@ export const DesktopStockTable = React.memo<Props>(
         onWatchlistToggle,
     }) => {
         const [chartTicker, setChartTicker] = React.useState<string | null>(null);
-        const loadMoreRef = React.useRef<HTMLDivElement | null>(null);
-
-        React.useEffect(() => {
-            const element = loadMoreRef.current;
-
-            if (!element || !hasMore || isLoading || isLoadingMore || error || loadMoreError) {
-                return;
-            }
-
-            const observer = new IntersectionObserver(entries => {
-                const entry = entries[0];
-
-                if (entry?.isIntersecting) {
-                    onLoadMore();
-                }
-            });
-
-            observer.observe(element);
-
-            return () => {
-                observer.disconnect();
-            };
-        }, [error, hasMore, isLoading, isLoadingMore, loadMoreError, onLoadMore]);
+        const loadMoreRef = useLoadMoreObserver({error, hasMore, isLoading, isLoadingMore, loadMoreError, onLoadMore});
 
         const handleChartOpenChange = (ticker: string, isOpen: boolean) => {
             setChartTicker(isOpen ? ticker : null);

@@ -2,10 +2,10 @@ import React from "react";
 import {Navigate, Route, Routes, useLocation} from "react-router";
 import {AuthTokenRedirect} from "@/components/app/AuthTokenRedirect";
 import {MaintenancePage} from "@/components/app/MaintenancePage";
+import {useThemeClassName} from "@/hooks/useThemeClassName";
 import {AuthPage} from "@/pages/AuthPage";
 import {ScreenerPage} from "@/pages/ScreenerPage";
 import {useAuthStore} from "@/stores/useAuthStore";
-import {useScreenerStore} from "@/stores/useScreenerStore";
 import {getAuthToken, getAuthTokenLoginPath, getAuthTokenRedirectPath, getLoginRedirectPath, getReturnPath} from "@/utils/AppRoutes";
 
 const maintenanceMode = import.meta.env.VITE_MAINTENANCE_MODE === "1";
@@ -13,15 +13,12 @@ const maintenanceMode = import.meta.env.VITE_MAINTENANCE_MODE === "1";
 export const App = React.memo(() => {
     const apiToken = useAuthStore(state => state.apiToken);
     const authenticateWithToken = useAuthStore(state => state.authenticateWithToken);
-    const isDarkMode = useScreenerStore(state => state.isDarkMode);
     const location = useLocation();
     const authToken = getAuthToken(location.search);
     const authTokenRedirectPath = getAuthTokenRedirectPath(location);
     const authTokenLoginPath = getAuthTokenLoginPath(location);
 
-    React.useEffect(() => {
-        document.documentElement.classList.toggle("dark", isDarkMode);
-    }, [isDarkMode]);
+    useThemeClassName();
 
     if (authToken) {
         return (

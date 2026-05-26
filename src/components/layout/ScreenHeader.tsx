@@ -2,28 +2,10 @@ import React from "react";
 import {Button, Chip, Tooltip} from "@heroui/react";
 import {LogOut} from "lucide-react";
 import {ThemeToggleButton} from "@/components/layout/ThemeToggleButton";
-import {useAuthStore} from "@/stores/useAuthStore";
-import {useMainTabStore} from "@/stores/useMainTabStore";
-import {useScreenerStore} from "@/stores/useScreenerStore";
-import {useWatchlistStore} from "@/stores/useWatchlistStore";
+import {useScreenHeaderController} from "@/hooks/useScreenHeaderController";
 
 export const ScreenHeader = React.memo(() => {
-    const clearRows = useScreenerStore(state => state.clearRows);
-    const isLoading = useScreenerStore(state => state.isLoading);
-    const clearWatchlistRows = useWatchlistStore(state => state.clearRows);
-    const isDarkMode = useScreenerStore(state => state.isDarkMode);
-    const totalCount = useScreenerStore(state => state.totalCount);
-    const toggleDarkMode = useScreenerStore(state => state.toggleDarkMode);
-    const activeTab = useMainTabStore(state => state.activeTab);
-    const watchlistTickers = useWatchlistStore(state => state.tickers);
-    const logout = useAuthStore(state => state.logout);
-    const stockCount = activeTab === "watchlist" ? watchlistTickers.length : totalCount;
-
-    const handleLogout = () => {
-        logout();
-        clearRows();
-        clearWatchlistRows();
-    };
+    const {isDarkMode, isLoading, stockCount, handleLogout, toggleDarkMode} = useScreenHeaderController();
 
     return (
         <header className="flex flex-row items-center justify-between gap-3 mb-5">

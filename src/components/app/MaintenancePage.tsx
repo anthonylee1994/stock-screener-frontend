@@ -1,11 +1,11 @@
 import React from "react";
 import {Wrench} from "lucide-react";
 import {ThemeToggleButton} from "@/components/layout/ThemeToggleButton";
-import {useScreenerStore} from "@/stores/useScreenerStore";
+import {useThemeStore} from "@/stores/useThemeStore";
 
 export const MaintenancePage = React.memo(() => {
-    const isDarkMode = useScreenerStore(state => state.isDarkMode);
-    const toggleDarkMode = useScreenerStore(state => state.toggleDarkMode);
+    const isDarkMode = useThemeStore(state => state.isDarkMode);
+    const toggleDarkMode = useThemeStore(state => state.toggleDarkMode);
 
     return (
         <main className="min-h-screen bg-neutral-50 text-neutral-950 dark:bg-neutral-950 dark:text-neutral-100">

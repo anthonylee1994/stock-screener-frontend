@@ -1,57 +1,15 @@
 import React from "react";
 import {Button, Form, InputGroup, Label} from "@heroui/react";
 import {Eye, EyeOff, KeyRound} from "lucide-react";
-import {useLocation, useNavigate} from "react-router";
 import {ThemeToggleButton} from "@/components/layout/ThemeToggleButton";
-import {useAuthStore} from "@/stores/useAuthStore";
-import {useScreenerStore} from "@/stores/useScreenerStore";
-
-interface LocationState {
-    returnPath?: string;
-}
+import {useAuthPageController} from "@/hooks/useAuthPageController";
+import {useThemeStore} from "@/stores/useThemeStore";
 
 export const AuthPage = React.memo(() => {
-    const apiToken = useAuthStore(state => state.apiToken);
-    const authError = useAuthStore(state => state.authError);
-    const isAuthenticating = useAuthStore(state => state.isAuthenticating);
-    const login = useAuthStore(state => state.login);
-    const setTokenInput = useAuthStore(state => state.setTokenInput);
-    const tokenInput = useAuthStore(state => state.tokenInput);
-    const isDarkMode = useScreenerStore(state => state.isDarkMode);
-    const toggleDarkMode = useScreenerStore(state => state.toggleDarkMode);
-    const location = useLocation();
-    const navigate = useNavigate();
-    const abortControllerRef = React.useRef<AbortController | null>(null);
+    const {authError, isAuthenticating, tokenInput, handleSubmit, handleTokenInputChange} = useAuthPageController();
+    const isDarkMode = useThemeStore(state => state.isDarkMode);
+    const toggleDarkMode = useThemeStore(state => state.toggleDarkMode);
     const [isPasswordVisible, setIsPasswordVisible] = React.useState(false);
-    const locationState = location.state as LocationState | null;
-    const returnPath = locationState?.returnPath ?? "/";
-
-    React.useEffect(() => {
-        return () => {
-            abortControllerRef.current?.abort();
-        };
-    }, []);
-
-    React.useEffect(() => {
-        if (apiToken.length > 0) {
-            navigate(returnPath, {replace: true});
-        }
-    }, [apiToken, returnPath, navigate]);
-
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-
-        abortControllerRef.current?.abort();
-
-        const abortController = new AbortController();
-        abortControllerRef.current = abortController;
-
-        void login(abortController.signal);
-    };
-
-    const handleTokenInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setTokenInput(event.target.value);
-    };
 
     const handlePasswordVisibilityToggle = () => {
         setIsPasswordVisible(!isPasswordVisible);

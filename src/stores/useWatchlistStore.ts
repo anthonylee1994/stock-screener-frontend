@@ -1,8 +1,7 @@
 import {create} from "zustand";
 import {fetchScreenerRows} from "@/services/ScreenerApi";
 import type {ScreenerFilters, StockRow} from "@/types/Screener";
-
-export const watchlistStorageKey = "stock-screener-watchlist";
+import {getInitialWatchlistTickers, normalizeWatchlistTicker, saveWatchlistTickers} from "@/utils/WatchlistPreferences";
 
 interface WatchlistStore {
     error: string | null;
@@ -22,7 +21,7 @@ export const useWatchlistStore = create<WatchlistStore>()((set, get) => {
         isLoading: false,
         reloadKey: 0,
         rows: [],
-        tickers: getInitialTickers(),
+        tickers: getInitialWatchlistTickers(),
         clearRows() {
             set({
                 error: null,
@@ -74,7 +73,7 @@ export const useWatchlistStore = create<WatchlistStore>()((set, get) => {
             });
         },
         toggleTicker(ticker: string) {
-            const normalizedTicker = normalizeTicker(ticker);
+            const normalizedTicker = normalizeWatchlistTicker(ticker);
 
             if (!normalizedTicker) {
                 return;
@@ -85,40 +84,10 @@ export const useWatchlistStore = create<WatchlistStore>()((set, get) => {
                 const tickers = isWatched ? state.tickers.filter(value => value !== normalizedTicker) : [...state.tickers, normalizedTicker];
                 const rows = isWatched ? state.rows.filter(row => row.ticker.toUpperCase() !== normalizedTicker) : state.rows;
 
-                saveTickers(tickers);
+                saveWatchlistTickers(tickers);
 
                 return {rows, tickers};
             });
         },
     };
 });
-
-function getInitialTickers(): string[] {
-    const storedTickers = window.localStorage.getItem(watchlistStorageKey);
-
-    if (!storedTickers) {
-        return [];
-    }
-
-    try {
-        return normalizeTickers(JSON.parse(storedTickers));
-    } catch {
-        return [];
-    }
-}
-
-function saveTickers(tickers: string[]): void {
-    window.localStorage.setItem(watchlistStorageKey, JSON.stringify(tickers));
-}
-
-function normalizeTickers(value: unknown): string[] {
-    if (!Array.isArray(value)) {
-        return [];
-    }
-
-    return Array.from(new Set(value.map(item => normalizeTicker(String(item))).filter(ticker => ticker.length > 0)));
-}
-
-function normalizeTicker(ticker: string): string {
-    return ticker.trim().toUpperCase();
-}

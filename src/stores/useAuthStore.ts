@@ -1,7 +1,6 @@
 import {create} from "zustand";
 import {authenticate} from "@/services/ScreenerApi";
-
-export const authTokenStorageKey = "stock-screener-api-token";
+import {clearApiToken, getInitialApiToken, saveApiToken} from "@/utils/AuthTokenPreferences";
 
 interface AuthStore {
     apiToken: string;
@@ -15,10 +14,8 @@ interface AuthStore {
 }
 
 export const useAuthStore = create<AuthStore>()((set, get) => {
-    const initialApiToken = window.localStorage.getItem(authTokenStorageKey) ?? "";
-
     return {
-        apiToken: initialApiToken,
+        apiToken: getInitialApiToken(),
         authError: null,
         isAuthenticating: false,
         tokenInput: "",
@@ -43,7 +40,7 @@ export const useAuthStore = create<AuthStore>()((set, get) => {
                     return false;
                 }
 
-                window.localStorage.setItem(authTokenStorageKey, nextApiToken);
+                saveApiToken(nextApiToken);
                 set({
                     apiToken: nextApiToken,
                     authError: null,
@@ -91,7 +88,7 @@ export const useAuthStore = create<AuthStore>()((set, get) => {
                     return;
                 }
 
-                window.localStorage.setItem(authTokenStorageKey, nextApiToken);
+                saveApiToken(nextApiToken);
                 set({
                     apiToken: nextApiToken,
                     authError: null,
@@ -113,7 +110,7 @@ export const useAuthStore = create<AuthStore>()((set, get) => {
             }
         },
         logout() {
-            window.localStorage.removeItem(authTokenStorageKey);
+            clearApiToken();
             set({
                 apiToken: "",
                 authError: null,
