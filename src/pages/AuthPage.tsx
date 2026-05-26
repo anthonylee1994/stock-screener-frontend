@@ -2,9 +2,9 @@ import React from "react";
 import {Button, Form, InputGroup, Label} from "@heroui/react";
 import {Eye, EyeOff, KeyRound} from "lucide-react";
 import {useLocation, useNavigate} from "react-router";
-import {ThemeToggleButton} from "../components/layout/ThemeToggleButton";
-import {useAuthStore} from "../stores/useAuthStore";
-import {useScreenerStore} from "../stores/useScreenerStore";
+import {ThemeToggleButton} from "@/components/layout/ThemeToggleButton";
+import {useAuthStore} from "@/stores/useAuthStore";
+import {useScreenerStore} from "@/stores/useScreenerStore";
 
 interface LocationState {
     returnPath?: string;

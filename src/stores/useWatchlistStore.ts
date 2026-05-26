@@ -1,6 +1,6 @@
 import {create} from "zustand";
-import {fetchScreenerRows} from "../services/ScreenerApi";
-import type {ScreenerFilters, StockRow} from "../types/Screener";
+import {fetchScreenerRows} from "@/services/ScreenerApi";
+import type {ScreenerFilters, StockRow} from "@/types/Screener";
 
 export const watchlistStorageKey = "stock-screener-watchlist";
 

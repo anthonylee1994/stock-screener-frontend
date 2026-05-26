@@ -1,5 +1,5 @@
-import type {DetailModalState} from "../types/StockDetail";
-import {formatCompactCurrency, formatPercent, formatScore} from "./Format";
+import type {DetailModalState} from "@/types/StockDetail";
+import {formatCompactCurrency, formatPercent, formatScore} from "@/utils/Format";
 
 export interface DetailItem {
     label: string;

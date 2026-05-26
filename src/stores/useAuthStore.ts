@@ -1,5 +1,5 @@
 import {create} from "zustand";
-import {authenticate} from "../services/ScreenerApi";
+import {authenticate} from "@/services/ScreenerApi";
 
 export const authTokenStorageKey = "stock-screener-api-token";
 

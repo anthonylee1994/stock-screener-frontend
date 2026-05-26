@@ -1,11 +1,11 @@
 import React from "react";
 import {Button, Chip, Tooltip} from "@heroui/react";
 import {LogOut} from "lucide-react";
-import {ThemeToggleButton} from "./ThemeToggleButton";
-import {useAuthStore} from "../../stores/useAuthStore";
-import {useMainTabStore} from "../../stores/useMainTabStore";
-import {useScreenerStore} from "../../stores/useScreenerStore";
-import {useWatchlistStore} from "../../stores/useWatchlistStore";
+import {ThemeToggleButton} from "@/components/layout/ThemeToggleButton";
+import {useAuthStore} from "@/stores/useAuthStore";
+import {useMainTabStore} from "@/stores/useMainTabStore";
+import {useScreenerStore} from "@/stores/useScreenerStore";
+import {useWatchlistStore} from "@/stores/useWatchlistStore";
 
 export const ScreenHeader = React.memo(() => {
     const clearRows = useScreenerStore(state => state.clearRows);

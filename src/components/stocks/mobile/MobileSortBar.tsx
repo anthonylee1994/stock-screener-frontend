@@ -2,7 +2,7 @@ import React from "react";
 import type {SortDescriptor} from "@heroui/react";
 import classNames from "classnames";
 import {ArrowDown, ArrowUp} from "lucide-react";
-import {mobileSortOptions} from "../../../constants/MobileSortOptions";
+import {mobileSortOptions} from "@/constants/MobileSortOptions";
 
 interface Props {
     sortDescriptor: SortDescriptor;

@@ -1,13 +1,13 @@
 import React from "react";
 import type {SortDescriptor} from "@heroui/react";
 import classNames from "classnames";
-import {LoadMoreStatus} from "../shared/LoadMoreStatus";
-import {MobileMetricValue} from "./MobileMetricValue";
-import {MobileSortBar} from "./MobileSortBar";
-import {WatchlistButton} from "../shared/WatchlistButton";
-import type {StockRow} from "../../../types/Screener";
-import {formatCurrency, formatPercent} from "../../../utils/Format";
-import {getMobileMetricLabel} from "../../../utils/MobileStockMetrics";
+import {LoadMoreStatus} from "@/components/stocks/shared/LoadMoreStatus";
+import {MobileMetricValue} from "@/components/stocks/mobile/MobileMetricValue";
+import {MobileSortBar} from "@/components/stocks/mobile/MobileSortBar";
+import {WatchlistButton} from "@/components/stocks/shared/WatchlistButton";
+import type {StockRow} from "@/types/Screener";
+import {formatCurrency, formatPercent} from "@/utils/Format";
+import {getMobileMetricLabel} from "@/utils/MobileStockMetrics";
 
 interface Props {
     emptyMessage: string;

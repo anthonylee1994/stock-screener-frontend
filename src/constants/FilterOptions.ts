@@ -1,4 +1,4 @@
-import type {MarketCapFilter, OrderFilter, SectorFilter} from "../types/Screener";
+import type {MarketCapFilter, OrderFilter, SectorFilter} from "@/types/Screener";
 
 export const sectorOptions: readonly {label: string; value: SectorFilter}[] = [
     {label: "全部", value: "All"},

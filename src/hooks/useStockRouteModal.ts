@@ -1,9 +1,9 @@
 import React from "react";
 import {useLocation, useNavigate, useParams} from "react-router";
-import {fetchScreenerRows} from "../services/ScreenerApi";
-import {useAuthStore} from "../stores/useAuthStore";
-import type {ScreenerFilters, StockRow} from "../types/Screener";
-import type {DetailKind, DetailModalState} from "../types/StockDetail";
+import {fetchScreenerRows} from "@/services/ScreenerApi";
+import {useAuthStore} from "@/stores/useAuthStore";
+import type {ScreenerFilters, StockRow} from "@/types/Screener";
+import type {DetailKind, DetailModalState} from "@/types/StockDetail";
 
 interface RouteState {
     returnPath?: string;

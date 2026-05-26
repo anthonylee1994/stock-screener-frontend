@@ -1,12 +1,12 @@
 import React from "react";
 import {Navigate, Route, Routes, useLocation} from "react-router";
-import {AuthTokenRedirect} from "./components/app/AuthTokenRedirect";
-import {MaintenancePage} from "./components/app/MaintenancePage";
-import {AuthPage} from "./pages/AuthPage";
-import {ScreenerPage} from "./pages/ScreenerPage";
-import {useAuthStore} from "./stores/useAuthStore";
-import {useScreenerStore} from "./stores/useScreenerStore";
-import {getAuthToken, getAuthTokenLoginPath, getAuthTokenRedirectPath, getLoginRedirectPath, getReturnPath} from "./utils/AppRoutes";
+import {AuthTokenRedirect} from "@/components/app/AuthTokenRedirect";
+import {MaintenancePage} from "@/components/app/MaintenancePage";
+import {AuthPage} from "@/pages/AuthPage";
+import {ScreenerPage} from "@/pages/ScreenerPage";
+import {useAuthStore} from "@/stores/useAuthStore";
+import {useScreenerStore} from "@/stores/useScreenerStore";
+import {getAuthToken, getAuthTokenLoginPath, getAuthTokenRedirectPath, getLoginRedirectPath, getReturnPath} from "@/utils/AppRoutes";
 
 const maintenanceMode = import.meta.env.VITE_MAINTENANCE_MODE === "1";
 

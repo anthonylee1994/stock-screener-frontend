@@ -1,19 +1,19 @@
 import React from "react";
 import type {Key, SortDescriptor} from "@heroui/react";
 import {Tabs} from "@heroui/react";
-import {FilterPanel} from "../filters/FilterPanel";
-import {ScoreDetailModal} from "../stock-detail/ScoreDetailModal";
-import {StockDetailModal} from "../stock-detail/StockDetailModal";
-import {StockResultsView} from "./StockResultsView";
-import {WatchlistSearchBar} from "./watchlist/WatchlistSearchBar";
-import {useDebounce} from "../../hooks/useDebounce";
-import {useStockRouteModal} from "../../hooks/useStockRouteModal";
-import {useAuthStore} from "../../stores/useAuthStore";
-import {useMainTabStore} from "../../stores/useMainTabStore";
-import {useScreenerStore} from "../../stores/useScreenerStore";
-import {useWatchlistStore} from "../../stores/useWatchlistStore";
-import type {StockRow} from "../../types/Screener";
-import {getWatchlistEmptyMessage, getWatchlistSearchRows} from "../../utils/WatchlistRows";
+import {FilterPanel} from "@/components/filters/FilterPanel";
+import {ScoreDetailModal} from "@/components/stock-detail/ScoreDetailModal";
+import {StockDetailModal} from "@/components/stock-detail/StockDetailModal";
+import {StockResultsView} from "@/components/stocks/StockResultsView";
+import {WatchlistSearchBar} from "@/components/stocks/watchlist/WatchlistSearchBar";
+import {useDebounce} from "@/hooks/useDebounce";
+import {useStockRouteModal} from "@/hooks/useStockRouteModal";
+import {useAuthStore} from "@/stores/useAuthStore";
+import {useMainTabStore} from "@/stores/useMainTabStore";
+import {useScreenerStore} from "@/stores/useScreenerStore";
+import {useWatchlistStore} from "@/stores/useWatchlistStore";
+import type {StockRow} from "@/types/Screener";
+import {getWatchlistEmptyMessage, getWatchlistSearchRows} from "@/utils/WatchlistRows";
 
 export const StockResultsTable = React.memo(() => {
     const apiToken = useAuthStore(state => state.apiToken);

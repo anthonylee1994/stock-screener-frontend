@@ -1,7 +1,7 @@
 import type {SortDescriptor} from "@heroui/react";
 import {create} from "zustand";
-import {fetchScreenerRows} from "../services/ScreenerApi";
-import type {ScreenerFilters, StockRow} from "../types/Screener";
+import {fetchScreenerRows} from "@/services/ScreenerApi";
+import type {ScreenerFilters, StockRow} from "@/types/Screener";
 
 export const colorModeStorageKey = "stock-screener-color-mode";
 export const filterPreferencesStorageKey = "stock-screener-filter-preferences";

@@ -6,6 +6,9 @@
         "lib": ["ES2022", "DOM", "DOM.Iterable"],
         "allowImportingTsExtensions": true,
         "module": "ESNext",
+        "paths": {
+            "@/*": ["./src/*"]
+        },
         "types": ["vite/client"],
         "skipLibCheck": true,
         "moduleResolution": "bundler",

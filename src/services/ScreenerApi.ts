@@ -1,4 +1,4 @@
-import type {ScreenerApiResponse, ScreenerApiRow, ScreenerFilters, ScreenerRowsResponse, StockRow} from "../types/Screener";
+import type {ScreenerApiResponse, ScreenerApiRow, ScreenerFilters, ScreenerRowsResponse, StockRow} from "@/types/Screener";
 
 type AuthResponse = {
     authorized: boolean;

@@ -1,11 +1,11 @@
 import React from "react";
 import {useLocation, useNavigate} from "react-router";
-import {ScrollToTopButton} from "../components/layout/ScrollToTopButton";
-import {ScreenHeader} from "../components/layout/ScreenHeader";
-import {StockResultsTable} from "../components/stocks/StockResultsTable";
-import {useAuthStore} from "../stores/useAuthStore";
-import {useScreenerStore} from "../stores/useScreenerStore";
-import {areFiltersEqual, getScreenerSearch, getUrlScreenerState} from "../utils/ScreenerUrlState";
+import {ScrollToTopButton} from "@/components/layout/ScrollToTopButton";
+import {ScreenHeader} from "@/components/layout/ScreenHeader";
+import {StockResultsTable} from "@/components/stocks/StockResultsTable";
+import {useAuthStore} from "@/stores/useAuthStore";
+import {useScreenerStore} from "@/stores/useScreenerStore";
+import {areFiltersEqual, getScreenerSearch, getUrlScreenerState} from "@/utils/ScreenerUrlState";
 
 export const ScreenerPage = React.memo(() => {
     const apiToken = useAuthStore(state => state.apiToken);

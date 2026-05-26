@@ -1,11 +1,11 @@
 import React from "react";
 import {Modal} from "@heroui/react";
 import classNames from "classnames";
-import {FinvizChart} from "./FinvizChart";
-import type {DetailModalState} from "../../types/StockDetail";
-import {formatScore} from "../../utils/Format";
-import {getScoreClassName} from "../../utils/ScoreStyle";
-import {getDetailSections, getDetailSummary} from "../../utils/ScoreDetailSections";
+import {FinvizChart} from "@/components/stock-detail/FinvizChart";
+import type {DetailModalState} from "@/types/StockDetail";
+import {formatScore} from "@/utils/Format";
+import {getScoreClassName} from "@/utils/ScoreStyle";
+import {getDetailSections, getDetailSummary} from "@/utils/ScoreDetailSections";
 
 interface Props {
     detailModal: DetailModalState | null;

@@ -1,12 +1,12 @@
 import React from "react";
 import {Modal} from "@heroui/react";
-import {FinvizChart} from "./FinvizChart";
-import {StockDetailItem} from "./StockDetailItem";
-import {StockScoreAction} from "./StockScoreAction";
-import {getSectorDisplayName} from "../../constants/FilterOptions";
-import type {StockRow} from "../../types/Screener";
-import type {DetailKind} from "../../types/StockDetail";
-import {formatCompactCurrency, formatScore, formatVolume} from "../../utils/Format";
+import {FinvizChart} from "@/components/stock-detail/FinvizChart";
+import {StockDetailItem} from "@/components/stock-detail/StockDetailItem";
+import {StockScoreAction} from "@/components/stock-detail/StockScoreAction";
+import {getSectorDisplayName} from "@/constants/FilterOptions";
+import type {StockRow} from "@/types/Screener";
+import type {DetailKind} from "@/types/StockDetail";
+import {formatCompactCurrency, formatScore, formatVolume} from "@/utils/Format";
 
 interface Props {
     row: StockRow | null;

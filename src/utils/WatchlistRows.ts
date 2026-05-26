@@ -1,4 +1,4 @@
-import type {StockRow} from "../types/Screener";
+import type {StockRow} from "@/types/Screener";
 
 export function getWatchlistEmptyMessage(watchlistTickerCount: number, searchText: string): string {
     if (watchlistTickerCount === 0) {

@@ -1,4 +1,4 @@
-import type {StockRow} from "./Screener";
+import type {StockRow} from "@/types/Screener";
 
 export type DetailKind = "fundamental" | "technical";
 

@@ -1,5 +1,5 @@
 import React from "react";
-import {DesktopSortableHeader} from "./DesktopSortableHeader";
+import {DesktopSortableHeader} from "@/components/stocks/desktop/DesktopSortableHeader";
 import {SortDescriptor} from "@heroui/react";
 
 interface Props {

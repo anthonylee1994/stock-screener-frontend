@@ -1,5 +1,5 @@
-import {marketCapOptions, orderOptions, sectorOptions} from "../constants/FilterOptions";
-import type {MarketCapFilter, OrderFilter, ScreenerFilters, SectorFilter} from "../types/Screener";
+import {marketCapOptions, orderOptions, sectorOptions} from "@/constants/FilterOptions";
+import type {MarketCapFilter, OrderFilter, ScreenerFilters, SectorFilter} from "@/types/Screener";
 
 const sectorFilterValues = new Set<string>(sectorOptions.map(option => option.value));
 const marketCapFilterValues = new Set<string>(marketCapOptions.map(option => option.value));
