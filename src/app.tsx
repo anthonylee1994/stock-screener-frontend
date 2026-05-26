@@ -1,18 +1,14 @@
 import React from "react";
 import {Navigate, Route, Routes, useLocation} from "react-router";
-import type {Location} from "react-router";
 import {AuthTokenRedirect} from "./components/app/AuthTokenRedirect";
 import {MaintenancePage} from "./components/app/MaintenancePage";
 import {AuthPage} from "./pages/AuthPage";
 import {ScreenerPage} from "./pages/ScreenerPage";
 import {useAuthStore} from "./stores/useAuthStore";
 import {useScreenerStore} from "./stores/useScreenerStore";
+import {getAuthToken, getAuthTokenLoginPath, getAuthTokenRedirectPath, getLoginRedirectPath, getReturnPath} from "./utils/AppRoutes";
 
 const maintenanceMode = import.meta.env.VITE_MAINTENANCE_MODE === "1";
-
-interface RouteState {
-    returnPath?: string;
-}
 
 export const App = React.memo(() => {
     const apiToken = useAuthStore(state => state.apiToken);
@@ -64,43 +60,3 @@ export const App = React.memo(() => {
         </Routes>
     );
 });
-
-function getReturnPath(location: Location): string | undefined {
-    const pathname = location.pathname;
-
-    if (pathname === "/login" || pathname === "/maintenance") {
-        return undefined;
-    }
-
-    return `${pathname}${location.search}${location.hash}`;
-}
-
-function getLoginRedirectPath(location: Location): string {
-    const state = location.state as RouteState | null;
-
-    return state?.returnPath ?? "/";
-}
-
-function getAuthToken(search: string): string | null {
-    return new URLSearchParams(search).get("authToken");
-}
-
-function getAuthTokenRedirectPath(location: Location): string {
-    const searchParams = new URLSearchParams(location.search);
-
-    searchParams.delete("authToken");
-
-    const search = searchParams.toString();
-
-    return `${location.pathname}${search ? `?${search}` : ""}${location.hash}`;
-}
-
-function getAuthTokenLoginPath(location: Location): string {
-    const searchParams = new URLSearchParams(location.search);
-
-    searchParams.delete("authToken");
-
-    const search = searchParams.toString();
-
-    return `/login${search ? `?${search}` : ""}${location.hash}`;
-}

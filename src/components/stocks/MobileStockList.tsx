@@ -3,10 +3,11 @@ import type {SortDescriptor} from "@heroui/react";
 import classNames from "classnames";
 import {LoadMoreStatus} from "./LoadMoreStatus";
 import {MobileMetricValue} from "./MobileMetricValue";
-import {MobileSortBar, mobileSortOptions} from "./MobileSortBar";
+import {MobileSortBar} from "./MobileSortBar";
 import {WatchlistButton} from "./WatchlistButton";
 import type {StockRow} from "../../types/Screener";
 import {formatCurrency, formatPercent} from "../../utils/Format";
+import {getMobileMetricLabel} from "../../utils/MobileStockMetrics";
 
 interface Props {
     emptyMessage: string;
@@ -130,9 +131,3 @@ export const MobileStockList = React.memo<Props>(
         );
     }
 );
-
-function getMobileMetricLabel(sortDescriptor: SortDescriptor): string {
-    const activeColumn = String(sortDescriptor.column);
-
-    return mobileSortOptions.find(option => option.id === activeColumn)?.label ?? "綜合";
-}
