@@ -30,7 +30,7 @@ const sectorFilterValues = new Set<string>([
 
 const marketCapFilterValues = new Set<string>(["+mid", "+large", "mid", "large", "mega"]);
 const orderFilterValues = new Set<string>(["change_percent", "market_cap", "fundamental_score", "technical_score", "total_score", "volume"]);
-const screenerPageLimit = 100;
+const screenerPageLimit = 15;
 
 interface ScreenerStore {
     error: string | null;

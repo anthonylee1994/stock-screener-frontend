@@ -1,6 +1,7 @@
 import React from "react";
 import type {SortDescriptor} from "@heroui/react";
 import classNames from "classnames";
+import {LoadMoreStatus} from "./LoadMoreStatus";
 import {MobileMetricValue} from "./MobileMetricValue";
 import {MobileSortBar, mobileSortOptions} from "./MobileSortBar";
 import {WatchlistButton} from "./WatchlistButton";
@@ -72,7 +73,7 @@ export const MobileStockList = React.memo<Props>(
                         <span className="text-right">價格</span>
                         <span className="text-right">{metricLabel}</span>
                     </div>
-                    {isLoading && rows.length === 0 ? (
+                    {isLoading ? (
                         <div className="py-8 text-center text-sm text-neutral-500 dark:text-neutral-400">載入緊...</div>
                     ) : error ? (
                         <div className="py-8 text-center text-sm text-red-600 dark:text-red-400">{error}</div>
@@ -121,7 +122,7 @@ export const MobileStockList = React.memo<Props>(
                                     </div>
                                 );
                             })}
-                            <LoadMoreStatus error={loadMoreError} hasMore={hasMore} isLoadingMore={isLoadingMore} loadMoreRef={loadMoreRef} onLoadMore={onLoadMore} />
+                            <LoadMoreStatus className="py-4" error={loadMoreError} hasMore={hasMore} isLoadingMore={isLoadingMore} loadMoreRef={loadMoreRef} />
                         </React.Fragment>
                     )}
                 </section>
@@ -129,31 +130,6 @@ export const MobileStockList = React.memo<Props>(
         );
     }
 );
-
-interface LoadMoreStatusProps {
-    error: string | null;
-    hasMore: boolean;
-    isLoadingMore: boolean;
-    loadMoreRef: React.RefObject<HTMLDivElement | null>;
-    onLoadMore(): void;
-}
-
-function LoadMoreStatus({error, hasMore, isLoadingMore, loadMoreRef, onLoadMore}: LoadMoreStatusProps): React.ReactNode {
-    if (!hasMore && !isLoadingMore && !error) {
-        return null;
-    }
-
-    return (
-        <div ref={loadMoreRef} className="border-t border-neutral-100 px-3 py-4 text-center text-sm text-neutral-500 dark:border-neutral-800 dark:text-neutral-400">
-            {isLoadingMore ? "載入更多..." : null}
-            {!isLoadingMore && error ? (
-                <button className="font-semibold text-red-600 dark:text-red-400" type="button" onClick={onLoadMore}>
-                    {error}，撳呢度重試
-                </button>
-            ) : null}
-        </div>
-    );
-}
 
 function getMobileMetricLabel(sortDescriptor: SortDescriptor): string {
     const activeColumn = String(sortDescriptor.column);

@@ -4,6 +4,7 @@ import {Chip, Popover} from "@heroui/react";
 import classNames from "classnames";
 import {FinvizChart} from "../stock-detail/FinvizChart";
 import {ScoreButton} from "../stock-detail/ScoreButton";
+import {LoadMoreStatus} from "./LoadMoreStatus";
 import {SortableColumnHeader} from "./SortableColumnHeader";
 import {WatchlistButton} from "./WatchlistButton";
 import {getSectorDisplayName} from "../../constants/FilterOptions";
@@ -119,7 +120,6 @@ export const DesktopStockTable = React.memo<Props>(
                         isLoadingMore,
                         loadMoreError,
                         loadMoreRef,
-                        onLoadMore,
                         onDetailPress,
                         handleStockDetailPress,
                         handleChartOpenChange,
@@ -142,7 +142,6 @@ function renderListBody(
     isLoadingMore: boolean,
     loadMoreError: string | null,
     loadMoreRef: React.RefObject<HTMLDivElement | null>,
-    onLoadMore: () => void,
     onDetailPress: (row: StockRow, kind: DetailKind) => void,
     onStockDetailPress: (row: StockRow) => void,
     onChartOpenChange: (ticker: string, isOpen: boolean) => void,
@@ -234,7 +233,7 @@ function renderListBody(
                     </div>
                 );
             })}
-            <LoadMoreStatus error={loadMoreError} hasMore={hasMore} isLoadingMore={isLoadingMore} loadMoreRef={loadMoreRef} onLoadMore={onLoadMore} />
+            <LoadMoreStatus className="py-5" error={loadMoreError} hasMore={hasMore} isLoadingMore={isLoadingMore} loadMoreRef={loadMoreRef} />
         </React.Fragment>
     );
 }
@@ -261,31 +260,6 @@ const SortableHeader = React.memo<SortableHeaderProps>(({align = "left", childre
         </button>
     );
 });
-
-interface LoadMoreStatusProps {
-    error: string | null;
-    hasMore: boolean;
-    isLoadingMore: boolean;
-    loadMoreRef: React.RefObject<HTMLDivElement | null>;
-    onLoadMore(): void;
-}
-
-function LoadMoreStatus({error, hasMore, isLoadingMore, loadMoreRef, onLoadMore}: LoadMoreStatusProps): React.ReactNode {
-    if (!hasMore && !isLoadingMore && !error) {
-        return null;
-    }
-
-    return (
-        <div ref={loadMoreRef} className="border-t border-neutral-100 px-3 py-5 text-center text-sm text-neutral-500 dark:border-neutral-800 dark:text-neutral-400">
-            {isLoadingMore ? "載入更多..." : null}
-            {!isLoadingMore && error ? (
-                <button className="font-semibold text-red-600 dark:text-red-400" type="button" onClick={onLoadMore}>
-                    {error}，撳呢度重試
-                </button>
-            ) : null}
-        </div>
-    );
-}
 
 function handleRowKeyDown(event: React.KeyboardEvent, row: StockRow, chartTicker: string | null, onChartOpenChange: (ticker: string, isOpen: boolean) => void): void {
     if (event.key === "Enter" || event.key === " ") {
