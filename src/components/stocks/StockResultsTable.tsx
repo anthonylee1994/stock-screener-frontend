@@ -5,7 +5,7 @@ import {FilterPanel} from "../filters/FilterPanel";
 import {ScoreDetailModal} from "../stock-detail/ScoreDetailModal";
 import {StockDetailModal} from "../stock-detail/StockDetailModal";
 import {StockResultsView} from "./StockResultsView";
-import {WatchlistSearchBar} from "./WatchlistSearchBar";
+import {WatchlistSearchBar} from "./watchlist/WatchlistSearchBar";
 import {useDebounce} from "../../hooks/useDebounce";
 import {useStockRouteModal} from "../../hooks/useStockRouteModal";
 import {useAuthStore} from "../../stores/useAuthStore";

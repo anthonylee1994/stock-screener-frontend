@@ -1,13 +1,13 @@
 import React from "react";
 import {Chip, Popover} from "@heroui/react";
 import classNames from "classnames";
-import {FinvizChart} from "../stock-detail/FinvizChart";
-import {ScoreButton} from "../stock-detail/ScoreButton";
-import {WatchlistButton} from "./WatchlistButton";
-import {getSectorDisplayName} from "../../constants/FilterOptions";
-import type {StockRow} from "../../types/Screener";
-import type {DetailKind} from "../../types/StockDetail";
-import {formatCompactCurrency, formatCurrency, formatPercent, formatVolume} from "../../utils/Format";
+import {FinvizChart} from "../../stock-detail/FinvizChart";
+import {ScoreButton} from "../../stock-detail/ScoreButton";
+import {WatchlistButton} from "../shared/WatchlistButton";
+import {getSectorDisplayName} from "../../../constants/FilterOptions";
+import type {StockRow} from "../../../types/Screener";
+import type {DetailKind} from "../../../types/StockDetail";
+import {formatCompactCurrency, formatCurrency, formatPercent, formatVolume} from "../../../utils/Format";
 
 interface Props {
     chartTicker: string | null;

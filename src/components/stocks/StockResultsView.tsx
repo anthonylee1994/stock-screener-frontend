@@ -1,7 +1,7 @@
 import React from "react";
 import type {SortDescriptor} from "@heroui/react";
-import {DesktopStockTable} from "./DesktopStockTable";
-import {MobileStockList} from "./MobileStockList";
+import {DesktopStockTable} from "./desktop/DesktopStockTable";
+import {MobileStockList} from "./mobile/MobileStockList";
 import type {StockRow} from "../../types/Screener";
 import type {DetailKind} from "../../types/StockDetail";
 

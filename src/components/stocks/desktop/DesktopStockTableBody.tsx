@@ -1,8 +1,8 @@
 import React from "react";
 import {DesktopStockTableRow} from "./DesktopStockTableRow";
-import {LoadMoreStatus} from "./LoadMoreStatus";
-import {StockRow} from "../../types/Screener";
-import {DetailKind} from "../../types/StockDetail";
+import {LoadMoreStatus} from "../shared/LoadMoreStatus";
+import {StockRow} from "../../../types/Screener";
+import {DetailKind} from "../../../types/StockDetail";
 
 interface Props {
     chartTicker: string | null;

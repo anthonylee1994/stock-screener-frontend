@@ -1,8 +1,8 @@
 import React from "react";
 import {DesktopStockTableBody} from "./DesktopStockTableBody";
 import {DesktopStockTableHeader} from "./DesktopStockTableHeader";
-import type {StockRow} from "../../types/Screener";
-import {DetailKind} from "../../types/StockDetail";
+import type {StockRow} from "../../../types/Screener";
+import {DetailKind} from "../../../types/StockDetail";
 import {SortDescriptor} from "@heroui/react";
 
 interface Props {

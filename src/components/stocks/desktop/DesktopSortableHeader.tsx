@@ -1,7 +1,7 @@
 import React from "react";
 import type {SortDescriptor} from "@heroui/react";
 import classNames from "classnames";
-import {SortableColumnHeader} from "./SortableColumnHeader";
+import {SortableColumnHeader} from "../shared/SortableColumnHeader";
 
 interface Props {
     align?: "center" | "left" | "right";

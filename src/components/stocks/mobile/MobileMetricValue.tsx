@@ -1,9 +1,9 @@
 import React from "react";
 import type {SortDescriptor} from "@heroui/react";
 import classNames from "classnames";
-import type {StockRow} from "../../types/Screener";
-import {formatCompactCurrency, formatPercent, formatScore, formatVolume} from "../../utils/Format";
-import {getScoreClassName} from "../../utils/ScoreStyle";
+import type {StockRow} from "../../../types/Screener";
+import {formatCompactCurrency, formatPercent, formatScore, formatVolume} from "../../../utils/Format";
+import {getScoreClassName} from "../../../utils/ScoreStyle";
 
 interface Props {
     row: StockRow;
