@@ -1,5 +1,5 @@
 import {create} from "zustand";
-import {getInitialDarkMode, saveDarkMode} from "@/utils/ScreenerPreferences";
+import {screenerPreferences} from "@/utils/screenerPreferences";
 
 interface ThemeStore {
     isDarkMode: boolean;
@@ -8,12 +8,12 @@ interface ThemeStore {
 
 export const useThemeStore = create<ThemeStore>()(set => {
     return {
-        isDarkMode: getInitialDarkMode(),
+        isDarkMode: screenerPreferences.getInitialDarkMode(),
         toggleDarkMode() {
             set(state => {
                 const isDarkMode = !state.isDarkMode;
 
-                saveDarkMode(isDarkMode);
+                screenerPreferences.saveDarkMode(isDarkMode);
 
                 return {isDarkMode};
             });

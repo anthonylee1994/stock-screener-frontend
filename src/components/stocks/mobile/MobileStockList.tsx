@@ -6,9 +6,9 @@ import {MobileMetricValue} from "@/components/stocks/mobile/MobileMetricValue";
 import {MobileSortBar} from "@/components/stocks/mobile/MobileSortBar";
 import {WatchlistButton} from "@/components/stocks/shared/WatchlistButton";
 import {useLoadMoreObserver} from "@/hooks/useLoadMoreObserver";
-import type {StockRow} from "@/types/Screener";
-import {formatCurrency, formatPercent} from "@/utils/Format";
-import {getMobileMetricLabel} from "@/utils/MobileStockMetrics";
+import type {StockRow} from "@/types/screener";
+import {format} from "@/utils/format";
+import {mobileStockMetrics} from "@/utils/mobileStockMetrics";
 
 interface Props {
     emptyMessage: string;
@@ -41,7 +41,7 @@ export const MobileStockList = React.memo<Props>(
             }
         };
 
-        const metricLabel = getMobileMetricLabel(sortDescriptor);
+        const metricLabel = mobileStockMetrics.getMobileMetricLabel(sortDescriptor);
 
         return (
             <React.Fragment>
@@ -86,14 +86,14 @@ export const MobileStockList = React.memo<Props>(
                                             </div>
                                         </div>
                                         <div className="text-right">
-                                            <p className="text-[13px] font-semibold leading-5 text-neutral-950 dark:text-neutral-100">{formatCurrency(row.price)}</p>
+                                            <p className="text-[13px] font-semibold leading-5 text-neutral-950 dark:text-neutral-100">{format.formatCurrency(row.price)}</p>
                                             <p
                                                 className={classNames("text-xs leading-5", {
                                                     "text-emerald-600 dark:text-emerald-400": row.changePercent >= 0,
                                                     "text-red-500 dark:text-red-400": row.changePercent < 0,
                                                 })}
                                             >
-                                                {formatPercent(row.changePercent)}
+                                                {format.formatPercent(row.changePercent)}
                                             </p>
                                         </div>
                                         <div className="flex justify-end">

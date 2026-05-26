@@ -1,7 +1,7 @@
 import {create} from "zustand";
-import {fetchScreenerRows} from "@/services/ScreenerApi";
-import type {ScreenerFilters, StockRow} from "@/types/Screener";
-import {getInitialWatchlistTickers, normalizeWatchlistTicker, saveWatchlistTickers} from "@/utils/WatchlistPreferences";
+import {screenerApi} from "@/services/screenerApi";
+import type {ScreenerFilters, StockRow} from "@/types/screener";
+import {watchlistPreferences} from "@/utils/watchlistPreferences";
 
 interface WatchlistStore {
     error: string | null;
@@ -21,7 +21,7 @@ export const useWatchlistStore = create<WatchlistStore>()((set, get) => {
         isLoading: false,
         reloadKey: 0,
         rows: [],
-        tickers: getInitialWatchlistTickers(),
+        tickers: watchlistPreferences.getInitialWatchlistTickers(),
         clearRows() {
             set({
                 error: null,
@@ -47,7 +47,7 @@ export const useWatchlistStore = create<WatchlistStore>()((set, get) => {
             });
 
             try {
-                const response = await fetchScreenerRows({
+                const response = await screenerApi.fetchScreenerRows({
                     apiToken,
                     filters,
                     signal,
@@ -73,7 +73,7 @@ export const useWatchlistStore = create<WatchlistStore>()((set, get) => {
             });
         },
         toggleTicker(ticker: string) {
-            const normalizedTicker = normalizeWatchlistTicker(ticker);
+            const normalizedTicker = watchlistPreferences.normalizeWatchlistTicker(ticker);
 
             if (!normalizedTicker) {
                 return;
@@ -84,7 +84,7 @@ export const useWatchlistStore = create<WatchlistStore>()((set, get) => {
                 const tickers = isWatched ? state.tickers.filter(value => value !== normalizedTicker) : [...state.tickers, normalizedTicker];
                 const rows = isWatched ? state.rows.filter(row => row.ticker.toUpperCase() !== normalizedTicker) : state.rows;
 
-                saveWatchlistTickers(tickers);
+                watchlistPreferences.saveWatchlistTickers(tickers);
 
                 return {rows, tickers};
             });

@@ -1,7 +1,7 @@
 import React from "react";
 import {useLocation, useNavigate} from "react-router";
 import {useScreenerStore} from "@/stores/useScreenerStore";
-import {areFiltersEqual, getScreenerSearch, getUrlScreenerState} from "@/utils/ScreenerUrlState";
+import {screenerUrlState} from "@/utils/screenerUrlState";
 
 export function useScreenerUrlSync(): void {
     const filters = useScreenerStore(state => state.filters);
@@ -17,12 +17,12 @@ export function useScreenerUrlSync(): void {
         const currentQuery = useScreenerStore.getState().query;
 
         if (location.search !== syncedSearchRef.current) {
-            const urlState = getUrlScreenerState(location.search, currentFilters, currentQuery);
-            const nextSearch = getScreenerSearch(urlState.filters, urlState.query);
+            const urlState = screenerUrlState.getUrlScreenerState(location.search, currentFilters, currentQuery);
+            const nextSearch = screenerUrlState.getScreenerSearch(urlState.filters, urlState.query);
 
             syncedSearchRef.current = nextSearch;
 
-            if (!areFiltersEqual(urlState.filters, currentFilters)) {
+            if (!screenerUrlState.areFiltersEqual(urlState.filters, currentFilters)) {
                 setFilters(urlState.filters);
             }
 
@@ -47,7 +47,7 @@ export function useScreenerUrlSync(): void {
             return;
         }
 
-        const nextSearch = getScreenerSearch(currentFilters, currentQuery);
+        const nextSearch = screenerUrlState.getScreenerSearch(currentFilters, currentQuery);
 
         if (nextSearch !== location.search) {
             syncedSearchRef.current = nextSearch;

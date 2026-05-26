@@ -3,10 +3,10 @@ import type {Key} from "@heroui/react";
 import {Button, Label, SearchField} from "@heroui/react";
 import classNames from "classnames";
 import {RefreshCw, Search} from "lucide-react";
-import {marketCapOptions, sectorOptions} from "@/constants/FilterOptions";
+import {filterOptions} from "@/constants/filterOptions";
 import {useDebounce} from "@/hooks/useDebounce";
 import {useScreenerStore} from "@/stores/useScreenerStore";
-import type {MarketCapFilter, SectorFilter} from "@/types/Screener";
+import type {MarketCapFilter, SectorFilter} from "@/types/screener";
 import {FilterSelect} from "@/components/filters/FilterSelect";
 
 export const FilterPanel = React.memo(() => {
@@ -67,8 +67,8 @@ export const FilterPanel = React.memo(() => {
                         <SearchField.ClearButton />
                     </SearchField.Group>
                 </SearchField>
-                <FilterSelect label="板塊" options={sectorOptions} placeholder="板塊" value={filters.sector} onChange={handleSectorChange} />
-                <FilterSelect label="市值" options={marketCapOptions} placeholder="市值" value={filters.marketCap} onChange={handleMarketCapChange} />
+                <FilterSelect label="板塊" options={filterOptions.sectorOptions} placeholder="板塊" value={filters.sector} onChange={handleSectorChange} />
+                <FilterSelect label="市值" options={filterOptions.marketCapOptions} placeholder="市值" value={filters.marketCap} onChange={handleMarketCapChange} />
                 <Button className="h-10 w-full whitespace-nowrap rounded-4xl px-3" isDisabled={isLoading} variant="primary" onPress={retryRows}>
                     <RefreshCw className={classNames("size-4", {"animate-spin": isLoading})} />
                     <span>重新整理</span>

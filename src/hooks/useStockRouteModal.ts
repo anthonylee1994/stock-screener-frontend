@@ -1,10 +1,10 @@
 import React from "react";
 import {useLocation, useNavigate, useParams} from "react-router";
-import {fetchScreenerRows} from "@/services/ScreenerApi";
+import {screenerApi} from "@/services/screenerApi";
 import {useAuthStore} from "@/stores/useAuthStore";
-import type {ScreenerFilters, StockRow} from "@/types/Screener";
-import type {DetailKind, DetailModalState} from "@/types/StockDetail";
-import {getListPath, getRouteDetailKind, getScoreDetailPath, getStockDetailPath, type StockDetailRouteState} from "@/utils/StockDetailRoutes";
+import type {ScreenerFilters, StockRow} from "@/types/screener";
+import type {DetailKind, DetailModalState} from "@/types/stockDetail";
+import {stockDetailRoutes, type StockDetailRouteState} from "@/utils/stockDetailRoutes";
 
 interface UseStockRouteModalResult {
     detailModal: DetailModalState | null;
@@ -30,12 +30,12 @@ export function useStockRouteModal(rows: StockRow[]): UseStockRouteModalResult {
     const params = useParams();
     const [routeLookupRow, setRouteLookupRow] = React.useState<StockRow | null>(null);
     const routeTicker = params.ticker ? decodeURIComponent(params.ticker).toUpperCase() : null;
-    const routeDetailKind = getRouteDetailKind(params.detailKind);
+    const routeDetailKind = stockDetailRoutes.getRouteDetailKind(params.detailKind);
     const tableRouteRow = routeTicker ? (rows.find(row => row.ticker.toUpperCase() === routeTicker) ?? null) : null;
     const routeRow = tableRouteRow ?? (routeLookupRow?.ticker.toUpperCase() === routeTicker ? routeLookupRow : null);
     const detailModal: DetailModalState | null = routeRow && routeDetailKind ? {kind: routeDetailKind, row: routeRow} : null;
     const selectedStockDetailRow = routeRow && !routeDetailKind ? routeRow : null;
-    const listPath = getListPath(location.search);
+    const listPath = stockDetailRoutes.getListPath(location.search);
 
     React.useEffect(() => {
         if (params.detailKind && !routeDetailKind) {
@@ -51,7 +51,7 @@ export function useStockRouteModal(rows: StockRow[]): UseStockRouteModalResult {
 
         const abortController = new AbortController();
 
-        void fetchScreenerRows({
+        void screenerApi.fetchScreenerRows({
             apiToken,
             filters: routeLookupFilters,
             signal: abortController.signal,
@@ -80,15 +80,15 @@ export function useStockRouteModal(rows: StockRow[]): UseStockRouteModalResult {
     }, [apiToken, listPath, routeTicker, tableRouteRow, navigate]);
 
     function handleDetailPress(row: StockRow, kind: DetailKind): void {
-        navigate(getScoreDetailPath(row, kind, location.search));
+        navigate(stockDetailRoutes.getScoreDetailPath(row, kind, location.search));
     }
 
     function handleStockDetailScorePress(row: StockRow, kind: DetailKind): void {
-        navigate(getScoreDetailPath(row, kind, location.search), {state: {returnPath: getStockDetailPath(row, location.search)} satisfies StockDetailRouteState});
+        navigate(stockDetailRoutes.getScoreDetailPath(row, kind, location.search), {state: {returnPath: stockDetailRoutes.getStockDetailPath(row, location.search)} satisfies StockDetailRouteState});
     }
 
     function handleStockDetailPress(row: StockRow): void {
-        navigate(getStockDetailPath(row, location.search));
+        navigate(stockDetailRoutes.getStockDetailPath(row, location.search));
     }
 
     function handleScoreDetailOpenChange(isOpen: boolean): void {

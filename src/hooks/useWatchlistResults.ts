@@ -1,8 +1,8 @@
 import React from "react";
 import {useDebounce} from "@/hooks/useDebounce";
 import {useWatchlistStore} from "@/stores/useWatchlistStore";
-import type {ScreenerFilters, StockRow} from "@/types/Screener";
-import {getWatchlistEmptyMessage, getWatchlistSearchRows} from "@/utils/WatchlistRows";
+import type {ScreenerFilters, StockRow} from "@/types/screener";
+import {watchlistRows as watchlistRowsUtil} from "@/utils/watchlistRows";
 
 interface UseWatchlistResultsOptions {
     apiToken: string;
@@ -25,7 +25,7 @@ export function useWatchlistResults(options: UseWatchlistResultsOptions) {
         return getFilteredWatchlistRows(watchlistRows, debouncedWatchlistSearchText);
     }, [debouncedWatchlistSearchText, watchlistRows]);
 
-    const watchlistEmptyMessage = getWatchlistEmptyMessage(watchlistTickers.length, debouncedWatchlistSearchText);
+    const watchlistEmptyMessage = watchlistRowsUtil.getWatchlistEmptyMessage(watchlistTickers.length, debouncedWatchlistSearchText);
 
     React.useEffect(() => {
         if (!options.isActive || watchlistTickers.length === 0) {
@@ -64,5 +64,5 @@ function getFilteredWatchlistRows(rows: StockRow[], searchText: string): StockRo
         return rows;
     }
 
-    return getWatchlistSearchRows(rows, normalizedSearchText);
+    return watchlistRowsUtil.getWatchlistSearchRows(rows, normalizedSearchText);
 }

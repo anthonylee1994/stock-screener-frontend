@@ -1,9 +1,9 @@
 import React from "react";
 import type {SortDescriptor} from "@heroui/react";
 import classNames from "classnames";
-import type {StockRow} from "@/types/Screener";
-import {formatCompactCurrency, formatPercent, formatScore, formatVolume} from "@/utils/Format";
-import {getScoreClassName} from "@/utils/ScoreStyle";
+import type {StockRow} from "@/types/screener";
+import {format} from "@/utils/format";
+import {scoreStyle} from "@/utils/scoreStyle";
 
 interface Props {
     row: StockRow;
@@ -14,11 +14,11 @@ export const MobileMetricValue = React.memo<Props>(({row, sortDescriptor}) => {
     const column = String(sortDescriptor.column);
 
     if (column === "market_cap") {
-        return <span className="text-[13px] font-semibold leading-5 text-neutral-800 dark:text-neutral-200">{formatCompactCurrency(row.marketCap)}</span>;
+        return <span className="text-[13px] font-semibold leading-5 text-neutral-800 dark:text-neutral-200">{format.formatCompactCurrency(row.marketCap)}</span>;
     }
 
     if (column === "volume") {
-        return <span className="text-[13px] font-semibold leading-5 text-neutral-800 dark:text-neutral-200">{formatVolume(row.volume)}</span>;
+        return <span className="text-[13px] font-semibold leading-5 text-neutral-800 dark:text-neutral-200">{format.formatVolume(row.volume)}</span>;
     }
 
     if (column === "change_percent") {
@@ -29,18 +29,18 @@ export const MobileMetricValue = React.memo<Props>(({row, sortDescriptor}) => {
                     "text-red-500 dark:text-red-400": row.changePercent < 0,
                 })}
             >
-                {formatPercent(row.changePercent)}
+                {format.formatPercent(row.changePercent)}
             </span>
         );
     }
 
     if (column === "fundamental_score") {
-        return <span className={getScoreClassName(row.fundamentalScore, "mobilePill")}>{formatScore(row.fundamentalScore)}</span>;
+        return <span className={scoreStyle.getScoreClassName(row.fundamentalScore, "mobilePill")}>{format.formatScore(row.fundamentalScore)}</span>;
     }
 
     if (column === "technical_score") {
-        return <span className={getScoreClassName(row.technicalScore, "mobilePill")}>{formatScore(row.technicalScore)}</span>;
+        return <span className={scoreStyle.getScoreClassName(row.technicalScore, "mobilePill")}>{format.formatScore(row.technicalScore)}</span>;
     }
 
-    return <span className={getScoreClassName(row.totalScore, "mobilePill")}>{formatScore(row.totalScore)}</span>;
+    return <span className={scoreStyle.getScoreClassName(row.totalScore, "mobilePill")}>{format.formatScore(row.totalScore)}</span>;
 });

@@ -1,6 +1,6 @@
 import React from "react";
-import {formatScore} from "@/utils/Format";
-import {getScoreClassName} from "@/utils/ScoreStyle";
+import {format} from "@/utils/format";
+import {scoreStyle} from "@/utils/scoreStyle";
 
 interface Props {
     label: string;
@@ -16,7 +16,7 @@ export const StockScoreAction = React.memo<Props>(({label, score, onPress}) => {
             onClick={onPress}
         >
             <span className="text-sm font-medium text-neutral-600 dark:text-neutral-300">{label}</span>
-            <span className={getScoreClassName(score, "mobilePill")}>{formatScore(score)}</span>
+            <span className={scoreStyle.getScoreClassName(score, "mobilePill")}>{format.formatScore(score)}</span>
         </button>
     );
 });

@@ -3,8 +3,8 @@ import type {SortDescriptor} from "@heroui/react";
 import {DesktopStockTableBody} from "@/components/stocks/desktop/DesktopStockTableBody";
 import {DesktopStockTableHeader} from "@/components/stocks/desktop/DesktopStockTableHeader";
 import {useLoadMoreObserver} from "@/hooks/useLoadMoreObserver";
-import type {StockRow} from "@/types/Screener";
-import type {DetailKind} from "@/types/StockDetail";
+import type {StockRow} from "@/types/screener";
+import type {DetailKind} from "@/types/stockDetail";
 
 interface Props {
     emptyMessage: string;

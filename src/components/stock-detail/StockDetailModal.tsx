@@ -3,10 +3,10 @@ import {Modal} from "@heroui/react";
 import {FinvizChart} from "@/components/stock-detail/FinvizChart";
 import {StockDetailItem} from "@/components/stock-detail/StockDetailItem";
 import {StockScoreAction} from "@/components/stock-detail/StockScoreAction";
-import {getSectorDisplayName} from "@/constants/FilterOptions";
-import type {StockRow} from "@/types/Screener";
-import type {DetailKind} from "@/types/StockDetail";
-import {formatCompactCurrency, formatScore, formatVolume} from "@/utils/Format";
+import {filterOptions} from "@/constants/filterOptions";
+import type {StockRow} from "@/types/screener";
+import type {DetailKind} from "@/types/stockDetail";
+import {format} from "@/utils/format";
 
 interface Props {
     row: StockRow | null;
@@ -43,10 +43,10 @@ export const StockDetailModal = React.memo<Props>(({row, onDetailPress, onOpenCh
                                 <p className="mb-3 text-sm text-neutral-500 dark:text-neutral-400">{row.name}</p>
                                 <FinvizChart className="mb-4" ticker={row.ticker} />
                                 <div className="grid grid-cols-2 gap-3">
-                                    <StockDetailItem label="板塊" value={getSectorDisplayName(row.sector)} />
-                                    <StockDetailItem label="市值" value={formatCompactCurrency(row.marketCap)} />
-                                    <StockDetailItem label="成交量" value={formatVolume(row.volume)} />
-                                    <StockDetailItem label="總分" value={formatScore(row.totalScore)} />
+                                    <StockDetailItem label="板塊" value={filterOptions.getSectorDisplayName(row.sector)} />
+                                    <StockDetailItem label="市值" value={format.formatCompactCurrency(row.marketCap)} />
+                                    <StockDetailItem label="成交量" value={format.formatVolume(row.volume)} />
+                                    <StockDetailItem label="總分" value={format.formatScore(row.totalScore)} />
                                 </div>
                                 <div className="grid grid-cols-2 gap-3 pt-3">
                                     <StockScoreAction label="基本面" score={row.fundamentalScore} onPress={handleFundamentalPress} />

@@ -1,6 +1,6 @@
 import {create} from "zustand";
-import {authenticate} from "@/services/ScreenerApi";
-import {clearApiToken, getInitialApiToken, saveApiToken} from "@/utils/AuthTokenPreferences";
+import {screenerApi} from "@/services/screenerApi";
+import {authTokenPreferences} from "@/utils/authTokenPreferences";
 
 interface AuthStore {
     apiToken: string;
@@ -15,7 +15,7 @@ interface AuthStore {
 
 export const useAuthStore = create<AuthStore>()((set, get) => {
     return {
-        apiToken: getInitialApiToken(),
+        apiToken: authTokenPreferences.getInitialApiToken(),
         authError: null,
         isAuthenticating: false,
         tokenInput: "",
@@ -33,14 +33,14 @@ export const useAuthStore = create<AuthStore>()((set, get) => {
             });
 
             try {
-                const authorized = await authenticate(nextApiToken, signal);
+                const authorized = await screenerApi.authenticate(nextApiToken, signal);
 
                 if (!authorized) {
                     set({authError: "密碼唔正確"});
                     return false;
                 }
 
-                saveApiToken(nextApiToken);
+                authTokenPreferences.saveApiToken(nextApiToken);
                 set({
                     apiToken: nextApiToken,
                     authError: null,
@@ -78,7 +78,7 @@ export const useAuthStore = create<AuthStore>()((set, get) => {
             });
 
             try {
-                const authorized = await authenticate(nextApiToken, signal);
+                const authorized = await screenerApi.authenticate(nextApiToken, signal);
 
                 if (!authorized) {
                     set({
@@ -88,7 +88,7 @@ export const useAuthStore = create<AuthStore>()((set, get) => {
                     return;
                 }
 
-                saveApiToken(nextApiToken);
+                authTokenPreferences.saveApiToken(nextApiToken);
                 set({
                     apiToken: nextApiToken,
                     authError: null,
@@ -110,7 +110,7 @@ export const useAuthStore = create<AuthStore>()((set, get) => {
             }
         },
         logout() {
-            clearApiToken();
+            authTokenPreferences.clearApiToken();
             set({
                 apiToken: "",
                 authError: null,

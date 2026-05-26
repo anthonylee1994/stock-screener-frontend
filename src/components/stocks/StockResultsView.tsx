@@ -2,8 +2,8 @@ import React from "react";
 import type {SortDescriptor} from "@heroui/react";
 import {DesktopStockTable} from "@/components/stocks/desktop/DesktopStockTable";
 import {MobileStockList} from "@/components/stocks/mobile/MobileStockList";
-import type {StockRow} from "@/types/Screener";
-import type {DetailKind} from "@/types/StockDetail";
+import type {StockRow} from "@/types/screener";
+import type {DetailKind} from "@/types/stockDetail";
 
 interface Props {
     emptyMessage: string;

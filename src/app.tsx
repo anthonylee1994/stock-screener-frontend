@@ -6,7 +6,7 @@ import {useThemeClassName} from "@/hooks/useThemeClassName";
 import {AuthPage} from "@/pages/AuthPage";
 import {ScreenerPage} from "@/pages/ScreenerPage";
 import {useAuthStore} from "@/stores/useAuthStore";
-import {getAuthToken, getAuthTokenLoginPath, getAuthTokenRedirectPath, getLoginRedirectPath, getReturnPath} from "@/utils/AppRoutes";
+import {appRoutes} from "@/utils/appRoutes";
 
 const maintenanceMode = import.meta.env.VITE_MAINTENANCE_MODE === "1";
 
@@ -14,9 +14,9 @@ export const App = React.memo(() => {
     const apiToken = useAuthStore(state => state.apiToken);
     const authenticateWithToken = useAuthStore(state => state.authenticateWithToken);
     const location = useLocation();
-    const authToken = getAuthToken(location.search);
-    const authTokenRedirectPath = getAuthTokenRedirectPath(location);
-    const authTokenLoginPath = getAuthTokenLoginPath(location);
+    const authToken = appRoutes.getAuthToken(location.search);
+    const authTokenRedirectPath = appRoutes.getAuthTokenRedirectPath(location);
+    const authTokenLoginPath = appRoutes.getAuthTokenLoginPath(location);
 
     useThemeClassName();
 
@@ -41,14 +41,14 @@ export const App = React.memo(() => {
         return (
             <Routes>
                 <Route element={<AuthPage />} path="/login" />
-                <Route element={<Navigate replace state={{returnPath: getReturnPath(location)}} to="/login" />} path="*" />
+                <Route element={<Navigate replace state={{returnPath: appRoutes.getReturnPath(location)}} to="/login" />} path="*" />
             </Routes>
         );
     }
 
     return (
         <Routes>
-            <Route element={<Navigate replace to={getLoginRedirectPath(location)} />} path="/login" />
+            <Route element={<Navigate replace to={appRoutes.getLoginRedirectPath(location)} />} path="/login" />
             <Route element={<Navigate replace to="/" />} path="/maintenance" />
             <Route element={<ScreenerPage />} path="/" />
             <Route element={<ScreenerPage />} path="/:ticker" />

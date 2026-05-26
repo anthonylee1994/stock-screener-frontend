@@ -4,10 +4,10 @@ import classNames from "classnames";
 import {FinvizChart} from "@/components/stock-detail/FinvizChart";
 import {ScoreButton} from "@/components/stock-detail/ScoreButton";
 import {WatchlistButton} from "@/components/stocks/shared/WatchlistButton";
-import {getSectorDisplayName} from "@/constants/FilterOptions";
-import type {StockRow} from "@/types/Screener";
-import type {DetailKind} from "@/types/StockDetail";
-import {formatCompactCurrency, formatCurrency, formatPercent, formatVolume} from "@/utils/Format";
+import {filterOptions} from "@/constants/filterOptions";
+import type {StockRow} from "@/types/screener";
+import type {DetailKind} from "@/types/stockDetail";
+import {format} from "@/utils/format";
 
 interface Props {
     chartTicker: string | null;
@@ -69,25 +69,25 @@ export const DesktopStockTableRow = React.memo<Props>(({chartTicker, index, isWa
                 </div>
             </div>
             <div>
-                <Chip variant="secondary">{getSectorDisplayName(row.sector)}</Chip>
+                <Chip variant="secondary">{filterOptions.getSectorDisplayName(row.sector)}</Chip>
             </div>
             <div className="text-right px-2">
-                <span className="text-sm">{formatCompactCurrency(row.marketCap)}</span>
+                <span className="text-sm">{format.formatCompactCurrency(row.marketCap)}</span>
             </div>
             <div className="px-2">
                 <div className="text-right">
-                    <p className="text-base font-semibold text-neutral-950 dark:text-neutral-100">{formatCurrency(row.price)}</p>
+                    <p className="text-base font-semibold text-neutral-950 dark:text-neutral-100">{format.formatCurrency(row.price)}</p>
                     <p
                         className={classNames("text-sm", {
                             "text-emerald-600 dark:text-emerald-400": row.changePercent >= 0,
                             "text-red-500 dark:text-red-400": row.changePercent < 0,
                         })}
                     >
-                        {formatPercent(row.changePercent)}
+                        {format.formatPercent(row.changePercent)}
                     </p>
                 </div>
             </div>
-            <div className="px-2 text-right">{formatVolume(row.volume)}</div>
+            <div className="px-2 text-right">{format.formatVolume(row.volume)}</div>
             <div className="flex justify-center" onClick={stopPropagation}>
                 <ScoreButton score={row.fundamentalScore} onPress={() => onDetailPress(row, "fundamental")} />
             </div>

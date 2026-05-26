@@ -2,7 +2,7 @@ import React from "react";
 import type {SortDescriptor} from "@heroui/react";
 import classNames from "classnames";
 import {ArrowDown, ArrowUp} from "lucide-react";
-import {mobileSortOptions} from "@/constants/MobileSortOptions";
+import {mobileSortOptions} from "@/constants/mobileSortOptions";
 
 interface Props {
     sortDescriptor: SortDescriptor;
@@ -12,7 +12,7 @@ interface Props {
 export const MobileSortBar = React.memo<Props>(({sortDescriptor, onSortChange}) => {
     const activeColumn = String(sortDescriptor.column);
     const isAscending = sortDescriptor.direction === "ascending";
-    const activeOption = mobileSortOptions.find(option => option.id === activeColumn) ?? mobileSortOptions[0];
+    const activeOption = mobileSortOptions.options.find(option => option.id === activeColumn) ?? mobileSortOptions.options[0];
 
     const handleDirectionPress = () => {
         onSortChange({
@@ -26,7 +26,7 @@ export const MobileSortBar = React.memo<Props>(({sortDescriptor, onSortChange}) 
             <div className="grid grid-cols-[minmax(0,1fr)_36px] items-center gap-2">
                 <div className="no-scrollbar min-w-0 overflow-x-auto rounded-4xl">
                     <div className="flex w-max min-w-full items-center gap-2 py-1 px-1">
-                        {mobileSortOptions.map(option => {
+                        {mobileSortOptions.options.map(option => {
                             const isSelected = activeColumn === option.id;
                             const className = classNames("shrink-0 whitespace-nowrap rounded-4xl px-2.5 py-1.5 text-xs font-semibold", {
                                 "bg-neutral-950 text-white dark:bg-neutral-100 dark:text-neutral-950": isSelected,

@@ -11,7 +11,7 @@ import {useStockRouteModal} from "@/hooks/useStockRouteModal";
 import {useWatchlistResults} from "@/hooks/useWatchlistResults";
 import {useAuthStore} from "@/stores/useAuthStore";
 import {useMainTabStore} from "@/stores/useMainTabStore";
-import type {StockRow} from "@/types/Screener";
+import type {StockRow} from "@/types/screener";
 
 export const StockResultsTable = React.memo(() => {
     const apiToken = useAuthStore(state => state.apiToken);

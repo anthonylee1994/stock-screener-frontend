@@ -1,8 +1,8 @@
 import type {SortDescriptor} from "@heroui/react";
 import {create} from "zustand";
-import {fetchScreenerRows} from "@/services/ScreenerApi";
-import type {ScreenerFilters, StockRow} from "@/types/Screener";
-import {getInitialFilters, saveFilters} from "@/utils/ScreenerPreferences";
+import {screenerApi} from "@/services/screenerApi";
+import type {ScreenerFilters, StockRow} from "@/types/screener";
+import {screenerPreferences} from "@/utils/screenerPreferences";
 
 const screenerPageLimit = 15;
 
@@ -32,7 +32,7 @@ export const useScreenerStore = create<ScreenerStore>()((set, get) => {
 
     return {
         error: null,
-        filters: getInitialFilters(),
+        filters: screenerPreferences.getInitialFilters(),
         hasMore: false,
         isLoadingMore: false,
         isLoading: false,
@@ -72,7 +72,7 @@ export const useScreenerStore = create<ScreenerStore>()((set, get) => {
             });
 
             try {
-                const response = await fetchScreenerRows({
+                const response = await screenerApi.fetchScreenerRows({
                     apiToken,
                     filters,
                     limit: screenerPageLimit,
@@ -134,7 +134,7 @@ export const useScreenerStore = create<ScreenerStore>()((set, get) => {
 
             try {
                 const {filters, query} = get();
-                const response = await fetchScreenerRows({
+                const response = await screenerApi.fetchScreenerRows({
                     apiToken,
                     filters,
                     limit: screenerPageLimit,
@@ -174,7 +174,7 @@ export const useScreenerStore = create<ScreenerStore>()((set, get) => {
         },
         setFilters(filters: ScreenerFilters) {
             loadMoreRequestId += 1;
-            saveFilters(filters);
+            screenerPreferences.saveFilters(filters);
             set({filters});
         },
         setQuery(query: string) {
@@ -192,7 +192,7 @@ export const useScreenerStore = create<ScreenerStore>()((set, get) => {
             };
 
             loadMoreRequestId += 1;
-            saveFilters(nextFilters);
+            screenerPreferences.saveFilters(nextFilters);
             set({filters: nextFilters});
         },
     };
