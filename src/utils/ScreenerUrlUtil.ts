@@ -71,8 +71,8 @@ function getUrlSector(searchParams: URLSearchParams, fallbackSector: SectorFilte
     return value && sectorFilterValues.has(value) ? (value as SectorFilter) : fallbackSector;
 }
 
-export const screenerUrlState = {
+export const ScreenerUrlUtil = Object.freeze({
     getUrlScreenerState,
     getScreenerSearch,
     areFiltersEqual,
-};
+});

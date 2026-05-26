@@ -34,6 +34,6 @@ function getScoreBaseClassName(variant: "button" | "mobilePill" | "pill" | "summ
     return "inline-flex min-w-16 justify-center rounded-md px-3 py-2 font-semibold";
 }
 
-export const scoreStyle = {
+export const ScoreStyleUtil = Object.freeze({
     getScoreClassName,
-};
+});

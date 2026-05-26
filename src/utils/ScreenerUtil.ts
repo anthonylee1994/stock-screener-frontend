@@ -81,9 +81,9 @@ function isRecord(value: unknown): value is Record<string, unknown> {
     return typeof value === "object" && value !== null;
 }
 
-export const screenerPreferences = {
+export const ScreenerUtil = Object.freeze({
     getInitialFilters,
     saveFilters,
     getInitialDarkMode,
     saveDarkMode,
-};
+});

@@ -12,8 +12,8 @@ function clearApiToken(): void {
     window.localStorage.removeItem(authTokenStorageKey);
 }
 
-export const authTokenPreferences = {
+export const AuthTokenUtil = Object.freeze({
     getInitialApiToken,
     saveApiToken,
     clearApiToken,
-};
+});

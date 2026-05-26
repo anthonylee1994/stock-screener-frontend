@@ -25,9 +25,9 @@ function getScoreDetailPath(row: StockRow, kind: DetailKind, search: string): st
     return `/${encodeURIComponent(row.ticker.toUpperCase())}/${kind}${search}`;
 }
 
-export const stockDetailRoutes = {
+export const StockDetailUtil = Object.freeze({
     getRouteDetailKind,
     getListPath,
     getStockDetailPath,
     getScoreDetailPath,
-};
+});

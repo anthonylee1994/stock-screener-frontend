@@ -3,9 +3,9 @@ import {Modal} from "@heroui/react";
 import classNames from "classnames";
 import {FinvizChart} from "@/components/stock-detail/FinvizChart";
 import type {DetailModalState} from "@/types/stockDetail";
-import {format} from "@/utils/format";
-import {scoreDetailSections} from "@/utils/scoreDetailSections";
-import {scoreStyle} from "@/utils/scoreStyle";
+import {FormatUtil} from "@/utils/FormatUtil";
+import {ScoreDetailSectionsUtil} from "@/utils/ScoreDetailSectionsUtil";
+import {ScoreStyleUtil} from "@/utils/ScoreStyleUtil";
 
 interface Props {
     detailModal: DetailModalState | null;
@@ -15,8 +15,8 @@ interface Props {
 export const ScoreDetailModal = React.memo<Props>(({detailModal, onOpenChange}) => {
     const row = detailModal?.row;
     const title = detailModal?.kind === "fundamental" ? "基本面詳情" : "技術面詳情";
-    const sections = detailModal ? scoreDetailSections.getDetailSections(detailModal) : [];
-    const summary = detailModal ? scoreDetailSections.getDetailSummary(detailModal) : null;
+    const sections = detailModal ? ScoreDetailSectionsUtil.getDetailSections(detailModal) : [];
+    const summary = detailModal ? ScoreDetailSectionsUtil.getDetailSummary(detailModal) : null;
     const gridClassName = classNames("grid gap-3", {
         "grid-cols-3": detailModal?.kind === "technical",
         "grid-cols-2": detailModal?.kind !== "technical",
@@ -34,9 +34,9 @@ export const ScoreDetailModal = React.memo<Props>(({detailModal, onOpenChange}) 
                         {row ? <p className="mb-3 text-sm text-neutral-500 dark:text-neutral-400">{row.name}</p> : null}
                         {row && detailModal?.kind === "technical" ? <FinvizChart className="mb-4" ticker={row.ticker} /> : null}
                         {summary ? (
-                            <div className={scoreStyle.getScoreClassName(summary.score, "summary")}>
+                            <div className={ScoreStyleUtil.getScoreClassName(summary.score, "summary")}>
                                 <p className="text-xs font-medium">{summary.label}</p>
-                                <p className="mt-1 text-3xl font-semibold">{format.formatScore(summary.score)}</p>
+                                <p className="mt-1 text-3xl font-semibold">{FormatUtil.formatScore(summary.score)}</p>
                             </div>
                         ) : null}
                         {sections.map(section => (

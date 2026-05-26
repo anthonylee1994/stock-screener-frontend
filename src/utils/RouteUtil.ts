@@ -44,10 +44,10 @@ function getAuthTokenLoginPath(location: Location): string {
     return `/login${search ? `?${search}` : ""}${location.hash}`;
 }
 
-export const appRoutes = {
+export const RouteUtil = Object.freeze({
     getReturnPath,
     getLoginRedirectPath,
     getAuthToken,
     getAuthTokenRedirectPath,
     getAuthTokenLoginPath,
-};
+});

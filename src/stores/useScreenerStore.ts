@@ -2,7 +2,7 @@ import type {SortDescriptor} from "@heroui/react";
 import {create} from "zustand";
 import {screenerApi} from "@/services/screenerApi";
 import type {ScreenerFilters, StockRow} from "@/types/screener";
-import {screenerPreferences} from "@/utils/screenerPreferences";
+import {ScreenerUtil} from "@/utils/ScreenerUtil";
 
 const screenerPageLimit = 15;
 
@@ -32,7 +32,7 @@ export const useScreenerStore = create<ScreenerStore>()((set, get) => {
 
     return {
         error: null,
-        filters: screenerPreferences.getInitialFilters(),
+        filters: ScreenerUtil.getInitialFilters(),
         hasMore: false,
         isLoadingMore: false,
         isLoading: false,
@@ -174,7 +174,7 @@ export const useScreenerStore = create<ScreenerStore>()((set, get) => {
         },
         setFilters(filters: ScreenerFilters) {
             loadMoreRequestId += 1;
-            screenerPreferences.saveFilters(filters);
+            ScreenerUtil.saveFilters(filters);
             set({filters});
         },
         setQuery(query: string) {
@@ -192,7 +192,7 @@ export const useScreenerStore = create<ScreenerStore>()((set, get) => {
             };
 
             loadMoreRequestId += 1;
-            screenerPreferences.saveFilters(nextFilters);
+            ScreenerUtil.saveFilters(nextFilters);
             set({filters: nextFilters});
         },
     };

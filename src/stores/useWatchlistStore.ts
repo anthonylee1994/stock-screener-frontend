@@ -1,7 +1,7 @@
 import {create} from "zustand";
 import {screenerApi} from "@/services/screenerApi";
 import type {ScreenerFilters, StockRow} from "@/types/screener";
-import {watchlistPreferences} from "@/utils/watchlistPreferences";
+import {WatchlistUtil} from "@/utils/WatchlistUtil";
 
 interface WatchlistStore {
     error: string | null;
@@ -21,7 +21,7 @@ export const useWatchlistStore = create<WatchlistStore>()((set, get) => {
         isLoading: false,
         reloadKey: 0,
         rows: [],
-        tickers: watchlistPreferences.getInitialWatchlistTickers(),
+        tickers: WatchlistUtil.getInitialWatchlistTickers(),
         clearRows() {
             set({
                 error: null,
@@ -73,7 +73,7 @@ export const useWatchlistStore = create<WatchlistStore>()((set, get) => {
             });
         },
         toggleTicker(ticker: string) {
-            const normalizedTicker = watchlistPreferences.normalizeWatchlistTicker(ticker);
+            const normalizedTicker = WatchlistUtil.normalizeWatchlistTicker(ticker);
 
             if (!normalizedTicker) {
                 return;
@@ -84,7 +84,7 @@ export const useWatchlistStore = create<WatchlistStore>()((set, get) => {
                 const tickers = isWatched ? state.tickers.filter(value => value !== normalizedTicker) : [...state.tickers, normalizedTicker];
                 const rows = isWatched ? state.rows.filter(row => row.ticker.toUpperCase() !== normalizedTicker) : state.rows;
 
-                watchlistPreferences.saveWatchlistTickers(tickers);
+                WatchlistUtil.saveWatchlistTickers(tickers);
 
                 return {rows, tickers};
             });

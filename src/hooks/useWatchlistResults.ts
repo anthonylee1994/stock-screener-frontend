@@ -2,7 +2,7 @@ import React from "react";
 import {useDebounce} from "@/hooks/useDebounce";
 import {useWatchlistStore} from "@/stores/useWatchlistStore";
 import type {ScreenerFilters, StockRow} from "@/types/screener";
-import {watchlistRows as watchlistRowsUtil} from "@/utils/watchlistRows";
+import {WatchlistRowsUtil as watchlistRowsUtil} from "@/utils/WatchlistRowsUtil";
 
 interface UseWatchlistResultsOptions {
     apiToken: string;

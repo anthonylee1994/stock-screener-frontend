@@ -39,10 +39,10 @@ function formatVolume(value: number): string {
     return compactNumberFormatter.format(value);
 }
 
-export const format = {
+export const FormatUtil = Object.freeze({
     formatCurrency,
     formatCompactCurrency,
     formatPercent,
     formatScore,
     formatVolume,
-};
+});

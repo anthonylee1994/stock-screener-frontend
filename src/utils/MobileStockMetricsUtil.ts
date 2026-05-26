@@ -7,6 +7,6 @@ function getMobileMetricLabel(sortDescriptor: SortDescriptor): string {
     return mobileSortOptions.options.find(option => option.id === activeColumn)?.label ?? "綜合";
 }
 
-export const mobileStockMetrics = {
+export const MobileStockMetricsUtil = Object.freeze({
     getMobileMetricLabel,
-};
+});

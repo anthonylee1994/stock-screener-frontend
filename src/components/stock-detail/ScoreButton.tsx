@@ -1,7 +1,7 @@
 import React from "react";
 import {Button} from "@heroui/react";
-import {format} from "@/utils/format";
-import {scoreStyle} from "@/utils/scoreStyle";
+import {FormatUtil} from "@/utils/FormatUtil";
+import {ScoreStyleUtil} from "@/utils/ScoreStyleUtil";
 
 interface Props {
     score: number;
@@ -10,8 +10,8 @@ interface Props {
 
 export const ScoreButton = React.memo<Props>(({score, onPress}) => {
     return (
-        <Button className={scoreStyle.getScoreClassName(score, "button")} size="sm" variant="ghost" onPress={onPress}>
-            {format.formatScore(score)}
+        <Button className={ScoreStyleUtil.getScoreClassName(score, "button")} size="sm" variant="ghost" onPress={onPress}>
+            {FormatUtil.formatScore(score)}
         </Button>
     );
 });

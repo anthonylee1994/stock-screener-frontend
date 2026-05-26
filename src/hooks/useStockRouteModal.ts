@@ -4,7 +4,7 @@ import {screenerApi} from "@/services/screenerApi";
 import {useAuthStore} from "@/stores/useAuthStore";
 import type {ScreenerFilters, StockRow} from "@/types/screener";
 import type {DetailKind, DetailModalState} from "@/types/stockDetail";
-import {stockDetailRoutes, type StockDetailRouteState} from "@/utils/stockDetailRoutes";
+import {StockDetailUtil, type StockDetailRouteState} from "@/utils/StockDetailUtil";
 
 interface UseStockRouteModalResult {
     detailModal: DetailModalState | null;
@@ -30,12 +30,12 @@ export function useStockRouteModal(rows: StockRow[]): UseStockRouteModalResult {
     const params = useParams();
     const [routeLookupRow, setRouteLookupRow] = React.useState<StockRow | null>(null);
     const routeTicker = params.ticker ? decodeURIComponent(params.ticker).toUpperCase() : null;
-    const routeDetailKind = stockDetailRoutes.getRouteDetailKind(params.detailKind);
+    const routeDetailKind = StockDetailUtil.getRouteDetailKind(params.detailKind);
     const tableRouteRow = routeTicker ? (rows.find(row => row.ticker.toUpperCase() === routeTicker) ?? null) : null;
     const routeRow = tableRouteRow ?? (routeLookupRow?.ticker.toUpperCase() === routeTicker ? routeLookupRow : null);
     const detailModal: DetailModalState | null = routeRow && routeDetailKind ? {kind: routeDetailKind, row: routeRow} : null;
     const selectedStockDetailRow = routeRow && !routeDetailKind ? routeRow : null;
-    const listPath = stockDetailRoutes.getListPath(location.search);
+    const listPath = StockDetailUtil.getListPath(location.search);
 
     React.useEffect(() => {
         if (params.detailKind && !routeDetailKind) {
@@ -51,12 +51,13 @@ export function useStockRouteModal(rows: StockRow[]): UseStockRouteModalResult {
 
         const abortController = new AbortController();
 
-        void screenerApi.fetchScreenerRows({
-            apiToken,
-            filters: routeLookupFilters,
-            signal: abortController.signal,
-            tickers: [routeTicker],
-        })
+        void screenerApi
+            .fetchScreenerRows({
+                apiToken,
+                filters: routeLookupFilters,
+                signal: abortController.signal,
+                tickers: [routeTicker],
+            })
             .then(response => {
                 const lookupRow = response.data.find(row => row.ticker.toUpperCase() === routeTicker) ?? null;
 
@@ -80,15 +81,15 @@ export function useStockRouteModal(rows: StockRow[]): UseStockRouteModalResult {
     }, [apiToken, listPath, routeTicker, tableRouteRow, navigate]);
 
     function handleDetailPress(row: StockRow, kind: DetailKind): void {
-        navigate(stockDetailRoutes.getScoreDetailPath(row, kind, location.search));
+        navigate(StockDetailUtil.getScoreDetailPath(row, kind, location.search));
     }
 
     function handleStockDetailScorePress(row: StockRow, kind: DetailKind): void {
-        navigate(stockDetailRoutes.getScoreDetailPath(row, kind, location.search), {state: {returnPath: stockDetailRoutes.getStockDetailPath(row, location.search)} satisfies StockDetailRouteState});
+        navigate(StockDetailUtil.getScoreDetailPath(row, kind, location.search), {state: {returnPath: StockDetailUtil.getStockDetailPath(row, location.search)} satisfies StockDetailRouteState});
     }
 
     function handleStockDetailPress(row: StockRow): void {
-        navigate(stockDetailRoutes.getStockDetailPath(row, location.search));
+        navigate(StockDetailUtil.getStockDetailPath(row, location.search));
     }
 
     function handleScoreDetailOpenChange(isOpen: boolean): void {

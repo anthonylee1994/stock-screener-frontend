@@ -22,7 +22,7 @@ function getWatchlistSearchRows(rows: StockRow[], normalizedSearchText: string):
     return rows.filter(row => row.name.toLowerCase().includes(normalizedSearchText));
 }
 
-export const watchlistRows = {
+export const WatchlistRowsUtil = Object.freeze({
     getWatchlistEmptyMessage,
     getWatchlistSearchRows,
-};
+});

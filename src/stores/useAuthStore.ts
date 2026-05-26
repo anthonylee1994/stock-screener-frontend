@@ -1,6 +1,6 @@
 import {create} from "zustand";
 import {screenerApi} from "@/services/screenerApi";
-import {authTokenPreferences} from "@/utils/authTokenPreferences";
+import {AuthTokenUtil} from "@/utils/AuthTokenUtil";
 
 interface AuthStore {
     apiToken: string;
@@ -15,7 +15,7 @@ interface AuthStore {
 
 export const useAuthStore = create<AuthStore>()((set, get) => {
     return {
-        apiToken: authTokenPreferences.getInitialApiToken(),
+        apiToken: AuthTokenUtil.getInitialApiToken(),
         authError: null,
         isAuthenticating: false,
         tokenInput: "",
@@ -40,7 +40,7 @@ export const useAuthStore = create<AuthStore>()((set, get) => {
                     return false;
                 }
 
-                authTokenPreferences.saveApiToken(nextApiToken);
+                AuthTokenUtil.saveApiToken(nextApiToken);
                 set({
                     apiToken: nextApiToken,
                     authError: null,
@@ -88,7 +88,7 @@ export const useAuthStore = create<AuthStore>()((set, get) => {
                     return;
                 }
 
-                authTokenPreferences.saveApiToken(nextApiToken);
+                AuthTokenUtil.saveApiToken(nextApiToken);
                 set({
                     apiToken: nextApiToken,
                     authError: null,
@@ -110,7 +110,7 @@ export const useAuthStore = create<AuthStore>()((set, get) => {
             }
         },
         logout() {
-            authTokenPreferences.clearApiToken();
+            AuthTokenUtil.clearApiToken();
             set({
                 apiToken: "",
                 authError: null,

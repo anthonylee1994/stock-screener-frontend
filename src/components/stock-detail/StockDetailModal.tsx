@@ -6,7 +6,7 @@ import {StockScoreAction} from "@/components/stock-detail/StockScoreAction";
 import {filterOptions} from "@/constants/filterOptions";
 import type {StockRow} from "@/types/screener";
 import type {DetailKind} from "@/types/stockDetail";
-import {format} from "@/utils/format";
+import {FormatUtil} from "@/utils/FormatUtil";
 
 interface Props {
     row: StockRow | null;
@@ -44,9 +44,9 @@ export const StockDetailModal = React.memo<Props>(({row, onDetailPress, onOpenCh
                                 <FinvizChart className="mb-4" ticker={row.ticker} />
                                 <div className="grid grid-cols-2 gap-3">
                                     <StockDetailItem label="板塊" value={filterOptions.getSectorDisplayName(row.sector)} />
-                                    <StockDetailItem label="市值" value={format.formatCompactCurrency(row.marketCap)} />
-                                    <StockDetailItem label="成交量" value={format.formatVolume(row.volume)} />
-                                    <StockDetailItem label="總分" value={format.formatScore(row.totalScore)} />
+                                    <StockDetailItem label="市值" value={FormatUtil.formatCompactCurrency(row.marketCap)} />
+                                    <StockDetailItem label="成交量" value={FormatUtil.formatVolume(row.volume)} />
+                                    <StockDetailItem label="總分" value={FormatUtil.formatScore(row.totalScore)} />
                                 </div>
                                 <div className="grid grid-cols-2 gap-3 pt-3">
                                     <StockScoreAction label="基本面" score={row.fundamentalScore} onPress={handleFundamentalPress} />

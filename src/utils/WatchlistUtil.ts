@@ -22,12 +22,6 @@ function normalizeWatchlistTicker(ticker: string): string {
     return ticker.trim().toUpperCase();
 }
 
-export const watchlistPreferences = {
-    getInitialWatchlistTickers,
-    saveWatchlistTickers,
-    normalizeWatchlistTicker,
-};
-
 function normalizeWatchlistTickers(value: unknown): string[] {
     if (!Array.isArray(value)) {
         return [];
@@ -35,3 +29,9 @@ function normalizeWatchlistTickers(value: unknown): string[] {
 
     return Array.from(new Set(value.map(item => normalizeWatchlistTicker(String(item))).filter(ticker => ticker.length > 0)));
 }
+
+export const WatchlistUtil = Object.freeze({
+    getInitialWatchlistTickers,
+    saveWatchlistTickers,
+    normalizeWatchlistTicker,
+});
