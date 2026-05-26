@@ -9,6 +9,7 @@ import {useWatchlistStore} from "../../stores/useWatchlistStore";
 
 export const ScreenHeader = React.memo(() => {
     const clearRows = useScreenerStore(state => state.clearRows);
+    const isLoading = useScreenerStore(state => state.isLoading);
     const clearWatchlistRows = useWatchlistStore(state => state.clearRows);
     const isDarkMode = useScreenerStore(state => state.isDarkMode);
     const totalCount = useScreenerStore(state => state.totalCount);
@@ -28,7 +29,7 @@ export const ScreenHeader = React.memo(() => {
         <header className="flex flex-row items-center justify-between gap-3 mb-5">
             <div className="flex items-center justify-end gap-2">
                 <h1 className="text-2xl font-semibold tracking-normal text-neutral-950 dark:text-neutral-100">美股選股器</h1>
-                <Chip>共 {stockCount} 隻股票</Chip>
+                {isLoading ? null : <Chip>共 {stockCount} 隻股票</Chip>}
             </div>
             <div className="flex items-center gap-1.5">
                 <ThemeToggleButton isDarkMode={isDarkMode} onPress={toggleDarkMode} />
