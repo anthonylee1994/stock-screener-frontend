@@ -11,12 +11,12 @@ export const ScreenHeader = React.memo(() => {
     const clearRows = useScreenerStore(state => state.clearRows);
     const clearWatchlistRows = useWatchlistStore(state => state.clearRows);
     const isDarkMode = useScreenerStore(state => state.isDarkMode);
-    const rows = useScreenerStore(state => state.rows);
+    const totalCount = useScreenerStore(state => state.totalCount);
     const toggleDarkMode = useScreenerStore(state => state.toggleDarkMode);
     const activeTab = useMainTabStore(state => state.activeTab);
     const watchlistTickers = useWatchlistStore(state => state.tickers);
     const logout = useAuthStore(state => state.logout);
-    const stockCount = activeTab === "watchlist" ? watchlistTickers.length : rows.length;
+    const stockCount = activeTab === "watchlist" ? watchlistTickers.length : totalCount;
 
     const handleLogout = () => {
         logout();

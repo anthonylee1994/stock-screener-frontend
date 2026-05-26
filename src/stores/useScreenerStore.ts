@@ -44,6 +44,7 @@ interface ScreenerStore {
     query: string;
     reloadKey: number;
     rows: StockRow[];
+    totalCount: number;
     clearRows(): void;
     loadMoreRows(apiToken: string): Promise<void>;
     loadRows(apiToken: string, signal: AbortSignal): Promise<void>;
@@ -69,6 +70,7 @@ export const useScreenerStore = create<ScreenerStore>()((set, get) => {
         query: "",
         reloadKey: 0,
         rows: [],
+        totalCount: 0,
         clearRows() {
             loadMoreRequestId += 1;
 
@@ -80,6 +82,7 @@ export const useScreenerStore = create<ScreenerStore>()((set, get) => {
                 loadMoreError: null,
                 nextOffset: null,
                 rows: [],
+                totalCount: 0,
             });
         },
         async loadMoreRows(apiToken: string) {
@@ -117,6 +120,7 @@ export const useScreenerStore = create<ScreenerStore>()((set, get) => {
                         loadMoreError: null,
                         nextOffset: response.nextOffset,
                         rows: mergeRows(state.rows, response.data),
+                        totalCount: response.count,
                     };
                 });
             } catch (fetchError) {
@@ -143,6 +147,7 @@ export const useScreenerStore = create<ScreenerStore>()((set, get) => {
                     loadMoreError: null,
                     nextOffset: null,
                     rows: [],
+                    totalCount: 0,
                 });
                 return;
             }
@@ -171,6 +176,7 @@ export const useScreenerStore = create<ScreenerStore>()((set, get) => {
                     hasMore: response.hasMore,
                     nextOffset: response.nextOffset,
                     rows: response.data,
+                    totalCount: response.count,
                 });
             } catch (fetchError) {
                 if (signal.aborted) {
@@ -182,6 +188,7 @@ export const useScreenerStore = create<ScreenerStore>()((set, get) => {
                     hasMore: false,
                     nextOffset: null,
                     rows: [],
+                    totalCount: 0,
                 });
             } finally {
                 if (!signal.aborted) {
