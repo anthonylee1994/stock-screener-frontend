@@ -36,7 +36,7 @@ export const AuthPage = React.memo(() => {
                             <Label className="text-sm font-medium text-neutral-700 dark:text-neutral-300" htmlFor="api-token">
                                 密碼
                             </Label>
-                            <InputGroup className="h-11 rounded-full bg-neutral-100 shadow-none dark:bg-neutral-800" variant="secondary">
+                            <InputGroup className="h-11 rounded-full bg-neutral-100 shadow-none dark:bg-neutral-800 transition-none" variant="secondary">
                                 <InputGroup.Input
                                     autoComplete="current-password"
                                     className="w-full"

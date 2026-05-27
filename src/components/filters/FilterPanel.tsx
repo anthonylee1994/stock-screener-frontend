@@ -59,7 +59,7 @@ export const FilterPanel = React.memo(() => {
             <div className="grid gap-3 lg:grid-cols-[minmax(260px,1.8fr)_minmax(150px,0.7fr)_minmax(170px,0.7fr)_auto] lg:items-end">
                 <SearchField className="min-w-0" name="stock-search" value={searchText} onChange={handleQueryChange}>
                     <Label className="sr-only">搜尋</Label>
-                    <SearchField.Group className="h-10 rounded-4xl border-neutral-200 bg-neutral-100 shadow-none dark:border-neutral-700 dark:bg-neutral-800">
+                    <SearchField.Group className="h-10 rounded-4xl border-neutral-200 bg-neutral-100 shadow-none dark:border-neutral-700 dark:bg-neutral-800 transition-none">
                         <SearchField.SearchIcon>
                             <Search className="size-4 text-neutral-500 dark:text-neutral-400" />
                         </SearchField.SearchIcon>
