@@ -1,5 +1,5 @@
 import React from "react";
-import type {SortDescriptor} from "@heroui/react";
+import {ProgressCircle, type SortDescriptor} from "@heroui/react";
 import classNames from "classnames";
 import {LoadMoreStatus} from "@/components/stocks/shared/LoadMoreStatus";
 import {MobileMetricValue} from "@/components/stocks/mobile/MobileMetricValue";
@@ -54,7 +54,14 @@ export const MobileStockList = React.memo<Props>(
                         <span className="text-right">{metricLabel}</span>
                     </div>
                     {isLoading ? (
-                        <div className="py-8 text-center text-sm text-neutral-500 dark:text-neutral-400">載入緊...</div>
+                        <div className="py-8 text-center text-sm text-neutral-500 dark:text-neutral-400">
+                            <ProgressCircle isIndeterminate aria-label="Loading">
+                                <ProgressCircle.Track>
+                                    <ProgressCircle.TrackCircle />
+                                    <ProgressCircle.FillCircle />
+                                </ProgressCircle.Track>
+                            </ProgressCircle>
+                        </div>
                     ) : error ? (
                         <div className="py-8 text-center text-sm text-red-600 dark:text-red-400">{error}</div>
                     ) : rows.length === 0 ? (

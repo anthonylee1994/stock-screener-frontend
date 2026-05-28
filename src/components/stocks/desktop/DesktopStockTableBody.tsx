@@ -3,6 +3,7 @@ import {DesktopStockTableRow} from "@/components/stocks/desktop/DesktopStockTabl
 import {LoadMoreStatus} from "@/components/stocks/shared/LoadMoreStatus";
 import {StockRow} from "@/types/screener";
 import {DetailKind} from "@/types/stockDetail";
+import {ProgressCircle} from "@heroui/react";
 
 interface Props {
     chartTicker: string | null;
@@ -39,7 +40,16 @@ export const DesktopStockTableBody = React.memo<Props>(
         onWatchlistToggle,
     }) => {
         if (isLoading) {
-            return <div className="py-8 text-center text-sm text-neutral-500 dark:text-neutral-400">載入緊...</div>;
+            return (
+                <div className="py-8 text-center text-sm text-neutral-500 dark:text-neutral-400">
+                    <ProgressCircle isIndeterminate aria-label="Loading">
+                        <ProgressCircle.Track>
+                            <ProgressCircle.TrackCircle />
+                            <ProgressCircle.FillCircle />
+                        </ProgressCircle.Track>
+                    </ProgressCircle>
+                </div>
+            );
         }
 
         if (error) {
