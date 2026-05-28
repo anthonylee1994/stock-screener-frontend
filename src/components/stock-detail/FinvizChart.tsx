@@ -10,13 +10,17 @@ export const FinvizChart = React.memo<Props>(({className, ticker}) => {
     const [isLoading, setIsLoading] = React.useState(true);
     const chartUrl = getFinvizChartUrl(ticker);
 
+    const onClick = () => {
+        window.open(`https://finviz.com/stock?t=${ticker}`, "_blank");
+    };
+
     React.useEffect(() => {
         setIsLoading(true);
     }, [chartUrl]);
 
     return (
         <div className={buildContainerClassName(className, isLoading)}>
-            <img alt={`${ticker} stock chart`} className={buildImageClassName(isLoading)} src={chartUrl} onError={() => setIsLoading(false)} onLoad={() => setIsLoading(false)} />
+            <img alt={`${ticker} stock chart`} className={buildImageClassName(isLoading)} src={chartUrl} onClick={onClick} onError={() => setIsLoading(false)} onLoad={() => setIsLoading(false)} />
         </div>
     );
 });
@@ -26,7 +30,7 @@ function buildContainerClassName(className: string | undefined, isLoading: boole
 }
 
 function buildImageClassName(isLoading: boolean): string {
-    return classNames("h-full w-full object-fill transition-opacity dark:[filter:invert(1)_hue-rotate(180deg)] pointer-events-none", {
+    return classNames("h-full w-full object-fill transition-opacity dark:[filter:invert(1)_hue-rotate(180deg)] cursor-pointer", {
         "opacity-0": isLoading,
         "opacity-100": !isLoading,
     });
