@@ -1,6 +1,6 @@
 import React from "react";
 import type {Key} from "@heroui/react";
-import {Button, Label, SearchField} from "@heroui/react";
+import {Button, Label, SearchField, Switch} from "@heroui/react";
 import classNames from "classnames";
 import {RefreshCw, Search} from "lucide-react";
 import {filterOptions} from "@/constants/filterOptions";
@@ -49,6 +49,10 @@ export const FilterPanel = React.memo(() => {
         setFilters({...filters, marketCap: String(value ?? "+mid") as MarketCapFilter});
     };
 
+    const handlePotentialStockChange = (value: boolean) => {
+        setFilters({...filters, potentialStock: value});
+    };
+
     const handleQueryChange = (value: string) => {
         hasPendingSearchInputRef.current = true;
         setSearchText(value);
@@ -56,7 +60,7 @@ export const FilterPanel = React.memo(() => {
 
     return (
         <section className="mb-4 rounded-4xl border border-neutral-200 bg-white/90 p-3 shadow-sm dark:border-neutral-800 dark:bg-neutral-900/90">
-            <div className="grid gap-3 lg:grid-cols-[minmax(260px,1.8fr)_minmax(150px,0.7fr)_minmax(170px,0.7fr)_auto] lg:items-end">
+            <div className="grid gap-3 lg:grid-cols-[minmax(260px,1.8fr)_minmax(150px,0.7fr)_minmax(170px,0.7fr)_auto_auto] lg:items-end">
                 <SearchField className="min-w-0" name="stock-search" value={searchText} onChange={handleQueryChange}>
                     <Label className="sr-only">搜尋</Label>
                     <SearchField.Group className="h-10 rounded-4xl border-neutral-200 bg-neutral-100 shadow-none dark:border-neutral-700 dark:bg-neutral-800 transition-none">
@@ -69,6 +73,14 @@ export const FilterPanel = React.memo(() => {
                 </SearchField>
                 <FilterSelect label="板塊" options={filterOptions.sectorOptions} placeholder="板塊" value={filters.sector} onChange={handleSectorChange} />
                 <FilterSelect label="市值" options={filterOptions.marketCapOptions} placeholder="市值" value={filters.marketCap} onChange={handleMarketCapChange} />
+                <Switch className="h-10 items-center whitespace-nowrap rounded-4xl" isSelected={filters.potentialStock} name="potential-stock" onChange={handlePotentialStockChange}>
+                    <Switch.Control>
+                        <Switch.Thumb />
+                    </Switch.Control>
+                    <Switch.Content>
+                        <Label>只顯示潛力股</Label>
+                    </Switch.Content>
+                </Switch>
                 <Button className="h-10 w-full whitespace-nowrap rounded-4xl px-3" isDisabled={isLoading} variant="primary" onPress={retryRows}>
                     <RefreshCw className={classNames("size-4", {"animate-spin": isLoading})} />
                     <span>重新整理</span>

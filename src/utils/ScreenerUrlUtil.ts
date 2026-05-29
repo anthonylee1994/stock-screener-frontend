@@ -13,6 +13,7 @@ function getUrlScreenerState(search: string, fallbackFilters: ScreenerFilters, f
             ascend: getUrlAscend(searchParams, fallbackFilters.ascend),
             marketCap: getUrlMarketCap(searchParams, fallbackFilters.marketCap),
             order: getUrlOrder(searchParams, fallbackFilters.order),
+            potentialStock: getUrlPotentialStock(searchParams, fallbackFilters.potentialStock),
             sector: getUrlSector(searchParams, fallbackFilters.sector),
         },
         query: searchParams.get("search") ?? fallbackQuery,
@@ -31,12 +32,19 @@ function getScreenerSearch(filters: ScreenerFilters, query: string): string {
     searchParams.set("market_cap", filters.marketCap);
     searchParams.set("order", filters.order);
     searchParams.set("ascend", String(filters.ascend));
+    searchParams.set("potential_stock", String(filters.potentialStock));
 
     return `?${searchParams.toString()}`;
 }
 
 function areFiltersEqual(left: ScreenerFilters, right: ScreenerFilters): boolean {
-    return left.ascend === right.ascend && left.marketCap === right.marketCap && left.order === right.order && left.sector === right.sector;
+    return (
+        left.ascend === right.ascend &&
+        left.marketCap === right.marketCap &&
+        left.order === right.order &&
+        left.potentialStock === right.potentialStock &&
+        left.sector === right.sector
+    );
 }
 
 function getUrlAscend(searchParams: URLSearchParams, fallbackAscend: boolean): boolean {
@@ -63,6 +71,20 @@ function getUrlOrder(searchParams: URLSearchParams, fallbackOrder: OrderFilter):
     const value = searchParams.get("order");
 
     return value && orderFilterValues.has(value) ? (value as OrderFilter) : fallbackOrder;
+}
+
+function getUrlPotentialStock(searchParams: URLSearchParams, fallbackPotentialStock: boolean): boolean {
+    const value = searchParams.get("potential_stock");
+
+    if (value === "true") {
+        return true;
+    }
+
+    if (value === "false") {
+        return false;
+    }
+
+    return fallbackPotentialStock;
 }
 
 function getUrlSector(searchParams: URLSearchParams, fallbackSector: SectorFilter): SectorFilter {

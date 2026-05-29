@@ -20,6 +20,7 @@ export interface ScreenerFilters {
     ascend: boolean;
     marketCap: MarketCapFilter;
     order: OrderFilter;
+    potentialStock: boolean;
     sector: SectorFilter;
 }
 

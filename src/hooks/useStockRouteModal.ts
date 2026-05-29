@@ -20,6 +20,7 @@ const routeLookupFilters: ScreenerFilters = {
     ascend: false,
     marketCap: "+mid",
     order: "total_score",
+    potentialStock: false,
     sector: "All",
 };
 

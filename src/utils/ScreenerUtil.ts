@@ -8,6 +8,7 @@ const defaultFilters: ScreenerFilters = {
     marketCap: "+mid",
     order: "total_score",
     ascend: false,
+    potentialStock: false,
 };
 
 const sectorFilterValues = new Set<string>([
@@ -73,6 +74,7 @@ function normalizeStoredFilters(value: unknown): ScreenerFilters {
         ascend: typeof value.ascend === "boolean" ? value.ascend : defaultFilters.ascend,
         marketCap: marketCapFilterValues.has(String(value.marketCap)) ? (String(value.marketCap) as ScreenerFilters["marketCap"]) : defaultFilters.marketCap,
         order: orderFilterValues.has(String(value.order)) ? (String(value.order) as ScreenerFilters["order"]) : defaultFilters.order,
+        potentialStock: typeof value.potentialStock === "boolean" ? value.potentialStock : defaultFilters.potentialStock,
         sector: sectorFilterValues.has(String(value.sector)) ? (String(value.sector) as ScreenerFilters["sector"]) : defaultFilters.sector,
     };
 }

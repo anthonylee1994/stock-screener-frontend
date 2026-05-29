@@ -41,6 +41,7 @@ async function fetchScreenerRows(options: FetchScreenerRowsOptions): Promise<Scr
     url.searchParams.set("api_token", options.apiToken);
     url.searchParams.set("order", options.filters.order);
     url.searchParams.set("ascend", String(options.filters.ascend));
+    url.searchParams.set("potential_stock", String(options.filters.potentialStock));
 
     if (options.limit !== undefined) {
         url.searchParams.set("limit", String(options.limit));
