@@ -3,13 +3,11 @@ import {Button, Popover} from "@heroui/react";
 import {CircleHelp} from "lucide-react";
 
 const potentialStockCriteria = [
-    {condition: "每股盈利季度增長", threshold: "每股盈利按季增長 >= 10%"},
-    {condition: "每股營收季度增長", threshold: "每股營收按季增長 >= 5%"},
-    {condition: "經營槓桿", threshold: "每股盈利季度增長 > 每股營收季度增長"},
-    {condition: "估值未離地", threshold: "預測市盈率 <= 35 或 PEG <= 2"},
-    {condition: "營業利潤率", threshold: "營業利潤率 >= 8%"},
-    {condition: "沽空部署", threshold: "沽空比率 >= 3%"},
-    {condition: "未離 52 週高位太遠", threshold: "距離 52 週高位 >= -25%，缺值當通過"},
+    {condition: "低 P/S + 高收入增長", threshold: "P/S < 10 且 Sales Past 5Y > 20%"},
+    {condition: "高 P/S + 更高收入增長", threshold: "P/S > 10 且 Sales Past 5Y > 25%"},
+    {condition: "5 年 EPS 增長 + ROE", threshold: "EPS Past 5Y > 15% 且 ROE > 15%"},
+    {condition: "ROE + 淨利率", threshold: "ROE > 15% 且 Profit Margin > 20%"},
+    {condition: "高毛利率", threshold: "Gross Margin > 60%"},
 ] as const;
 
 export const PotentialStockCriteriaPopover = React.memo(() => {
