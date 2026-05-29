@@ -8,6 +8,7 @@ import {useDebounce} from "@/hooks/useDebounce";
 import {useScreenerStore} from "@/stores/useScreenerStore";
 import type {MarketCapFilter, SectorFilter} from "@/types/screener";
 import {FilterSelect} from "@/components/filters/FilterSelect";
+import {PotentialStockCriteriaPopover} from "@/components/filters/PotentialStockCriteriaPopover";
 
 export const FilterPanel = React.memo(() => {
     const filters = useScreenerStore(state => state.filters);
@@ -73,14 +74,17 @@ export const FilterPanel = React.memo(() => {
                 </SearchField>
                 <FilterSelect label="板塊" options={filterOptions.sectorOptions} placeholder="板塊" value={filters.sector} onChange={handleSectorChange} />
                 <FilterSelect label="市值" options={filterOptions.marketCapOptions} placeholder="市值" value={filters.marketCap} onChange={handleMarketCapChange} />
-                <Switch className="h-10 items-center whitespace-nowrap rounded-4xl" isSelected={filters.potentialStock} name="potential-stock" onChange={handlePotentialStockChange}>
-                    <Switch.Control>
-                        <Switch.Thumb />
-                    </Switch.Control>
-                    <Switch.Content>
-                        <Label>只顯示潛力股</Label>
-                    </Switch.Content>
-                </Switch>
+                <div className="flex h-10 items-center gap-1 whitespace-nowrap">
+                    <Switch className="h-10 items-center whitespace-nowrap rounded-4xl" isSelected={filters.potentialStock} name="potential-stock" onChange={handlePotentialStockChange}>
+                        <Switch.Control>
+                            <Switch.Thumb />
+                        </Switch.Control>
+                        <Switch.Content>
+                            <Label>只顯示潛力股</Label>
+                        </Switch.Content>
+                    </Switch>
+                    <PotentialStockCriteriaPopover />
+                </div>
                 <Button className="h-10 w-full whitespace-nowrap rounded-4xl px-3" isDisabled={isLoading} variant="primary" onPress={retryRows}>
                     <RefreshCw className={classNames("size-4", {"animate-spin": isLoading})} />
                     <span>重新整理</span>
