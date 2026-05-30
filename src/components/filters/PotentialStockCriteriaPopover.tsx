@@ -2,7 +2,7 @@ import React from "react";
 import {Button, Popover} from "@heroui/react";
 import {CircleHelp} from "lucide-react";
 
-const requiredPotentialStockCriteria = ["ROE > 15%"] as const;
+const requiredPotentialStockCriteria = ["預測市盈率 < 30", "PEG < 1", "ROE > 15%"] as const;
 const growthPotentialStockCriteria = ["過去5年每股盈利增長 > 15%", "過去5年每股營收增長 > 20%"] as const;
 
 export const PotentialStockCriteriaPopover = React.memo(() => {
@@ -23,9 +23,9 @@ export const PotentialStockCriteriaPopover = React.memo(() => {
                         <div>
                             <p className="mb-1 font-semibold text-neutral-500 dark:text-neutral-400">必須符合</p>
                             {requiredPotentialStockCriteria.map(item => (
-                                <p key={item} className="font-medium text-neutral-900 dark:text-neutral-100">
+                                <div key={item} className="mb-2 rounded-lg bg-neutral-100 px-3 py-2 font-medium text-neutral-800 dark:bg-neutral-800 dark:text-neutral-200">
                                     {item}
-                                </p>
+                                </div>
                             ))}
                         </div>
                         <div className="border-t border-neutral-200 pt-3 dark:border-neutral-800">
