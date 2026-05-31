@@ -1,6 +1,6 @@
 import classNames from "classnames";
 
-function getScoreClassName(score: number, variant: "button" | "mobilePill" | "pill" | "summary" = "pill"): string {
+function getScoreClassName(score: number, variant: "button" | "detailBadge" | "mobilePill" | "pill" | "summary" = "pill"): string {
     const baseClassName = getScoreBaseClassName(variant);
 
     if (score >= 80) {
@@ -18,13 +18,17 @@ function getScoreClassName(score: number, variant: "button" | "mobilePill" | "pi
     return classNames(baseClassName, "border-red-200 bg-red-100 text-red-700 dark:border-red-400/30 dark:bg-red-400/15 dark:text-red-300");
 }
 
-function getScoreBaseClassName(variant: "button" | "mobilePill" | "pill" | "summary"): string {
+function getScoreBaseClassName(variant: "button" | "detailBadge" | "mobilePill" | "pill" | "summary"): string {
     if (variant === "summary") {
         return "mb-3 rounded-lg border p-4";
     }
 
     if (variant === "button") {
         return "inline-flex h-8 min-w-14 items-center justify-center rounded-md border px-2 font-semibold duration-0";
+    }
+
+    if (variant === "detailBadge") {
+        return "inline-flex min-w-11 shrink-0 justify-center rounded-md border px-2 py-1 text-xs font-semibold absolute right-0 top-0";
     }
 
     if (variant === "mobilePill") {
