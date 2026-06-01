@@ -14,7 +14,7 @@ export type SectorFilter =
 
 export type MarketCapFilter = "+mid" | "+large" | "mid" | "large" | "mega";
 
-export type OrderFilter = "change_percent" | "market_cap" | "fundamental_score" | "technical_score" | "total_score" | "volume";
+export type OrderFilter = "change_percent" | "fundamental_score" | "market_cap" | "target_price_upside" | "technical_score" | "total_score" | "volume";
 
 export interface ScreenerFilters {
     ascend: boolean;

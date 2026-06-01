@@ -22,6 +22,7 @@ interface Props {
 
 export const DesktopStockTableRow = React.memo<Props>(({chartTicker, index, isWatched, row, onChartOpenChange, onDetailPress, onStockDetailPress, onWatchlistToggle}) => {
     const shouldIgnoreNextPopoverChangeRef = React.useRef(false);
+    const targetPriceComparison = getTargetPriceComparison(row.price, row.fundamental.targetPrice);
 
     const markRowClickExcluded = () => {
         shouldIgnoreNextPopoverChangeRef.current = true;
@@ -69,7 +70,7 @@ export const DesktopStockTableRow = React.memo<Props>(({chartTicker, index, isWa
         <Popover isOpen={chartTicker === row.ticker} onOpenChange={handlePopoverOpenChange}>
             <Popover.Trigger className="block min-w-0 text-left">
                 <div
-                    className="grid cursor-pointer grid-cols-[72px_minmax(220px,1.8fr)_150px_110px_110px_110px_104px_104px_96px] items-center border-b border-neutral-100 px-3 py-3 text-sm text-neutral-700 hover:bg-neutral-50 focus-visible:outline focus-visible:-outline-offset-2 focus-visible:outline-neutral-400 dark:border-neutral-800 dark:text-neutral-300 dark:hover:bg-neutral-800/30"
+                    className="grid cursor-pointer grid-cols-[72px_minmax(220px,1.8fr)_150px_110px_110px_110px_110px_104px_104px_96px] items-center border-b border-neutral-100 px-3 py-3 text-sm text-neutral-700 hover:bg-neutral-50 focus-visible:outline focus-visible:-outline-offset-2 focus-visible:outline-neutral-400 dark:border-neutral-800 dark:text-neutral-300 dark:hover:bg-neutral-800/30"
                     role="button"
                     tabIndex={0}
                     onClick={handleClick}
@@ -112,6 +113,10 @@ export const DesktopStockTableRow = React.memo<Props>(({chartTicker, index, isWa
                             </p>
                         </div>
                     </div>
+                    <div className="px-2 text-right">
+                        <p className="text-base font-semibold text-neutral-950 dark:text-neutral-100">{targetPriceComparison.targetPrice}</p>
+                        <p className={classNames("text-sm", targetPriceComparison.upsideClassName)}>{targetPriceComparison.upside}</p>
+                    </div>
                     <div className="px-2 text-right">{FormatUtil.formatVolume(row.volume)}</div>
                     <div className="flex justify-center" {...rowClickExcludedProps}>
                         <ScoreButton score={row.fundamentalScore} onPress={() => onDetailPress(row, "fundamental")} />
@@ -135,4 +140,40 @@ export const DesktopStockTableRow = React.memo<Props>(({chartTicker, index, isWa
 
 function stopPropagation(event: React.SyntheticEvent): void {
     event.stopPropagation();
+}
+
+interface TargetPriceComparison {
+    targetPrice: string;
+    upside: string;
+    upsideClassName: string;
+}
+
+function getTargetPriceComparison(currentPrice: number, targetPrice: number | null): TargetPriceComparison {
+    if (targetPrice === null) {
+        return {
+            targetPrice: "N/A",
+            upside: "N/A",
+            upsideClassName: "text-neutral-500 dark:text-neutral-400",
+        };
+    }
+
+    const upside = targetPrice / currentPrice - 1;
+
+    return {
+        targetPrice: FormatUtil.formatCurrency(targetPrice),
+        upside: FormatUtil.formatPercent(upside),
+        upsideClassName: getUpsideClassName(upside),
+    };
+}
+
+function getUpsideClassName(value: number): string {
+    if (value > 0) {
+        return "text-emerald-600 dark:text-emerald-400";
+    }
+
+    if (value < 0) {
+        return "text-red-500 dark:text-red-400";
+    }
+
+    return "text-neutral-500 dark:text-neutral-400";
 }

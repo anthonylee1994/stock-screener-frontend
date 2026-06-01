@@ -11,7 +11,7 @@ export const ScreenerPage = React.memo(() => {
 
     return (
         <main className="min-h-screen bg-neutral-50 text-neutral-950 dark:bg-neutral-950 dark:text-neutral-100">
-            <div className="mx-auto flex min-h-screen w-full max-w-7xl flex-col px-4 py-5 sm:px-6 lg:px-8">
+            <div className="mx-auto flex min-h-screen w-full max-w-[1400px] flex-col px-4 py-5 sm:px-6 lg:px-8">
                 <ScreenHeader />
                 <StockResultsTable />
             </div>

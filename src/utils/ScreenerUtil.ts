@@ -27,7 +27,7 @@ const sectorFilterValues = new Set<string>([
 ]);
 
 const marketCapFilterValues = new Set<string>(["+mid", "+large", "mid", "large", "mega"]);
-const orderFilterValues = new Set<string>(["change_percent", "market_cap", "fundamental_score", "technical_score", "total_score", "volume"]);
+const orderFilterValues = new Set<string>(["change_percent", "fundamental_score", "market_cap", "target_price_upside", "technical_score", "total_score", "volume"]);
 
 function getInitialFilters(): ScreenerFilters {
     const storedFilters = window.localStorage.getItem(filterPreferencesStorageKey);

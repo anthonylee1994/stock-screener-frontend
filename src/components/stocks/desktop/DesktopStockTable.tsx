@@ -57,7 +57,7 @@ export const DesktopStockTable = React.memo<Props>(
                 className="hidden overflow-x-auto rounded-2xl border border-neutral-200 bg-white shadow-sm dark:border-neutral-800 dark:bg-neutral-900 lg:block"
                 aria-label="Stock screener results"
             >
-                <div className="min-w-[1120px]">
+                <div className="min-w-[1300px]">
                     <DesktopStockTableHeader sortDescriptor={sortDescriptor} onSortChange={onSortChange} />
                     <DesktopStockTableBody
                         chartTicker={chartTicker}

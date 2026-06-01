@@ -29,6 +29,7 @@ const orderOptions: readonly {label: string; value: OrderFilter}[] = [
     {label: "基本面分", value: "fundamental_score"},
     {label: "技術面分", value: "technical_score"},
     {label: "市值", value: "market_cap"},
+    {label: "目標價升跌", value: "target_price_upside"},
     {label: "成交量", value: "volume"},
 ];
 

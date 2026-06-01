@@ -47,7 +47,7 @@ export const MobileStockList = React.memo<Props>(
             <React.Fragment>
                 <MobileSortBar sortDescriptor={sortDescriptor} onSortChange={onSortChange} />
                 <section className="overflow-hidden rounded-2xl border border-neutral-200 bg-white shadow-sm dark:border-neutral-800 dark:bg-neutral-900">
-                    <div className="grid grid-cols-[42px_minmax(0,1fr)_76px_70px] border-b border-neutral-200 bg-neutral-50 px-2.5 py-3 text-xs font-semibold text-neutral-500 dark:border-neutral-800 dark:bg-neutral-800 dark:text-neutral-400">
+                    <div className="grid grid-cols-[42px_minmax(0,1fr)_76px_84px] border-b border-neutral-200 bg-neutral-50 px-2.5 py-3 text-xs font-semibold text-neutral-500 dark:border-neutral-800 dark:bg-neutral-800 dark:text-neutral-400">
                         <span className="text-center">排名</span>
                         <span>股票</span>
                         <span className="text-right">價格</span>
@@ -74,7 +74,7 @@ export const MobileStockList = React.memo<Props>(
                                 return (
                                     <div
                                         key={row.ticker}
-                                        className="grid w-full grid-cols-[42px_minmax(0,1fr)_76px_70px] items-center gap-0 border-b border-neutral-100 px-2.5 py-3 text-left last:border-b-0 active:bg-neutral-50 dark:border-neutral-800 dark:active:bg-neutral-800/30"
+                                        className="grid w-full grid-cols-[42px_minmax(0,1fr)_76px_84px] items-center gap-0 border-b border-neutral-100 px-2.5 py-3 text-left last:border-b-0 active:bg-neutral-50 dark:border-neutral-800 dark:active:bg-neutral-800/30"
                                         role="button"
                                         tabIndex={0}
                                         onClick={() => handleRowPress(row)}
