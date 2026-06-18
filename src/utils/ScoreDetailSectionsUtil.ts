@@ -45,8 +45,8 @@ function getDetailSections(detailModal: DetailModalState): DetailSection[] {
                 title: "質素",
                 items: [
                     {label: "ROE", score: row.fundamental.roeScore, value: formatPercent(row.fundamental.roe, false)},
-                    {label: "ROIC", score: row.fundamental.roicScore, value: formatPercent(row.fundamental.roic, false)},
-                    {label: "純利率", score: row.fundamental.profitMarginScore, value: formatPercent(row.fundamental.profitMargin, false)},
+                    {label: "ROIC", value: formatPercent(row.fundamental.roic, false)},
+                    {label: "純利率", value: formatPercent(row.fundamental.profitMargin, false)},
                     {label: "毛利率", value: formatPercent(row.fundamental.grossMargin, false)},
                     {label: "營業利潤率", value: formatPercent(row.fundamental.operatingMargin, false)},
                 ],
@@ -54,10 +54,10 @@ function getDetailSections(detailModal: DetailModalState): DetailSection[] {
             {
                 title: "估值",
                 items: [
-                    {label: "PEG", score: row.fundamental.pegScore, value: formatNumber(row.fundamental.peg)},
-                    {label: "市現率", score: row.fundamental.pfcfScore, value: formatNumber(row.fundamental.pfcf)},
-                    {label: "預測市盈率", score: row.fundamental.forwardPeScore, value: formatNumber(row.fundamental.forwardPe)},
-                    {label: "市銷率", score: row.fundamental.psScore, value: formatNumber(row.fundamental.ps)},
+                    {label: "PEG", value: formatNumber(row.fundamental.peg)},
+                    {label: "市現率", value: formatNumber(row.fundamental.pfcf)},
+                    {label: "預測市盈率", value: formatNumber(row.fundamental.forwardPe)},
+                    {label: "市銷率", value: formatNumber(row.fundamental.ps)},
                 ],
             },
             {
