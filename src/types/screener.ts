@@ -79,7 +79,7 @@ export interface StockTechnicalDetail {
     shortTermScore: number;
     midTermScore: number;
     longTermScore: number;
-    score: number;
+    technicalScore: number;
 }
 
 export type ScreenerApiRow = {

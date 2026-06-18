@@ -24,7 +24,7 @@ function getDetailSummary(detailModal: DetailModalState): DetailSummary {
         return {label: "基本面總分", score: row.fundamental.fundamentalScore};
     }
 
-    return {label: "技術面總分", score: row.technical.score};
+    return {label: "技術面總分", score: row.technical.technicalScore};
 }
 
 function getDetailSections(detailModal: DetailModalState): DetailSection[] {

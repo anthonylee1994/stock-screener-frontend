@@ -140,7 +140,7 @@ function normalizeStockRow(row: ScreenerApiRow): StockRow {
         technical: {
             longTermScore: row.technical.long_term_score,
             midTermScore: row.technical.mid_term_score,
-            score: row.technical.technical_score,
+            technicalScore: row.technical.technical_score,
             shortTermScore: row.technical.short_term_score,
         },
         technicalScore: row.technical.technical_score,
