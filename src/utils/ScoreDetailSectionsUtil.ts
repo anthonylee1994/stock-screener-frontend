@@ -54,7 +54,7 @@ function getDetailSections(detailModal: DetailModalState): DetailSection[] {
             {
                 title: "估值",
                 items: [
-                    {label: "PEG", value: formatNumber(row.fundamental.peg)},
+                    {label: "PEG", score: row.fundamental.pegScore, value: formatNumber(row.fundamental.peg)},
                     {label: "市現率", value: formatNumber(row.fundamental.pfcf)},
                     {label: "預測市盈率", value: formatNumber(row.fundamental.forwardPe)},
                     {label: "市銷率", value: formatNumber(row.fundamental.ps)},

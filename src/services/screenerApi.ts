@@ -127,6 +127,7 @@ function normalizeStockRow(row: ScreenerApiRow): StockRow {
             salesPast5yScore: row.fundamental.sales_past_5y_score,
             roeScore: row.fundamental.roe_score,
             debtEquityScore: row.fundamental.debt_equity_score,
+            pegScore: row.fundamental.peg_score,
             score: row.fundamental.fundamental_score,
         },
         fundamentalScore: row.fundamental.fundamental_score,

@@ -65,6 +65,7 @@ export interface StockFundamentalDetail {
     salesPast5yScore: number;
     roeScore: number;
     debtEquityScore: number;
+    pegScore: number;
     score: number;
 }
 
@@ -113,6 +114,7 @@ export type ScreenerApiRow = {
         roe_score: number;
         gross_margin_score: number;
         debt_equity_score: number;
+        peg_score: number;
         fundamental_score: number;
     };
     technical: {
